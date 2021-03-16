@@ -14,6 +14,7 @@
  * limitations under the License.
  *@
 
+@import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 @import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.ApplicationController._
 @import views.html.language_selection
 @import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.EoriLanguageController._
@@ -21,7 +22,7 @@
 @import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 @import uk.gov.hmrc.play.views.html.layouts.BetaBanner
 
-@this(betaBanner_di: BetaBanner)
+@this(betaBanner_di: BetaBanner, appConfig: AppConfig)
 @(implicit messages: Messages, request: Request[_])
 
 
@@ -42,8 +43,18 @@
 }
 
 @betaFeedbackHeaderUrl = @{
-    if(journey == Journey.GetYourEORI) "https://www.tax.service.gov.uk/contact/beta-feedback-unauthenticated?service=CDS"
-    else "https://www.tax.service.gov.uk/contact/beta-feedback-unauthenticated?service=get-access-cds"
+    val partialUrl = s"${appConfig.contactBaseUrl}/contact/beta-feedback"
+    if (isLoggedIn) {
+        if(journey == Journey.GetYourEORI)
+            s"$partialUrl?service=CDS"
+        else
+            s"$partialUrl?service=get-access-cds" 
+    } else {
+        if(journey == Journey.GetYourEORI)
+            s"$partialUrl-unauthenticated?service=CDS"
+        else
+            s"$partialUrl-unauthenticated?service=get-access-cds"
+    }
 }
 
 <header role="banner" id="global-header" class="with-proposition">

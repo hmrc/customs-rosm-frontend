@@ -77,14 +77,40 @@ class HeaderSpec extends ControllerSpec {
   }
 
   "Feedback URL" should {
-    "be present with service param equal to CDS" in {
+    "for an unauthenticated register user be present with service param equal to CDS" in {
       val result = controller
         .start()
         .apply(SessionBuilder.buildRequestWithSessionAndPathNoUser(method = "GET", path = "/customs/register-for-cds/"))
 
       val page = CdsPage(bodyOf(result))
+      page.getElementAttribute("//a[@id='feedback-link']", "href") contains "/contact/beta-feedback-unauthenticated?service=CDS"
+    }
 
-      page.getElementAttribute("//a[@id='feedback-link']", "href") shouldBe "https://www.tax.service.gov.uk/contact/beta-feedback-unauthenticated?service=CDS"
+    "for an unauthenticated subscribe user be present with service param equal to get-access-cds" in {
+      val result = controller
+        .start()
+        .apply(SessionBuilder.buildRequestWithSessionAndPathNoUser(method = "GET", path = "/customs/subscribe-for-cds/"))
+
+      val page = CdsPage(bodyOf(result))
+      page.getElementAttribute("//a[@id='feedback-link']", "href") contains "/contact/beta-feedback-unauthenticated?service=get-access-cds"
+    }
+
+    "for an authenticated register user be present with service param equal to CDS" in {
+      val result = controller
+        .start()
+        .apply(SessionBuilder.buildRequestWithSessionAndPath(path = "/customs/register-for-cds/", defaultUserId))
+
+      val page = CdsPage(bodyOf(result))
+      page.getElementAttribute("//a[@id='feedback-link']", "href") contains "/contact/beta-feedback-unauthenticated?service=CDS"
+    }
+
+    "for an authenticated subscribe user be present with service param equal to get-access-cds" in {
+      val result = controller
+        .start()
+        .apply(SessionBuilder.buildRequestWithSessionAndPath(path = "/customs/subscribe-for-cds/", defaultUserId))
+
+      val page = CdsPage(bodyOf(result))
+      page.getElementAttribute("//a[@id='feedback-link']", "href") contains "/contact/beta-feedback-unauthenticated?service=get-access-cds"
     }
   }
 }

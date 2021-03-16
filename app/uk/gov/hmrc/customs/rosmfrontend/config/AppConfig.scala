@@ -34,7 +34,7 @@ class AppConfig @Inject()(
     config.get[String]("allowlist-referrers").split(',').map(_.trim).filter(_.nonEmpty)
   lazy val isShuttered: Boolean = config.get[Boolean]("shutter-get-access-cds")
 
-  private lazy val contactBaseUrl = servicesConfig.baseUrl("contact-frontend")
+  lazy val contactBaseUrl = servicesConfig.baseUrl("contact-frontend")
 
   private lazy val serviceIdentifierGetAnEori =
     config.get[String]("microservice.services.contact-frontend.serviceIdentifierGetEori")
@@ -43,7 +43,7 @@ class AppConfig @Inject()(
 
   lazy val feedbackLink = config.get[String]("external-url.feedback-survey")
   lazy val feedbackLinkSubscribe = config.get[String]("external-url.feedback-survey-subscribe")
-
+  
   //get help link feedback for Get an EORI
   val reportAProblemPartialUrlGetAnEori: String =
     s"$contactBaseUrl/contact/problem_reports_ajax?service=$serviceIdentifierGetAnEori"
