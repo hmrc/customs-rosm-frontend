@@ -1,0 +1,189 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.forms.models.registration.YesNoWrongAddress
+@import uk.gov.hmrc.customs.rosmfrontend.domain.CustomsId
+@import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.AddressViewModel
+@import uk.gov.hmrc.customs.customs._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@(name: String,
+address: AddressViewModel,
+customsId: Option[CustomsId],
+organisationType: Option[EtmpOrganisationType],
+yesNoWrongAddress: Form[YesNoWrongAddress],
+journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+@import views.html.helper._ 
+
+@isPartnership = @{
+    organisationType == Some(LLP) || organisationType == Some(Partnership)
+}
+
+@isIndividual = @{
+    organisationType == None
+}
+
+
+@pageTitleAndHeading = @{
+    if(isPartnership) messages("confirm-business-details.partnership.title-and-heading")
+    else if(isIndividual) messages("confirm-business-details.individual.title-and-heading")
+    else messages("confirm-business-details.title-and-heading")
+}
+
+@nameLabel = @{
+    organisationType match {
+        case Some(oT) => {
+            if(oT == LLP || oT == Partnership) messages("confirm-business-details.registered-partnership-name")
+            else if (oT == CorporateBody) messages("confirm-business-details.registered-company-name")
+            else messages("confirm-business-details.registered-business-name")
+        }
+        case None => messages("cds.sole-trader.address-check.page.name")
+    }
+}
+
+@ninoOrUtrLabel = @{
+    organisationType match {
+        case Some(oT) => {
+            if(oT == LLP || oT == Partnership) messages("cds.partnership-utr.label")
+            else messages("cds.company.utr.label")
+        }
+        case None => {
+            customsId match {
+                case Some(Utr(_)) => messages("cds.matching.sole-trader-individual-utr.label")
+                case Some(Nino(_)) => messages("cds.nino.label")
+                case _ => messages("cds.nino.label")
+            }
+        }
+    }
+}
+
+@addressLabel = @{
+    organisationType match {
+        case None => messages("cds.sole-trader.address-check.page.address")
+        case _ => messages("confirm-business-details.registered-address")
+    }
+}
+
+@labelForEUCountry(countryCode: String) = @{
+    messages(messageKeyForEUCountryCode(countryCode))
+}
+
+@messageKeyForEUCountryCode(countryCode: String) = @{
+    s"cds.country.$countryCode"
+}
+
+@isEUCountryCode(countryCode: String) = @{
+    messages.isDefinedAt(messageKeyForEUCountryCode(countryCode))
+}
+
+@countryCodeToLabel(code: String) = @{
+    code match {
+        case "GB" => messages("cds.country.GB")
+        case c if isEUCountryCode(c) => labelForEUCountry(c)
+        case nonEuCode => nonEuCode
+    }
+}
+
+@radioGroupLegend = @{
+    if(isPartnership) messages("confirm-business-details.partnership.heading2")
+    else if(isIndividual) messages("cds.sole-trader.address-check.page.heading2")
+    else messages("confirm-business-details.heading2")
+}
+
+@radioGroupYes = @{
+    messages("confirm-business-details.yes")
+}
+
+@radioGroupWrongAddress = @{
+    if(isPartnership) messages("confirm-business-details.partnership.yes-wrong-address")
+    else messages("confirm-business-details.yes-wrong-address")
+}
+
+@radioGroupNo = @{
+    if(isPartnership) messages("confirm-business-details.partnership.no")
+    else messages("confirm-business-details.no")
+}
+
+@inputRadioGroup(field: String, options: Seq[(String, String)]) = {
+    @helpers.inputRadioGroup(
+        yesNoWrongAddress(field),
+        options,
+        Map.empty,
+        '_divClass -> "form-group",
+        '_legend -> radioGroupLegend
+    )
+}
+
+@layout_di(pageTitleAndHeading, form = Some(yesNoWrongAddress)) {
+<div class="column-two-thirds">
+
+
+    @helpers.errorSummary(yesNoWrongAddress, focusOverrides = Map("yes-no-wrong-address" -> "yes-no-wrong-address-yes"))
+
+    <h1 class="heading-large">@pageTitleAndHeading</h1>
+
+    <dl class="govuk-check-your-answers cya-questions-long">
+        @customsId.map { cid =>
+            <div>
+                <dt class="cya-question" id="idNumber">
+                    @ninoOrUtrLabel
+                </dt>
+                <dd class="cya-answer">
+                    @cid.id
+                </dd>
+            </div>
+        }
+        <div>
+            <dt class="cya-question" id="name">
+                @nameLabel
+            </dt>
+            <dd class="cya-answer" id="orgname">
+                @name
+            </dd>
+        </div>
+
+        <div>
+            <dt class="cya-question" id="address">
+                @addressLabel
+            </dt>
+            <dd class="cya-answer" id="details">
+                @address.street.appendBr
+                @address.city.appendBr
+                @address.postcode.map(_.appendBr)
+                @countryCodeToLabel(address.countryCode)
+            </dd>
+        </div>
+    </dl>
+
+    <div class="form-group">
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.ConfirmContactDetailsController.submit(journey), 'id -> "yes-no-wrong-address-form") {
+            @CSRF.formField
+
+            @inputRadioGroup("yes-no-wrong-address",
+                Seq("yes" -> radioGroupYes,
+                    "wrong-address" -> radioGroupWrongAddress,
+                    "no" -> radioGroupNo))
+
+            <input class='button' type='submit' value='@messages("cds.navigation.continue")'>
+        }
+        @helpers.helpAndSupport()
+    </div>
+</div>
+
+}

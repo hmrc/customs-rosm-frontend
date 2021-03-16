@@ -1,0 +1,86 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.domain.NinoOrUtr
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@(ninoUtrForm: Form[NinoOrUtr], isInReviewMode: Boolean, journey: Journey.Value, organisationType: Option[String] = None)(implicit request: Request[_], messages: Messages)
+
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes._
+@inputText(field: String, label: String, args: (Symbol, Any)*) = {
+@defining(Seq(
+    '_label -> Html(messages(label))) ++ args) { args => @helpers.input(ninoUtrForm(field), args: _*) }
+}
+
+@elements = @{
+    FieldElements("nino-radio", ninoUtrForm("ninoOrUtrRadio"), null, Map.empty, messages)
+}
+
+@layout_di(messages("subscription-journey.how-confirm-identity"), form = Some(ninoUtrForm)) {
+    <div class="column-two-thirds">
+
+
+        @helpers.errorSummary(ninoUtrForm)
+
+        <fieldset>
+            <legend>
+                <h1 class="heading-large">@messages("subscription-journey.how-confirm-identity")</h1>
+            </legend>
+
+            @helper.form(
+            if(journey == Journey.Migrate)
+                HowCanWeIdentifyYouController.submit(isInReviewMode, journey)
+            else
+                GYEHowCanWeIdentifyYouController.submit(organisationType.getOrElse(throw new IllegalArgumentException("Missing Organisation type")), journey), 'id -> "nino-utr-form") {
+            @CSRF.formField
+            <div class="form-group @if(elements.hasErrors){error}">
+
+                @if(elements.hasErrors) {
+                    @elements.errors.map { error => <span class="error-message">@(error)</span> }
+                }
+
+                <div class="multiple-choice" data-target="nino-panel">
+                    <input id="nino-radio" type="radio" name="ninoOrUtrRadio" value="nino" @if(ninoUtrForm("ninoOrUtrRadio").value.contains("nino")) {checked="checked"}>
+                    <label for="nino-radio">@messages("subscription-journey.what-is-your-nino.label")
+                        <span class="form-hint">@messages("subscription-journey.what-is-your-nino.hint")</span>
+                    </label>
+                </div>
+                <div class="panel panel-border-narrow js-hidden" id="nino-panel">
+                    @helpers.inputText(ninoUtrForm)("nino", "subscription-journey.what-is-your-nino.label")
+                </div>
+
+                <div class="multiple-choice" data-target="utr-panel">
+                    <input id="utr-radio" type="radio" name="ninoOrUtrRadio" value="utr" @if(ninoUtrForm("ninoOrUtrRadio").value.contains("utr")) {checked="checked"} >
+                    <label for="utr-radio">@messages("subscription-journey.utr.label")
+                        <span class="form-hint">@Html(messages("subscription-journey.utr.hint"))</span>
+                    </label>
+                </div>
+                <div class="panel panel-border-narrow js-hidden" id="utr-panel">
+                    @helpers.inputText(ninoUtrForm)("utr", "subscription-journey.utr.label")
+                </div>
+            </div>
+        </fieldset>
+        <input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>
+
+        @helpers.helpAndSupport()
+        }
+    </div>
+}
+
+

@@ -1,0 +1,136 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
+@import uk.gov.hmrc.customs.rosmfrontend.services.countries._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.ApplicationController._
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+@import uk.gov.hmrc.customs.rosmfrontend.views.html.partials.{footer, header, styles}
+@import views.html.helper.CSPNonce
+@import uk.gov.hmrc.play.views.html.layouts.TrackingConsentSnippet
+@import uk.gov.hmrc.play.views.html.helpers.ReportAProblemLink
+
+@this(footer_di: footer,
+      header_di: header,
+      styles_di: styles,
+      appConfig: AppConfig,
+      reportAProblemLink: ReportAProblemLink,
+      trackingConsentSnippet: TrackingConsentSnippet)
+
+@(title: String,
+countriesInCountryPicker: CountriesInCountryPicker = NoCountriesInCountryPicker,
+form: Option[Form[_]] = None
+)(content: Html)(implicit messages: Messages, request: Request[_])
+
+@isLoggedIn = @{!request.session.isEmpty && request.session.get("authToken").isDefined}
+
+@journey = @{
+    if(request.path.contains("register-for-cds")) Journey.GetYourEORI else Journey.Migrate
+}
+
+@journeyName = @{
+    if(journey == Journey.GetYourEORI) messages("cds.proposition.name")
+    else messages("cds.proposition.name.cds")
+}
+
+@titleWithEnding = @{
+    title + " - " + journeyName + " - " + messages("cds.end-of-title")
+}
+
+@titleErr = @{
+    form match {
+        case Some(f) if f.errors.nonEmpty => s"%s: %s".format(messages("cds.error.page-title"), titleWithEnding)
+        case _ => titleWithEnding
+    }
+}
+
+@signOutUrl = @{
+    if(journey == Journey.GetYourEORI) "/customs/register-for-cds/sign-out"
+    else "/customs/subscribe-for-cds/sign-out"
+}
+
+@keepAliveUrl=  @{
+    if(journey == Journey.GetYourEORI) "/customs/register-for-cds/keep-alive"
+    else "/customs/subscribe-for-cds/keep-alive"
+}
+
+@getHelpForm = @{
+if(journey == Journey.GetYourEORI) (reportAProblemLink(appConfig.reportAProblemPartialUrlGetAnEori, appConfig.reportAProblemNonJSUrlGetAnEori))
+else (reportAProblemLink(appConfig.reportAProblemPartialUrlGetAccess, appConfig.reportAProblemNonJSUrlGetAccess))
+}
+
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="lte-ie8" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--><html lang="en"><!--<![endif]-->
+    <head>
+        <!-- Tracking consent -->
+        @trackingConsentSnippet(nonce = CSPNonce.get)
+        <title>@titleErr</title>
+        @styles_di()
+        @partials.countrypickerscript(countriesInCountryPicker, journey)
+
+        @if(isLoggedIn){
+        <noscript><meta http-equiv="refresh" content="900;url=@signOutUrl" /></noscript>
+        }
+    </head>
+    <body class="js-no">
+            <div id="skiplink-container">
+                <div>
+                    <a href="#content" class="skiplink">@messages("cds.skip-link")</a>
+                </div>
+            </div>
+        @header_di(messages, request)
+        <div class="centered-content">
+            <a href="javascript:history.back()" id="back" class="link-back js-visible">@messages("cds.navigation.back")</a>
+            <main id="content" role="main">
+                <div class="grid-row">
+                    @content
+                </div>
+                @getHelpForm
+            </main>
+        </div>
+        @footer_di(messages, request)
+
+        @if(countriesInCountryPicker!=NoCountriesInCountryPicker){
+            <script type="text/javascript">
+                var countryPickerInputElements = document.getElementsByClassName('autocomplete__input');
+                var form = document.getElementsByTagName('form')[0];
+
+                form.addEventListener('submit', function(){
+                    for(var i=0;i<countryPickerInputElements.length;i++){
+                        var input = countryPickerInputElements[i];
+                        var select = countryPickerInputElements[i].parentNode.parentNode.parentNode.querySelector('select');
+                        if (input.value.trim() == "") select.selectedIndex=0
+                    }
+                });
+            </script>
+        }
+
+        @if(isLoggedIn){
+        <script type="text/javascript">
+          window.GOVUK.timeoutDialog({
+             timeout: 900,
+             countdown: 300,
+             message: '@messages("cds.timeout.message")',
+             keepAliveUrl: '@keepAliveUrl',
+             signOutUrl: '@signOutUrl',
+             keepAliveButtonText: '@messages("cds.timeout.keep-alive-button")',
+             signOutButtonText: '@messages("cds.timeout.sign-out-button")',
+          });
+        </script>
+        }
+    </body>
+</html>

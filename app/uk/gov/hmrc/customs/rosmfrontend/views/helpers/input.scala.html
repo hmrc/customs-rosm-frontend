@@ -1,0 +1,92 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@(field: play.api.data.Field, args: (Symbol, Any)*)(implicit messages: Messages)
+
+@import play.api.i18n._
+@import views.html.helper._
+
+@elements = @{
+    FieldElements(field.id, field, null, args.toMap, messages)
+}
+
+@allErrors = @{elements.errors ++ args.flatMap {
+        case ('otherErrors, otherErrors: Seq[_]) => otherErrors.map(_.toString)
+        case _ => Seq.empty
+    }
+}
+
+@outputAttributes(elements: FieldElements)(attributeMappings: (Symbol, String)*) = @{
+    attributeMappings.flatMap{
+        case (symbol, attributeName) =>
+            elements.args.get(symbol).map(value => Html(attributeName + "=" + "\"" + value + "\" "))
+    }
+}
+
+@isLabelH1 = @{
+    elements.args.getOrElse('_isLabelH1, false).asInstanceOf[Boolean]
+}
+
+<div id="@elements.field.name-outer" class="form-group @if(!isLabelH1 && allErrors.nonEmpty) {form-group-error}">
+    @if(isLabelH1) {
+    <h1>
+    }
+    <label for="@elements.field.name" @if(!isLabelH1) {class="form-label-bold"}>
+        @if(isLabelH1) {
+            <span class="heading-large">@elements.label</span>
+        }
+
+        @if(isLabelH1 && allErrors.nonEmpty) {
+            <div class="form-group-error">
+        }
+        @if(!isLabelH1) {
+                @elements.label
+        }
+        @if(elements.args.get('_hintText)) {
+                <span class="form-hint" id="@(field.id)-hint">@elements.args.get('_hintText)</span>
+        }
+        @if(allErrors.nonEmpty) {
+                @allErrors.map { error => <span class="visually-hidden">@messages("cds.error.visually.hidden")</span>
+                <span class="error-message">@(error)</span> }
+        }
+        @if(isLabelH1 && allErrors.nonEmpty) {
+            </div>
+        }
+    </label>
+    @if(isLabelH1) {
+    </h1>
+    }
+    @if(isLabelH1 && allErrors.nonEmpty) {
+    <div class="form-group-error">
+    }
+
+    <div>
+        <input
+            @if(elements.args.contains('_type)) {
+                type="@elements.args.get('_type)"
+            } else {
+                type="text"
+            }
+            name="@elements.field.name"
+            id="@elements.field.name"
+            class="form-control @if(allErrors.nonEmpty) {form-control-error}"
+            value="@elements.field.value" />
+    </div>
+
+    @if(isLabelH1 && allErrors.nonEmpty) {
+    </div>
+    }
+</div>

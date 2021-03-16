@@ -1,0 +1,90 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@(journey: Journey.Value)(implicit messages: Messages, request: Request[_])
+
+@startLink = @{
+    uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.IsleOfManController.form()
+}
+
+@layout_di(messages("cds.start-page.title")) {
+
+    <div class="column-two-thirds start_page">
+        <h1 class="heading-xlarge">@messages("cds.start-page.title")</h1>
+        <p>@messages("cds-start-page.intro1")</p>
+        <p>@messages("cds-start-page.intro2")</p>
+
+        <ul class="form-group">
+
+            <h2 id="how-to-register">@messages("cds-start-page.how-to-get-an-eori")</h2>
+            <p>@messages("cds.start-page.how-to-register.intro")</p>
+
+            <ul class="bullets list">
+                <li>@messages("cds.start-page.bullet1")</li>
+                <li>@messages("cds.start-page.bullet2")</li>
+            </ul>
+
+            <h2 class="heading-medium">@messages("cds.start-page.before-you-start")</h2>
+
+            <ul class="bullets list">
+                <li>@messages("cds.start-page.before-you-start.bullet1")</li>
+                <li>@messages("cds.start-page.before-you-start.bullet2")</li>
+                <li>@messages("cds.start-page.before-you-start.bullet3")</li>
+            </ul>
+
+            <p>@Html(messages("cds.start-page.find-information"))</p>
+            <ul class="bullets list">
+                <li>@messages("cds.start-page.before-you-start.bullet4")</li>
+                <li>@messages("cds.start-page.before-you-start.bullet5")</li>
+            </ul>
+        </ul>
+
+        <p>@messages("cds.start-page.it-takes")</p>
+
+        <br>
+        <br>
+
+        <p>
+            <a class="button button--get-started" href='@startLink' role="button">@messages("cds.start-page.start-now")</a>
+        </p>
+        <br>
+        @helpers.helpAndSupport()
+    </div>
+
+    <div class="column-one-third">
+        <aside class="govuk-related-items" role="complementary">
+            <h2 class="heading-medium" id="subsection-title">@messages("cds.start-page.related-content")</h2>
+            <nav role="navigation" aria-labelledby="subsection-title">
+                <ul>
+                    <li class="font-xsmall">
+                        <a href="@startLink">@messages("cds.start-page.application-details")</a>
+                    </li>
+                    <li class="font-xsmall">
+                        <a href="https://www.gov.uk/government/publications/notice-101-deferring-duty-vat-and-other-charges?_nfpb=true&_pageLabel=pageVAT_ShowContent&id=HMCE_CL_000013&propertyType=document">@messages("cds.start-page.duty-deferment")</a>
+                    </li>
+                    <li class="font-xsmall">
+                        <a href="https://www.gov.uk/duty-relief-for-imports-and-exports">@messages("cds.start-page.vat-refunds")</a>
+                    </li>
+                    <li class="font-xsmall"><a href="https://www.gov.uk/trade-tariff">@messages("cds.start-page.tariff-data")</a></li>
+                </ul>
+            </nav>
+        </aside>
+    </div>
+}

@@ -1,0 +1,55 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import org.joda.time.DateTime
+@import uk.gov.hmrc.customs.rosmfrontend.forms.FormUtils.dateTimeFormat
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes._
+
+
+@this(layout_di: layout)
+@(journey: Journey.Value, name: String, processedDate: DateTime, isIndividual: Boolean, hasUtr: Boolean)(implicit messages: Messages, request: Request[_])
+@layout_di(messages("cds.register.with.eori.and.id.outcome.eori-already-linked.title-and-heading")) {
+    <div class="column-two-thirds">
+        <div class="govuk-box-highlight">
+            <h1 id="page-heading" class="heading-xlarge" >@messages("cds.register.with.eori.and.id.outcome.eori-already-linked.title-and-heading")</h1>
+            <h2 id="page-heading2" class="heading-xlarge" >@messages("cds.register.with.eori.and.id.outcome.eori-already-linked.heading", name)</h2>
+            <h3 class="heading-medium" id="processed-date">@messages("cds.register.with.eori.and.id.outcome.eori-already-linked.received", dateTimeFormat.print(processedDate))</h3>
+        </div>
+
+        <div id="why-unsuccessful">
+            <h2 class="heading-medium">@messages("cds.register.with.eori.and.id.outcome.why-heading")</h2>
+            @if(isIndividual){
+            <p>@messages("cds.register.with.eori.and.id.outcome.why.individual")</p>
+            }else {
+            <p>@messages("cds.register.with.eori.and.id.outcome.why.org")</p>
+            }
+            <ul class="bullets list">
+                @if(isIndividual && hasUtr){
+                <li>@messages("cds.register.with.eori.and.id.outcome.why.individual.utr")</li>
+                }else if(isIndividual && !hasUtr){
+                <li>@messages("cds.register.with.eori.and.id.outcome.why.individual.nino")</li>
+                }else {
+                <li>@messages("cds.register.with.eori.and.id.outcome.why.org.utr")</li>
+                }
+                <li>@messages("cds.register.with.eori.and.id.outcome.why.eori")</li>
+            </ul>
+            <p>@Html(messages("cds.register.with.eori.and.id.outcome.apply.again",WhatIsYourEoriController.createForm(journey).url))</p>
+        </div>
+
+        @helpers.feedback()
+    </div>
+}

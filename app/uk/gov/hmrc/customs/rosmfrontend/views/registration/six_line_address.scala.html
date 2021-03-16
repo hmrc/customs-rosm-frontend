@@ -1,0 +1,64 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.domain.SixLineAddressMatchModel
+@import uk.gov.hmrc.customs.rosmfrontend.views.html.helpers.{inputText, inputHidden}
+@import uk.gov.hmrc.customs.rosmfrontend.services.countries._
+@import uk.gov.hmrc.customs.rosmfrontend.domain._
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+@this(layout_di: layout)
+@(isInReviewMode: Boolean, addressForm: Form[SixLineAddressMatchModel], countries: List[Country], countriesInCountryPicker: CountriesInCountryPicker, cdsOrgType: String, journey: Journey.Value)(implicit request: Request[AnyContent], messages: Messages)
+
+@postCodeLabel = @{
+    countriesInCountryPicker match {
+        case IslandsInCountryPicker => "cds.matching.organisation-address.postcode"
+        case _ => "cds.matching.organisation-address.postcode-optional"
+    }
+}
+
+@headerLabel = @{cdsOrgType match {
+        case CdsOrganisationType.ThirdCountrySoleTraderId | CdsOrganisationType.ThirdCountryIndividualId => "cds.matching.individual-address.header"
+        case _ => "cds.matching.organisation-address.header"
+    }
+}
+
+@inputTextBoundToForm(field: String, label: String, args: (Symbol, Any)*) = @{inputText(addressForm)(field, label, args: _*)}
+
+@layout_di(messages(headerLabel), countriesInCountryPicker, form = Some(addressForm)) {
+    <div class="column-two-thirds">
+
+        @helpers.errorSummary(addressForm)
+
+        <h1 class="heading-large">@messages(headerLabel)</h1>
+
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.SixLineAddressController.submit(isInReviewMode, cdsOrgType, journey), 'id -> s"$cdsOrgType-form") {
+        @CSRF.formField
+
+            @inputTextBoundToForm("line-1", messages("cds.matching.organisation-address.line-1"))
+            @inputTextBoundToForm("line-2", messages("cds.matching.organisation-address.line-2"))
+            @inputTextBoundToForm("line-3", messages("cds.matching.organisation-address.line-3"))
+            @inputTextBoundToForm("line-4", messages("cds.matching.organisation-address.line-4"))
+            @inputTextBoundToForm("postcode", messages(postCodeLabel))
+            @helpers.countryField(addressForm, "countryCode", "cds.subscription.address-details.country.label", countries)
+
+            <p><input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'></p>
+
+            @helpers.helpAndSupport()
+        }
+    </div>
+}

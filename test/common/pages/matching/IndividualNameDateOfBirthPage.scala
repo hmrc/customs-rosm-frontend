@@ -1,0 +1,37 @@
+/*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package common.pages.matching
+
+import common.support.Env
+
+abstract class IndividualNameDateOfBirthPage(organisationType: String) extends NameDateOfBirthPage {
+
+  override val url: String = Env.frontendHost + s"/customs/register-for-cds/matching/name-date-of-birth/$organisationType"
+}
+
+object IndividualNameDateOfBirthPage extends IndividualNameDateOfBirthPage("individual") {}
+
+object ThirdCountryIndividualNameAndDateOfBirthPage
+    extends IndividualNameAndDateOfBirthPage("third-country-individual") {
+  override val formElement = "//*[@id='third-country-individual-form']"
+  override val title = "Enter your details"
+}
+
+object ThirdCountrySoleTraderNameAndDateOfBirthPage
+    extends IndividualNameAndDateOfBirthPage("third-country-sole-trader") {
+  override val formElement = "//*[@id='third-country-sole-trader-form']"
+}

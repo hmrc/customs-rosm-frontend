@@ -1,0 +1,50 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@(eori: Option[String], name: String, processedDate: String)(implicit messages: Messages, request: Request[_])
+
+@layout_di(messages("cds.mig.existing.outcomes.application-received.title")) {
+    <div class="column-two-thirds">
+        <div class="govuk-box-highlight">
+            <h1 id="page-heading" class="heading-xlarge no-bottom-margin">
+                @messages("cds.reg.existing.outcomes.success.heading.part1")<br />
+                @name
+            </h1>
+            <div class="heading-large" id="active-from">
+                @messages("subscription.subscription-results.active-from") @processedDate
+            </div>
+            <p id="eori-number" class="heading-medium">@messages("cds.reg.existing.outcomes.success.eori.number") @eori</p>
+        </div>
+
+        <div id='additional-information'>
+            <h2 class="heading-medium">@messages("cds.subscription.outcomes.steps.next")</h2>
+            <p>@messages("cds.subscription.outcomes.success.will-send-email")</p>
+            <p>
+                <a id="download-eori" href="/customs/subscribe-for-cds/download/pdf">@messages("cds.reg.existing.outcomes.success.download-eori.21kb")</a><br>
+                <a id="download-eori-text" href="/customs/subscribe-for-cds/download/text">@messages("cds.reg.existing.outcomes.success.download-eori-textfile")</a>
+            </p>
+        </div>
+
+        @helpers.helpAndSupport()
+
+        @helpers.feedback()
+
+    </div>
+}

@@ -1,0 +1,43 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+
+@this(layout_di: layout)
+@(journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+@layout_di(messages("cds.checking-status-page.title-and-heading")) {
+<div class="column-two-thirds">
+
+
+    <h1 class="heading-large">@messages("cds.checking-status-page.title-and-heading")</h1>
+    <p id="intro">@messages("cds.checking-status-page.para1")</p>
+
+    <h2 class="heading-medium">@messages("cds.checking-status-page.heading2")</h2>
+
+    <ul class="bullets form-group">
+        <li>@messages("cds.checking-status-page.bullet1")</li>
+        <li>@messages("cds.checking-status-page.bullet2")</li>
+        <li>@messages("cds.checking-status-page.bullet3")</li>
+    </ul>
+
+    <a class="button" href='@uk.gov.hmrc.customs.rosmfrontend.controllers.routes.EmailController.form(journey)' role="button">@messages("cds.navigation.continue")</a>
+
+    @helpers.helpAndSupport()
+</div>
+}

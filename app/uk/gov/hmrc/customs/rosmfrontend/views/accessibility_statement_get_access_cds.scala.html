@@ -1,0 +1,88 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@()(implicit messages: Messages, request: Request[_])
+
+@layout_di(messages("accessibility-statement.heading-and-title")) {
+
+    <div class="column-two-thirds">
+        <h1 class="heading-xlarge">@messages("accessibility-statement.heading-and-title-CDS")</h1>
+        <p>@messages("accessibility-statement.paragraph1")</p>
+        <p>@Html(messages("accessibility-statement.paragraph2"))</p>
+        <p>@Html(messages("accessibility-statement.paragraph3-CDS"))</p>
+
+        <h2 class="heading-large">@messages("accessibility-statement.using-service")</h2>
+        <p>@messages("accessibility-statement.what-do-CDS")</p>
+        <p>@messages("accessibility-statement.using-service.paragraph")</p>
+
+        <ul class="bullets list">
+            <li>@messages("accessibility-statement.using-service.bullet1")</li>
+            <li>@messages("accessibility-statement.using-service.bullet2")</li>
+            <li>@messages("accessibility-statement.using-service.bullet3")</li>
+            <li>@messages("accessibility-statement.using-service.bullet4")</li>
+            <li>@messages("accessibility-statement.using-service.bullet5")</li>
+        </ul>
+
+        <p>@messages("accessibility-statement.using-service.paragraph2")</p>
+        <p>@Html(messages("accessibility-statement.using-service.paragraph3"))</p>
+
+        <h2 class="heading-large">@messages("accessibility-statement.how-accessible")</h2>
+        <p>@Html(messages("accessibility-statement.how-accessible.paragraph1"))</p>
+        <p>@messages("accessibility-statement.how-accessible.paragraph2")</p>
+        <ul class="bullets list">
+            <li>@messages("accessibility-statement.how-accessible.bullet1")</li>
+            <li>@messages("accessibility-statement.how-accessible.bullet2")</li>
+        </ul>
+
+        <h2 class="heading-large">@messages("accessibility-statement.difficulty-using-service")</h2>
+        <p>@messages("accessibility-statement.difficulty-using-service.bullet-intro")</p>
+        <ul class="bullets list">
+            <li>@Html(messages("accessibility-statement.difficulty-using-service.bullet1"))</li>
+            <li>@messages("accessibility-statement.difficulty-using-service.bullet2-CDS")</li>
+        </ul>
+
+        <h2 class="heading-large">@messages("accessibility-statement.reporting-problems")</h2>
+        <p>@Html(messages("accessibility-statement.reporting-problems.paragraph"))</p>
+
+        <h2 class="heading-large">@messages("accessibility-statement.not-happy")</h2>
+        <p>@Html(messages("accessibility-statement.not-happy.paragraph"))</p>
+
+        <h2 class="heading-large">@messages("accessibility-statement.contact-us")</h2>
+        <p>@messages("accessibility-statement.contact-us.paragraph1")</p>
+        <p>@messages("accessibility-statement.contact-us.paragraph2")</p>
+        <p>@Html(messages("accessibility-statement.contact-us.paragraph3"))</p>
+
+        <h2 class="heading-large">@messages("accessibility-statement.technical-information")</h2>
+        <p>@messages("accessibility-statement.technical-information.paragraph1")</p>
+        <p>@Html(messages("accessibility-statement.technical-information.paragraph2"))</p>
+
+        <h3 class="heading-medium">@messages("accessibility-statement.non-accessible")</h3>
+        <p>@messages("accessibility-statement.non-accessible.paragraph1")</p>
+        <h4 class="heading-small">@messages("accessibility-statement.non-accessible.heading4")</h4>
+        <p>@messages("accessibility-statement.non-accessible.paragraph2")</p>
+        <p>@messages("accessibility-statement.non-accessible.paragraph6")</p>
+        <p>@messages("accessibility-statement.non-accessible.paragraph7")</p>
+
+        <h2 class="heading-large">@messages("accessibility-statement.how-tested")</h2>
+        <p>@messages("accessibility-statement.how-tested.paragraph1")</p>
+        <p>@Html(messages("accessibility-statement.how-tested.paragraph2"))</p>
+        <p>@messages("accessibility-statement.how-tested.paragraph3")</p>
+    </div>
+}

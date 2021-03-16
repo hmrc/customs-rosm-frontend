@@ -1,0 +1,41 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.ApplicationController._
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@(journey: Journey.Value,eori: Option[String])(implicit request: Request[_], messages: Messages)
+
+
+@layout_di(messages("cds.subscription.eori.you.sign.in.h1")) {
+<div class="column-two-thirds">
+
+    <h1 class="heading-large">@messages("cds.subscription.eori.you.sign.in.h1")</h1>
+
+    @eori.map { e =>
+        <p id="para2">@messages("cds.subscription.eori.you.sign.in.info1",e)</p>
+    }
+    <p id="para1">@messages("cds.subscription.eori.you.sign.in.info2")</p>
+
+    <a href="@logout(journey)" class="button" id="sign-out">
+        @messages("cds.subscription.sign-in-with-different-details.button") </a>
+    @helpers.helpAndSupport()
+</div>
+}

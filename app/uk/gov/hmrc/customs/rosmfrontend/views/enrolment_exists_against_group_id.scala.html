@@ -1,0 +1,42 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.ApplicationController._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+@this(layout_di: layout)
+@(journey: Journey.Value)(implicit messages: Messages, request: Request[_])
+
+@layout_di(messages("cds.you-cant-use-service.heading")) {
+    <div class="column-two-thirds">
+            <h1 id="page-heading" class="heading-large">@messages("cds.you-cant-use-service.heading")</h1>
+            @if(journey == Journey.GetYourEORI) {
+            <p id="info">@messages("cds.enrolment-already-exists-against-groupid-gye.paragraph")</p>
+            <h2 class="heading-small" id="steps-header">@messages("cds.enrolment-already-exists-against-groupid-gye-steps.heading")</h2>
+            } else {
+            <p id="info">@messages("cds.enrolment-already-exists-against-groupid-migrate.paragraph")</p>
+            <h2 class="heading-small" id="steps-header">@messages("cds.enrolment-already-exists-against-groupid-migrate-steps.heading")</h2>
+            }
+            <ol class="list list-number">
+                <li id="step1">@Html(messages("cds.enrolment-already-exists-against-groupid.step1"))</li>
+                <li id="step2">@messages("cds.enrolment-already-exists-against-groupid.step2")</li>
+                <li id="step3">@messages("cds.enrolment-already-exists-against-groupid.step3")</li>
+                <li id="step4">@messages("cds.enrolment-already-exists-against-groupid.step4")</li>
+                <li id="step5">@messages("cds.enrolment-already-exists-against-groupid.step5")</li>
+                <li id="step6">@messages("cds.enrolment-already-exists-against-groupid.step6")</li>
+            </ol>
+    </div>
+}

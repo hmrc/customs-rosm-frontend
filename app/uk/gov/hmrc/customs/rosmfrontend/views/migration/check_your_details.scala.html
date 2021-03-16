@@ -1,0 +1,340 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, RegistrationDetails, RegistrationDetailsIndividual, NameIdOrganisationMatchModel}
+@import uk.gov.hmrc.customs.rosmfrontend.forms.FormUtils.dateTimeFormat
+@import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactDetailsModel
+@import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.AddressViewModel
+@import uk.gov.hmrc.customs.rosmfrontend.domain._
+@import org.joda.time.LocalDate
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription._
+@import  uk.gov.hmrc.customs.rosmfrontend.controllers.email.routes._
+@import uk.gov.hmrc.customs.customs._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+    @(  isThirdCountrySubscription: Boolean,
+        isIndividualSubscriptionFlow: Boolean,
+        organisationType: Option[CdsOrganisationType],
+        contactDetails: Option[ContactDetailsModel],
+        addressDetails: Option[AddressViewModel],
+        principalEconomicActivity: Option[String],
+        eoriNumber: Option[String],
+        existingEoriNumber: Option[String],
+        email: Option[String],
+        nameIdOrganisationDetails: Option[NameIdOrganisationMatchModel],
+        nameOrganisationDetails: Option[NameOrganisationMatchModel],
+        nameDobDetails: Option[NameDobMatchModel],
+        dateEstablished: Option[LocalDate],
+        idDetails: Option[IdMatchModel],
+        customsId: Option[CustomsId],
+        journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+
+    @labelForEUCountry(countryCode: String) = @{
+        messages(messageKeyForEUCountryCode(countryCode))
+    }
+
+    @messageKeyForEUCountryCode(countryCode: String) = @{
+        s"cds.country.$countryCode"
+    }
+
+    @isEUCountryCode(countryCode: String) = @{
+        messages.isDefinedAt(messageKeyForEUCountryCode(countryCode))
+    }
+
+    @transformCountryCodeToOptionalLabel(code: Option[String]) = @{
+        code match {
+            case Some("GB") => Some(messages("cds.country.GB"))
+            case Some(c) if isEUCountryCode(c) => Some(labelForEUCountry(c))
+            case Some(nonEuCode) => Some(nonEuCode)
+            case _ => None
+        }
+    }
+
+    @optionalFaxNumberWithPrefix(fax: Option[String]) = @{
+        fax.map(x => s"${messages("cds.review-page.fax-prefix")} $x")
+    }
+
+    @formatDate(date: LocalDate) = @{
+        dateTimeFormat.print(date)
+    }
+
+    @isSoleTrader = @{
+        organisationType.contains(CdsOrganisationType.SoleTrader) || organisationType.contains(CdsOrganisationType.ThirdCountrySoleTrader)
+    }
+
+    @isCompany =@{
+        organisationType.contains(CdsOrganisationType.Company) && !isThirdCountrySubscription
+    }
+
+    @isPartnership = @{
+        organisationType.contains(CdsOrganisationType.Partnership) ||
+        organisationType.contains(CdsOrganisationType.LimitedLiabilityPartnership)
+    }
+
+    @businessDetailsLabel = @{
+        if(isIndividualSubscriptionFlow || isSoleTrader) {
+            messages("cds.form.contact-details")
+        } else if(isPartnership){
+            messages("cds.form.partner-address")
+        } else if(isCompany) {
+            messages("cds.form.company-address")
+        } else {
+            messages("cds.form.business-details")
+        }
+    }
+
+    @nameLabel = @{
+        if(isPartnership) {
+            messages("cds.partnership.name.label")
+        } else if(isCompany){
+            messages("cds.company.name.label")
+        } else {
+            messages("cds.organisation.name.label")
+        }
+
+    }
+
+    @utrLabel = @{
+        if(isIndividualSubscriptionFlow) {
+            messages("cds.utr.label")
+        } else {
+            if(isPartnership) {
+                messages("cds.partnership-utr.label")
+            } else {
+                messages("cds.company.utr.label")
+            }
+        }
+    }
+@*Check NameIdModel for UTR, if it exits use that, if it doesn't use CustomsIdModel*@
+    @utr = @{
+        nameIdOrganisationDetails match {
+            case Some(_) => None
+            case None => customsId match {
+                case u@Some(Utr(_)) => u
+                case _ => None
+            }
+        }
+    }
+
+    @nino = @{
+        customsId match {
+            case n@Some(Nino(_)) => n
+            case _ => None
+        }
+    }
+
+    @layout_di(messages("cds.form.check-answers")) {
+
+        <div class="column-two-thirds">
+            <header>
+                <h1 class="heading-large">@messages("cds.form.check-answers")</h1>
+            </header>
+
+            <table id="review-tbl" class="form-group">
+                <tr>
+                    <th id="review-tbl__email_heading" class="bold">@messages("subscription.enter-email.label")</th>
+                    <td id="review-tbl__email" colspan="2">
+                        @email
+                    </td>
+                </tr>
+                <tr>
+                    <th id="review-tbl__eori-number_heading" class="bold">@messages("cds.subscription.enter-eori-number.eori-number.label")</th>
+                    <td id="review-tbl__eori-number">
+                    @eoriNumber
+                    </td>
+                    <td>
+                        @if(existingEoriNumber.isEmpty) {
+                            <a id="review-tbl__eori-number_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.WhatIsYourEoriController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.subscription.enter-eori-number.eori-number.label")</span>
+                            </a>
+                        }
+                    </td>
+                </tr>
+                @nameOrganisationDetails.map { d =>
+                    @if(isThirdCountrySubscription) {
+                        <tr>
+                            <th id="review-tbl__org-name_heading" class="bold">@nameLabel</th>
+                            <td id="review-tbl__org-name">
+                            @d.name
+                            </td>
+                            <td>
+                                <a id="review-tbl__org_name_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameOrgController.reviewForm(journey)">
+                                    @messages("cds.form.change") <span class="visually-hidden"> @nameLabel</span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                @nameDobDetails.map { nd =>
+                    <tr>
+                        <th id="review-tbl__full-name_heading" class="bold">@messages("subscription.check-your-details.full-name.label")</th>
+                        <td id="review-tbl__full-name">
+                            @nd.firstName @nd.lastName
+                        </td>
+                        <td>
+                            <a id="review-tbl__full-name_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("subscription.check-your-details.full-name.label")</span>
+                            </a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th id="review-tbl__date-of-birth_heading" class="bold">@messages("subscription.check-your-details.date-of-birth.label")</th>
+                        <td id="review-tbl__date-of-birth">
+                        @formatDate(nd.dateOfBirth)
+                        </td>
+                        <td>
+                            <a id="review-tbl__date-of-birth_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("subscription.check-your-details.date-of-birth.label")</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+                @nino.map { n =>
+                    <tr>
+                        <th id="review-tbl__nino_heading" class="bold">@messages("cds.nino.label")</th>
+                        <td id="review-tbl__nino">
+                        @n.id
+                        </td>
+                        <td>
+                            @if(!isThirdCountrySubscription){
+                            <a id="review-tbl__nino_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.HowCanWeIdentifyYouController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.nino.label")</span>
+
+                            </a>
+                            }
+                        </td>
+                    </tr>
+                }
+
+                @utr.map { u =>
+                    <tr>
+                        <th id="review-tbl__utr_heading" class="bold">@messages("cds.utr.label")</th>
+                        <td id="review-tbl__utr">
+                        @u.id
+                        </td>
+                        <td>
+                            @if(!isThirdCountrySubscription){
+                            <a id="review-tbl__utr_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.HowCanWeIdentifyYouController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.utr.label")</span>
+                            </a>
+                            }
+                        </td>
+                    </tr>
+                }
+
+                @nameIdOrganisationDetails.map { n =>
+                @if(!isThirdCountrySubscription){
+                <tr>
+                        <th id="review-tbl__orgname_heading" class="bold">@nameLabel</th>
+                        <td id="review-tbl__orgname">
+                            @n.name
+                        </td>
+                        <td>
+                            <a id="review-tbl__orgname_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameIDOrgController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="govuk-visually-hidden"> @nameLabel</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                <tr>
+                        <th id="review-tbl__utr_heading" class="bold">@utrLabel</th>
+                        <td id="review-tbl__utr" @if(isThirdCountrySubscription){ colspan="2"}>
+                            @n.id
+                        </td>
+                    @if(!isThirdCountrySubscription){
+                    <td>
+                            <a id="review-tbl__utr_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameIDOrgController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @utrLabel</span>
+                            </a>
+                        </td>
+                    }
+                </tr>
+                }
+
+                @addressDetails.map { ad =>
+                    <tr>
+                        <th id="review-tbl__name-and-address_heading" class="bold">@businessDetailsLabel</th>
+                        <td id="review-tbl__name-and-address">
+                            @ad.street.appendBr
+                            @ad.city.appendBr
+                            @ad.postcode.map(_.appendBr)
+                            @transformCountryCodeToOptionalLabel(Some(ad.countryCode))
+                        </td>
+                        <td>
+                            <a id="review-tbl__name-and-address_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @businessDetailsLabel</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+                @contactDetails.map { cd =>
+                    <tr>
+                        <th id="review-tbl__contact-details_heading" class="bold">@messages("cds.form.customs-contact")</th>
+                        <td id="review-tbl__contact-details">
+                            @cd.fullName <br/>
+                            @cd.telephone.appendBr
+                            @optionalFaxNumberWithPrefix(cd.fax).map(_.appendBr)
+                            @cd.street.map(_.appendBr)
+                            @cd.city.map(_.appendBr)
+                            @cd.postcode.map(_.appendBr)
+                            @transformCountryCodeToOptionalLabel(cd.countryCode).map(_.appendBr)
+                        </td>
+                        <td>
+                            <a id="review-tbl__contact-details_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+                @dateEstablished.map { de =>
+                    <tr id="review-tbl__doe">
+                        <th class="bold">
+                            @messages("cds.date-established.label")
+                        </th>
+                        <td>@formatDate(de)</td>
+                        <td>
+                            <a href="@uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.DateOfEstablishmentController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.date-established.label")</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+
+
+
+            </table>
+            <p>@messages("cds.form.disclaimer")</p>
+
+            <div class="form-group">
+                @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.RegisterWithEoriAndIdController.registerWithEoriAndId(journey)) {
+                    @CSRF.formField
+
+                    <p><input class="button" type="submit" value="@messages("cds.form.send")"></p>
+                }
+
+                @helpers.helpAndSupport()
+            </div>
+        </div>
+    }
+

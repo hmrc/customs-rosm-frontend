@@ -1,0 +1,485 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import org.joda.time.LocalDate
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.routes._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.{VatRegisteredUkController => VATNumberPage, _}
+@import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.SubscriptionDetails
+@import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, Eori, EtmpOrganisationType, LLP, Nino, Partnership, RegistrationDetails, RegistrationDetailsIndividual, Utr}
+@import uk.gov.hmrc.customs.rosmfrontend.forms.FormUtils.dateTimeFormat
+@import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactDetailsModel
+@import views.html.helper._
+@import uk.gov.hmrc.customs.customs._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+@this(layout_di: layout)
+@(cdsOrgType: Option[CdsOrganisationType],
+isPartnership: Boolean,
+registration: RegistrationDetails,
+subscription: SubscriptionDetails,
+personalDataDisclosureConsent: Boolean,
+journey: Journey.Value,
+isUserIdentifiedByRegService: Boolean,
+rowHaveUtrEnabled: Boolean
+)(implicit request: Request[_], messages: Messages)
+
+@orgNameLabel = @{
+    if(isPartnership) {
+        messages("cds.partner-name.label")
+    } else {
+        messages("cds.business-name.label")
+    }
+}
+
+@euCountry(countryCode: String) = @{
+    messages(messageKeyForEUCountryCode(countryCode))
+}
+
+@messageKeyForEUCountryCode(countryCode: String) = @{
+    s"cds.country.$countryCode"
+}
+
+@isEUCountryCode(countryCode: String) = @{
+    messages.isDefinedAt(messageKeyForEUCountryCode(countryCode))
+}
+
+@transformCountryCodeToOptionalLabel(code: Option[String]) = @{
+    code match {
+        case Some("GB") => Some(messages("cds.country.GB"))
+        case Some(c) if isEUCountryCode(c) => Some(euCountry(c))
+        case Some(nonEuCode) => Some(nonEuCode)
+        case _ => None
+    }
+}
+
+@optionalFaxNumberWithPrefix(fax: Option[String]) = @{
+    fax.map(x => s"${messages("cds.review-page.fax-prefix")} $x")
+}
+
+@formatDate(date: LocalDate) = @{
+    dateTimeFormat.print(date)
+}
+
+@isIndividual = @{
+    cdsOrgType.contains(CdsOrganisationType.Individual) ||
+    cdsOrgType.contains(CdsOrganisationType.EUIndividual) ||
+    cdsOrgType.contains(CdsOrganisationType.ThirdCountryIndividual)
+}
+
+@isSoleTrader = @{
+    cdsOrgType.contains(CdsOrganisationType.SoleTrader) ||
+    cdsOrgType.contains(CdsOrganisationType.ThirdCountrySoleTrader)
+}
+
+@isRowOrganisation = @{
+    cdsOrgType.contains(CdsOrganisationType.ThirdCountryOrganisation)
+}
+
+@getDateOfEstablishmentLabel = @{
+    if(isSoleTrader) {
+        messages("cds.date-of-birth.label")
+    } else {
+        messages("cds.date-established.label")
+    }
+}
+
+@businessDetailsLabel = @{
+    if(isPartnership)
+        messages("cds.form.partnership.contact-details")
+    else if(isIndividual || isSoleTrader) {
+        messages("cds.form.contact-details")
+    } else {
+        messages("cds.form.business-details")
+    }
+}
+
+@ninoOrUtrLabel = @{
+    registration.customsId match {
+        case Some(Utr(_)) => {
+            if(isIndividual || isSoleTrader) {
+                messages("cds.utr.label")
+            } else if(isPartnership) {
+                messages("cds.check-your-details.utrnumber.partnership")
+            } else {
+                messages("cds.company.utr.label")
+            }
+        }
+        case Some(Nino(_)) => messages("cds.nino.label")
+        case Some(Eori(_)) => messages("cds.subscription.enter-eori-number.eori-number.label")
+        case _ => messages("cds.nino.label")
+    }
+}
+
+@formattedIndividualDateOfBirth = @{
+    val dateOfBirth: Option[LocalDate] = (subscription.nameDobDetails, registration) match {
+        case (Some(nameDobDetails), _) => Some(nameDobDetails.dateOfBirth)
+        case (None, individual: RegistrationDetailsIndividual) => Some(individual.dateOfBirth)
+        case _ => None
+    }
+    dateOfBirth.map(formatDate)
+}
+
+@individualName = @{
+    subscription.nameDobDetails match {
+        case Some(nameDobDetails) => nameDobDetails.name
+        case _ =>  registration.name
+    }
+}
+
+@orgName = @{
+    subscription.nameOrganisationDetails match {
+        case Some(nameOrgDetails) => nameOrgDetails.name
+        case _ =>  registration.name
+    }
+}
+
+@orgType = @{cdsOrgType.fold("")(orgType => orgType.id)}
+
+@disclosureLabel = @{
+    if (isPartnership) {
+        messages("cds.form.disclosure.partnership")
+    } else if(isIndividual || isSoleTrader) {
+        messages("cds.form.disclosure.individual")
+    } else {
+        messages("cds.form.disclosure")
+    }
+}
+
+@eoriCheckerConsentYes = @{
+    if (isPartnership) {
+        messages("cds.eori-checker-consent.partnership.yes")
+    } else if(isIndividual || isSoleTrader) {
+        messages("cds.eori-checker-consent.individual-or-sole-trader.yes")
+    } else {
+        messages("cds.eori-checker-consent.yes")
+    }
+}
+
+@layout_di(messages("cds.form.check-answers")) {
+    <div class="column-two-thirds">
+            <header>
+                <h1 class="heading-large">@messages("cds.form.check-answers")</h1>
+            </header>
+                <dl id="review-tbl" class="govuk-check-your-answers cya-questions-long form-group">
+
+                    @if(isIndividual || isSoleTrader) {
+                    <div class="cds-cya-change-row" id="full_name">
+                        <dt class="cya-question" id="review-tbl__full-name_heading">@messages("subscription.check-your-details.full-name.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__full-name">
+                            @individualName
+                        </dd>
+                        @if(!isUserIdentifiedByRegService) {
+                        <dd class="cya-answer">
+                            <a  id="review-tbl__full-name_change" href="@RowIndividualNameDateOfBirthController.reviewForm(orgType, journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("subscription.check-your-details.full-name.label")</span>
+                            </a>
+                        </dd>
+                        } else {
+                        <dd></dd>
+                        }
+                    </div>
+                    }
+
+                    @if(isIndividual || isSoleTrader) {
+                    <div class="cds-cya-change-row" id="date-of-birth">
+                        <dt class="cya-question" id="review-tbl__date-of-birth_heading">@messages("subscription.check-your-details.date-of-birth.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__date-of-birth">
+                            @formattedIndividualDateOfBirth
+                        </dd>
+                        @if(!isUserIdentifiedByRegService) {
+                        <dd class="cya-answer">
+                            <a id="review-tbl__date-of-birth_change" href="@RowIndividualNameDateOfBirthController.reviewForm(orgType, journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("subscription.check-your-details.date-of-birth.label")</span>
+                            </a>
+                        </dd>
+                        } else {
+                        <dd></dd>
+                        }
+                    </div>
+                    }
+
+                    @if(!isIndividual && !isSoleTrader) {
+                    <div class="cds-cya-change-row" id="business_name">
+                        <dt class="cya-question" id="review-tbl__business-name_heading">@orgNameLabel</dt>
+                        <dd class="cya-answer" id="review-tbl__business-name">
+                            @orgName
+                        </dd>
+                        @if(!isUserIdentifiedByRegService) {
+                        <dd class="cya-answer">
+                            <a id="review-tbl__business-name_change" href="@WhatIsYourOrgNameController.showForm(isInReviewMode = true, organisationType = orgType, journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @orgNameLabel</span>
+                            </a>
+                        </dd>
+                        } else {
+                        <dd></dd>
+                        }
+                    </div>
+
+                    }
+
+                    @if(rowHaveUtrEnabled && isRowOrganisation && !isUserIdentifiedByRegService) {
+                    <div class="cds-cya-change-row" id="have_utr">
+                        <dt class="cya-question" id="review-tbl__have-utr_heading">@messages("cds.matching.organisation-utr.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__have-utr">
+                            @messages("cds.not-entered.label")
+                        </dd>
+                        @if(!isUserIdentifiedByRegService) {
+                        <dd class="cya-answer">
+                            <a id="review-tbl__have-utr_change" href="@DoYouHaveAUtrNumberController.form(organisationType = orgType, journey, isInReviewMode = true)">
+                                @messages("cds.form.change") <span class="govuk-visually-hidden"> @messages("cds.matching.organisation-utr.label")</span>
+                            </a>
+                        </dd>
+                        } else {
+                        <dd></dd>
+                        }
+                    </div>
+                    }
+
+                    @registration.customsId.map { x =>
+                    <div class="cds-cya-change-row" id="nino_or_utr">
+                        <dt class="cya-question" id="review-tbl__utr_heading">
+                            @ninoOrUtrLabel
+                        </dt>
+                        <dd class="cya-answer" id="review-tbl__utr">
+                            @x.id
+                        </dd>
+                        <dd></dd>
+                    </div>
+                    }
+
+                    @if(isUserIdentifiedByRegService) {
+                    @subscription.addressDetails.map { address =>
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__address_heading">@businessDetailsLabel</dt>
+                        <dd class="cya-answer" id="review-tbl__address">
+                            @address.street.appendBr
+                            @address.city.appendBr
+                            @address.postcode.map(_.appendBr)
+                            @transformCountryCodeToOptionalLabel(Some(address.countryCode))
+                        </dd>
+                        <dd></dd>
+                    </div>
+                    }.getOrElse {
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__six_line_address_heading_reg">@businessDetailsLabel</dt>
+                        <dd class="cya-answer" id="review-tbl__six_line_address_reg">
+                            @registration.address.addressLine1.appendBr
+                            @registration.address.addressLine2.map(_.appendBr)
+                            @registration.address.addressLine3.map(_.appendBr)
+                            @registration.address.addressLine4.map(_.appendBr)
+                            @registration.address.postalCode.map(_.appendBr)
+                            @transformCountryCodeToOptionalLabel(Some(registration.address.countryCode))
+                        </dd>
+                        <dd></dd>
+                    </div>
+                    }
+                    } else {
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__six_line_address_heading">@businessDetailsLabel</dt>
+                        <dd class="cya-answer" id="review-tbl__six_line_address">
+                            @registration.address.addressLine1.appendBr
+                            @registration.address.addressLine2.map(_.appendBr)
+                            @registration.address.addressLine3.map(_.appendBr)
+                            @registration.address.addressLine4.map(_.appendBr)
+                            @registration.address.postalCode.map(_.appendBr)
+                            @transformCountryCodeToOptionalLabel(Some(registration.address.countryCode))
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__six_line_address_change" href="@SixLineAddressController.showForm(isInReviewMode = true, organisationType = orgType, journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @businessDetailsLabel</span>
+                            </a>
+                        </dd>
+                    </div>
+                    }
+
+                    @subscription.dateEstablished.map { de =>
+                    <div class="cds-cya-change-row" id="review-tbl__doe">
+                        <dt class="cya-question">
+                            @getDateOfEstablishmentLabel
+                        </dt>
+                        <dd class="cya-answer">@formatDate(de)</dd>
+                        <dd class="cya-answer">
+                            <a href="@DateOfEstablishmentController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @getDateOfEstablishmentLabel</span>
+                            </a>
+                        </dd>
+                    </div>
+                    }
+
+                    @subscription.contactDetails.map { address =>
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__contact_heading">@messages("cds.form.customs-contact")</dt>
+                        <dd class="cya-answer" id="review-tbl__contact">
+                            @address.fullName <br/>
+                            @address.emailAddress.appendBr
+                            @address.telephone.appendBr
+                            @optionalFaxNumberWithPrefix(address.fax).map(_.appendBr)
+                            @address.street.map(_.appendBr)
+                            @address.city.map(_.appendBr)
+                            @address.postcode.map(_.appendBr)
+                            @transformCountryCodeToOptionalLabel(address.countryCode).map(_.appendBr)
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__contact_change" href="@ContactDetailsController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                            </a>
+                        </dd>
+                    </div>
+                    }
+
+                    @subscription.businessShortName.map { n =>
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__short-name_heading">@messages("cds.form.shortened-name")</dt>
+                        <dd class="cya-answer" id="review-tbl__short-name">
+                            @n.shortName.getOrElse(messages("cds.not-entered.label"))
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__short-name_change" href="@BusinessShortNameController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.shortened-name")</span>
+                            </a>
+                        </dd>
+                    </div>
+                    }
+
+                    @if(!isIndividual) {
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__gb-vat_number_heading" >@messages("cds.form.gb-vat-number")</dt>
+                        <dd class="cya-answer" id="review-tbl__gb-vat_number">
+
+                            @if(subscription.ukVatDetails.isEmpty) {
+                            @messages("cds.not-entered.label")
+                            } else {
+                            @subscription.ukVatDetails.map { vat =>
+                            @vat.normalizeVATNumber <br/>
+                            }
+                            }
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__gb-vat_change" href="@VATNumberPage.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.gb-vat-number")</span>
+                            </a>
+                        </dd>
+                    </div>
+                    }
+
+                    @if(!isIndividual) {
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__gb-vat_postcode_heading">@messages("cds.form.gb-vat-postcode")</dt>
+                        <dd class="cya-answer" id="review-tbl__gb-vat_postcode">
+
+                            @if(subscription.ukVatDetails.isEmpty) {
+                            @messages("cds.not-entered.label")
+                            } else {
+                            @subscription.ukVatDetails.map { vat =>
+                            @vat.postcode
+                            }
+                            }
+                        </dd>
+                        <dd></dd>
+                    </div>
+                    }
+
+                    @if(!isIndividual) {
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__gb-vat_date_heading">@messages("cds.form.gb-vat-date")</dt>
+                        <dd class="cya-answer" id="review-tbl__gb-vat_date">
+
+                            @if(subscription.ukVatDetails.isEmpty) {
+                            @messages("cds.not-entered.label")
+                            } else {
+                            @subscription.ukVatDetails.map { vat =>
+                            @formatDate(vat.effectiveDate)
+                            }
+                            }
+                        </dd>
+                        <dd></dd>
+                    </div>
+                    }
+
+                    @if(!isIndividual) {
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__eu-vat_heading">@messages("cds.form.eu-vat-numbers")</dt>
+                        <dd class="cya-answer" id="review-tbl__eu-vat">
+
+                            @if(subscription.vatEUDetails.nonEmpty) {
+                            @subscription.vatEUDetails.map { vatModel =>
+                            @vatModel.vatNumber - @euCountry(vatModel.vatCountry)<br> }
+                            }else {
+                            @messages("cds.not-entered.label")
+                            }
+
+                        </dd>
+
+                        <dd class="cya-answer">
+                            @if(subscription.vatEUDetails.nonEmpty) {
+                            <a id="review-tbl__eu-vat_change" href="@VatDetailsEuConfirmController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.eu-vat-numbers")</span>
+                            </a>
+                            } else {
+                            <a id="review-tbl__eu-vat_change" href="@VatRegisteredEuController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.eu-vat-numbers")</span>
+                            </a>
+                            }
+
+                        </dd>
+                    </div>
+                    }
+
+                    @if(!isIndividual) {
+                    @subscription.sicCode.map { sic =>
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__activity_heading">@messages("cds.form.sic-code")</dt>
+                        <dd class="cya-answer" id="review-tbl__activity">@sic</dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__activity_change" href="@SicCodeController.submit(isInReviewMode = true, journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.sic-code")</span>
+                            </a>
+                        </dd>
+                    </div>
+                    }
+                    }
+
+                    <div class="cds-cya-change-row" id="review-tbl__disclosure">
+                        <dt class="cya-question" id="review-tbl__disclosure_heading">@disclosureLabel</dt>
+                        <dd class="cya-answer">@{
+                            if(personalDataDisclosureConsent) {
+                            eoriCheckerConsentYes
+                            } else {
+                            messages("cds.eori-checker-consent.no")
+                            }
+                            }
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__disclosure_change" href="@DisclosePersonalDetailsConsentController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @disclosureLabel</span>
+                            </a>
+                        </dd>
+                    </div>
+                </dl>
+
+                <p id="disclaimer-content">@messages("cds.form.disclaimer")</p>
+
+                <div class="form-group">
+                    @helper.form(CheckYourDetailsRegisterController.submitDetails(journey)) {
+                    @CSRF.formField
+
+                    <p><input class="button" type="submit" value=@messages("cds.form.send")></p>
+                    }
+                    @helpers.helpAndSupport()
+                </div>
+</div>
+}

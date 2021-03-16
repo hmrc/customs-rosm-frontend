@@ -1,0 +1,78 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.ApplicationController
+@import uk.gov.hmrc.customs.rosmfrontend.domain.YesNo
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+
+@this(layout_di: layout)
+
+@(eoriNumber: String, useThisEoriYesNo: Form[YesNo], journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+@signoutLink = {
+    <a href="@ApplicationController.logout(journey)">@messages("cds.subscribe.use-this-eori.signout")</a>
+}
+
+@inputRadioGroup(field: String, options: Seq[(String, String)]) = {
+
+    @helpers.inputRadioGroup(
+        useThisEoriYesNo(field),
+        options,
+        Map.empty,
+        '_divClass -> "createForm-group form-group inline",
+        '_legend -> messages("cds.subscription.this.eori"),
+        '_isLegendH1 -> false
+    )
+}
+
+@layout_di(messages("cds.subscription.eori.linked"), form = Some(useThisEoriYesNo)) {
+
+    <div class="column-two-thirds">
+
+
+        @helpers.errorSummary(useThisEoriYesNo)
+
+        <h1 class="heading-xlarge">@messages("cds.subscription.eori.linked")</h1>
+
+        <table id="eori-number" class="form-group">
+            <tr>
+                <td>
+                @messages("cds.subscription.eori.label")
+                </td>
+                <td>
+                @eoriNumber
+                </td>
+            </tr>
+        </table>
+
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.UseThisEoriController.submit(journey), 'id -> "eoriNumberForm") {
+            @CSRF.formField
+
+            @inputRadioGroup(
+                "yes-no-answer",
+                Seq(
+                    "true" -> messages("cds.subscription.this.eori.yes"),
+                    "false" -> messages("cds.subscription.this.eori.no")
+                )
+            )
+
+            <input class="button" type="submit" value="@messages("cds.navigation.continue")">
+        }
+
+    </div>
+}

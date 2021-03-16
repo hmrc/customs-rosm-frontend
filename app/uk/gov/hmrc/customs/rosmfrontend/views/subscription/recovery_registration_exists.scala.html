@@ -1,0 +1,50 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+@this(layout_di: layout)
+@(mayBeEori: Option[String],maybeName:Option[String])(implicit messages: Messages, request: Request[_])
+
+@layout_di(messages("cds.existing.reg.eori-already-exists.title")) {
+    <div class="column-two-thirds">
+        <div class="govuk-box-highlight">
+            <h1 id="page-heading" class="heading-xlarge">
+                @maybeName.map{ name =>
+                    @messages("cds.existing.reg.eori-already-exists.message",name ,mayBeEori.getOrElse("") )
+                }.getOrElse {
+                    @messages("cds.existing.reg.eori-already-exists.title")
+                    @mayBeEori.map{ eori =>
+                    <p id="eori-number" class="heading-medium">@messages("cds.existing.reg.eori.number") @eori</p>
+                    }
+                }
+            </h1>
+
+        </div>
+        <div id="already-have-eori">
+            <p>@Html(messages("cds.existing.reg.eori.check"))</p>
+            <p>@Html(messages("cds.existing.reg.eori.info"))</p>
+            <h2 class="heading-medium">@messages("cds.existing.reg.eori.h2")</h2>
+            <p>@Html(messages("cds.existing.reg.eori.get.access.cds"))</p>
+            <p>@Html(messages("cds.existing.reg.eori.get.access.cds.info"))</p>
+        </div>
+
+        @helpers.helpAndSupport()
+        
+        @helpers.feedback()
+
+    </div>
+}

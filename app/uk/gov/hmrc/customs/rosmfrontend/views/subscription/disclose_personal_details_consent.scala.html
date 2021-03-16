@@ -1,0 +1,89 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.domain.YesNo
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@(isInReviewMode: Boolean,
+disclosePersonalDetailsYesNoAnswerForm: Form[YesNo],
+isIndividualSubscriptionFlow: Boolean,
+isPartnership:Boolean,
+journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+
+@formAction = @{
+    uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.DisclosePersonalDetailsConsentController.submit(isInReviewMode, journey)
+}
+
+@discloseHeading = @{
+    if(isPartnership) messages("cds.subscription.organisation-disclose-personal-details-consent.partner.heading")
+    else if(isIndividualSubscriptionFlow) messages("cds.subscription.organisation-disclose-personal-details-consent.individual.heading")
+    else messages("cds.subscription.organisation-disclose-personal-details-consent.heading")
+}
+
+@declaration = @{
+    if(isPartnership) Html(messages("cds.subscription.organisation-disclose-personal-details-consent.partner.declaration"))
+    else if(isIndividualSubscriptionFlow) Html(messages("cds.subscription.organisation-disclose-personal-details-consent.individual.declaration"))
+    else Html(messages("cds.subscription.organisation-disclose-personal-details-consent.declaration"))
+}
+
+@consentRadioLabelYes = @{
+    if(isPartnership) messages("cds.subscription.organisation-disclose-personal-details-consent.partner.yes")
+    else if(isIndividualSubscriptionFlow) messages("cds.subscription.organisation-disclose-personal-details-consent.individual.yes")
+    else messages("cds.subscription.organisation-disclose-personal-details-consent.yes")
+}
+
+@consentRadioLabelNo = @{
+    if(isPartnership) messages("cds.subscription.organisation-disclose-personal-details-consent.partner.no")
+    else if(isIndividualSubscriptionFlow) messages("cds.subscription.organisation-disclose-personal-details-consent.individual.no")
+    else messages("cds.subscription.organisation-disclose-personal-details-consent.no")
+}
+
+@inputRadioGroup(field: String, options: Seq[(String, String)]) = {
+
+@helpers.inputRadioGroup(
+    disclosePersonalDetailsYesNoAnswerForm(field),
+    options,
+    Map.empty,
+    '_divClass -> "createForm-group form-group",
+    '_legend -> discloseHeading,
+    '_isLegendH1 -> true,
+    '_hintText -> declaration)
+}
+
+@layout_di(discloseHeading, form = Some(disclosePersonalDetailsYesNoAnswerForm)) {
+    <div class="column-two-thirds">
+
+
+        @helpers.errorSummary(disclosePersonalDetailsYesNoAnswerForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
+
+        @helper.form(formAction, 'id -> "disclose-personal-details-createForm") {
+
+            @CSRF.formField
+
+            @inputRadioGroup("yes-no-answer",
+                Seq("true" -> consentRadioLabelYes,
+                    "false" -> consentRadioLabelNo)
+            )
+
+            <input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>
+            }
+        @helpers.helpAndSupport()
+    </div>
+}

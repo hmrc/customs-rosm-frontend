@@ -1,0 +1,148 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, RegistrationDetails, RegistrationDetailsIndividual}
+@import uk.gov.hmrc.customs.rosmfrontend.forms.FormUtils.dateTimeFormat
+@import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactDetailsModel
+@import org.joda.time.LocalDate
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@(isIndividualSubscriptionFlow: Boolean,
+        mayBeOrganisationType: Option[CdsOrganisationType],
+        registrationDetails: RegistrationDetails,
+        contactDetails: Option[ContactDetailsModel],
+        journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+@filteredAddressAndContactDetails(x: ContactDetailsModel) = @{
+    List(
+        Some(x.street),
+        Some(x.city),
+        x.postcode,
+        transformCountryCodeToOptionalLabel(x.countryCode),
+        Some(x.telephone),
+        optionalFaxNumberWithPrefix(x.fax),
+        Some(x.emailAddress)
+    ).filter(_.isDefined)
+}
+
+@filteredBusinessAddress(rd: RegistrationDetails) = @{
+    val ba = rd.address
+    List(
+        Some(ba.addressLine1),
+        Some(ba.addressLine2),
+        ba.addressLine3,
+        ba.addressLine4,
+        ba.postalCode,
+        transformCountryCodeToOptionalLabel(Some(ba.countryCode))
+    ).filter(_.isDefined)
+}
+
+@labelForEUCountry(countryCode: String) = @{
+    messages(messageKeyForEUCountryCode(countryCode))
+}
+
+@messageKeyForEUCountryCode(countryCode: String) = @{
+    s"cds.country.$countryCode"
+}
+
+@isEUCountryCode(countryCode: String) = @{
+    messages.isDefinedAt(messageKeyForEUCountryCode(countryCode))
+}
+
+@transformCountryCodeToOptionalLabel(code: Option[String]) = @{
+    code match {
+        case Some("GB") => None
+        case Some(c) if isEUCountryCode(c) => Some(labelForEUCountry(c))
+        case Some(nonEuCode) => Some(nonEuCode)
+        case _ => None
+    }
+}
+
+@optionalFaxNumberWithPrefix(fax: Option[String]) = @{
+    fax.map(x => s"${messages("cds.review-page.fax-prefix")} $x")
+}
+
+@filtered(fields: Option[String]*) = @{
+    fields.filter(_.isDefined)
+}
+
+@isSoleTrader = @{
+    mayBeOrganisationType.contains(CdsOrganisationType.SoleTrader) |
+            mayBeOrganisationType.contains(CdsOrganisationType.ThirdCountrySoleTrader)
+}
+
+@getBusinessDetailsLabel = @{
+    if(isIndividualSubscriptionFlow || isSoleTrader) {
+        messages("cds.form.contact-details")
+    } else {
+        messages("cds.form.business-details")
+    }
+}
+
+@layout_di(messages("cds.form.check-answers")) {
+
+    <div class="column-two-thirds">
+        <header>
+            <h1>@messages("cds.form.check-answers") RCM</h1>
+        </header>
+
+        <table id="review-tbl">
+            <tr><td colspan="3"></td></tr>
+            <tr>
+                <th id="review-tbl__name-and-address_heading" class="bold">@getBusinessDetailsLabel</th>
+                <td id="review-tbl__name-and-address">
+                    <span class="form-label">@registrationDetails.name <br/></span>
+                    @for(ba <- filteredBusinessAddress(registrationDetails)) {
+                        @ba.get <br>
+                        }
+                </td>
+                <td>
+                </td>
+            </tr>
+            @if(contactDetails.isDefined) {
+                <tr>
+                    <th class="bold">@messages("cds.form.customs-contact")</th>
+                    <td id="review-tbl__contact">
+                        <span class="form-label">@contactDetails.get.fullName <br/></span>
+                        @for(address <- filteredAddressAndContactDetails(contactDetails.get)) {
+                            @address.get <br>
+                            }
+                    </td>
+                    <td>
+                        <a id="review-tbl__contact_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+        <p>@messages("cds.form.disclaimer")</p>
+
+        <div class="form-group">
+            @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.CheckYourDetailsRegisterController.submitDetails(journey)) {
+                @CSRF.formField
+
+                <p><input class="button" type="submit" value="@messages("cds.form.register")"></p>
+            }
+
+            @helpers.helpAndSupport()
+        </div>
+    </div>
+
+}
