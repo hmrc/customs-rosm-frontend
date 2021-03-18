@@ -128,8 +128,8 @@ class VatDetailsControllerSpec
       submitFormInCreateMode(validRequest + ("vat-number" -> "")) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your VAT number"
-        page.getElementsText(vatNumberFieldLevelError) shouldBe "Enter your VAT number"
+        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your VAT registration number"
+        page.getElementsText(vatNumberFieldLevelError) shouldBe "Enter your VAT registration number"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
