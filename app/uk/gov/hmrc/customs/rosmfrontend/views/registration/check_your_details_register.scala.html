@@ -320,21 +320,60 @@ rowHaveUtrEnabled: Boolean
                     </div>
                     }
 
+
                     @subscription.contactDetails.map { address =>
                     <div class="cds-cya-change-row">
-                        <dt class="cya-question" id="review-tbl__contact_heading">@messages("cds.form.customs-contact")</dt>
-                        <dd class="cya-answer" id="review-tbl__contact">
-                            @address.fullName <br/>
+                        <dt class="cya-question" id="review-tbl__emailAddress_heading">@messages("cds.subscription.contact-details.email.review.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__emailAddress">
                             @address.emailAddress.appendBr
+                        </dd>
+                        <dd class="cya-answer"/>
+                    </div>
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__fullname_heading">@messages("cds.subscription.contact-details.name.review.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__fullname">
+                            @address.fullName.appendBr
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__fullname_change" href="@ContactDetailsController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                            </a>
+                        </dd>
+                    </div>
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__telephone_heading">@messages("cds.subscription.contact-details.telephone.review.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__telephone">
                             @address.telephone.appendBr
-                            @optionalFaxNumberWithPrefix(address.fax).map(_.appendBr)
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__telephone_change" href="@ContactDetailsController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                            </a>
+                        </dd>
+                    </div>
+                    @address.fax.map { fax =>
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__faxnumber_heading">@messages("cds.subscription.contact-details.fax.review.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__faxnumber">
+                            @fax.appendBr
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__faxnumber_change" href="@ContactDetailsController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                            </a>
+                        </dd>
+                    </div>
+                    }
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__contact_address_heading">@messages("cds.subscription.contact-details.address.review.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__contact_address">
                             @address.street.map(_.appendBr)
                             @address.city.map(_.appendBr)
                             @address.postcode.map(_.appendBr)
                             @transformCountryCodeToOptionalLabel(address.countryCode).map(_.appendBr)
                         </dd>
                         <dd class="cya-answer">
-                            <a id="review-tbl__contact_change" href="@ContactDetailsController.reviewForm(journey)">
+                            <a id="review-tbl__contact_address_change" href="@ContactDetailsIsRightAddressController.reviewForm(journey)">
                                 @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
                             </a>
                         </dd>

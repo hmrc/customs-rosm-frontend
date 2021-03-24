@@ -38,6 +38,7 @@ class SubscriptionServiceConnector @Inject()(http: HttpClient, appConfig: AppCon
   def subscribe(request: SubscriptionRequest)(implicit hc: HeaderCarrier): Future[SubscriptionResponse] = {
     val loggerId = s"[$loggerComponentId][subscribe] Subscription Create"
     auditCallRequest(request, url)
+    println(s"***********************************$request")
     http.POST[SubscriptionRequest, SubscriptionResponse](url, request) map { response =>
       CdsLogger.info(
         s"$loggerId complete for acknowledgementReference : ${request.subscriptionCreateRequest.requestCommon.acknowledgementReference}"

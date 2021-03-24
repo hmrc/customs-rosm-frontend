@@ -48,7 +48,7 @@ class CheckYourDetailsSpec extends ViewSpec {
       "email@example.com",
       "11111111111",
       None,
-      useAddressFromRegistrationDetails = true,
+      useAddressFromRegistrationDetails = Some(true),
       Some("Street"),
       Some("City"),
       Some("POSTCODE"),

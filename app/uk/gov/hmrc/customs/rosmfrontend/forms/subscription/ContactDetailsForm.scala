@@ -22,7 +22,7 @@ import play.api.data.validation._
 import play.api.i18n.Messages
 import uk.gov.hmrc.customs.rosmfrontend.forms.FormUtils._
 import uk.gov.hmrc.customs.rosmfrontend.forms.FormValidation._
-import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactDetailsViewModel
+import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{ContactDetailsViewModel, ContactPersonViewModel}
 import uk.gov.hmrc.customs.rosmfrontend.forms.subscription.SubscriptionForm._
 import uk.gov.hmrc.customs.rosmfrontend.playext.form.ConditionalMapping
 import uk.gov.voa.play.form.ConditionalMappings.isEqual
@@ -31,6 +31,16 @@ object ContactDetailsForm {
   private val Length2 = 2
   private val yesAnswered = "true"
   private val noAnswered = "false"
+  def contactPersonDetailForm()(implicit messages: Messages): Form[ContactPersonViewModel] =
+    Form(
+      mapping(
+        "full-name" -> text.verifying(validFullName),
+        "email" -> optional(text),
+        "telephone" -> text.verifying(validPhone),
+        "fax" -> optional(text.verifying(validFax))
+        )(ContactPersonViewModel.apply)(ContactPersonViewModel.unapply)
+      )
+
 
   def contactDetailsCreateForm()(implicit messages: Messages): Form[ContactDetailsViewModel] =
     Form(

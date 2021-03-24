@@ -241,13 +241,23 @@ GET         /customs/:journey/you-need-to-sign-in-with-different-details        
 
 GET         /customs/:journey/eori-already-used-sign-out                            @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SignInWithDifferentDetailsController.eoriUsedSignout(journey: Journey.Value)
 
-GET         /customs/:journey/eori-already-used                                     @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SignInWithDifferentDetailsController.eoriUsed(journey: Journey.Value)
+GET         /customs/:journey/eori-already-used                                    @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SignInWithDifferentDetailsController.eoriUsed(journey: Journey.Value)
 
 GET         /customs/:journey/contact-details                                      @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsController.createForm(journey: Journey.Value)
+GET         /customs/:journey/contact-details/is-this-right-address                @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsIsRightAddressController.createForm(journey: Journey.Value)
+GET         /customs/:journey/contact-details/address                              @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsAddressController.createForm(journey: Journey.Value)
 
 POST        /customs/:journey/contact-details                                      @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsController.submit(isInReviewMode:Boolean = false, journey: Journey.Value)
+POST        /customs/:journey/contact-details/is-this-right-address                @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsIsRightAddressController.submit(isInReviewMode:Boolean = false, journey: Journey.Value)
+POST        /customs/:journey/contact-details/address                              @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsAddressController.submit(isInReviewMode:Boolean = false, journey: Journey.Value)
+
 GET         /customs/:journey/contact-details/review                               @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsController.reviewForm(journey: Journey.Value)
+GET         /customs/:journey/contact-details/is-this-right-address/review         @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsIsRightAddressController.reviewForm(journey: Journey.Value)
+GET         /customs/:journey/contact-details/address/review                       @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsAddressController.reviewForm(journey: Journey.Value)
+
 POST        /customs/:journey/contact-details/review                               @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsController.submit(isInReviewMode:Boolean = true, journey: Journey.Value)
+POST        /customs/:journey/contact-details/is-this-right-address/review         @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsIsRightAddressController.submit(isInReviewMode:Boolean = true, journey: Journey.Value)
+POST        /customs/:journey/contact-details/address/review                       @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ContactDetailsAddressController.submit(isInReviewMode:Boolean = true, journey: Journey.Value)
 
 GET         /customs/:journey/logout                                               @uk.gov.hmrc.customs.rosmfrontend.controllers.ApplicationController.logout(journey: Journey.Value)
 

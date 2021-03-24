@@ -21,6 +21,7 @@
 @import uk.gov.hmrc.customs.rosmfrontend.domain._
 @import org.joda.time.LocalDate
 @import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes._
 @import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription._
 @import  uk.gov.hmrc.customs.rosmfrontend.controllers.email.routes._
 @import uk.gov.hmrc.customs.customs._
@@ -288,25 +289,58 @@
                 }
 
                 @contactDetails.map { cd =>
+                <tr>
+                    <th id="review-tbl__contact-details_fullname_heading" class="bold">@messages("cds.subscription.contact-details.name.review.label")</th>
+                    <td id="review-tbl__contact-details_fullname">
+                        @cd.fullName <br/>
+                    </td>
+                    <td>
+                        <a id="review-tbl__contact-details_fullname_change" href="@ContactDetailsController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th id="review-tbl__contact-details_telephone_heading" class="bold">@messages("cds.subscription.contact-details.telephone.review.label")</th>
+                    <td id="review-tbl__contact-details_telephone">
+                        @cd.telephone.appendBr
+                    </td>
+                    <td>
+                        <a id="review-tbl__contact-details_telephone_change" href="@ContactDetailsController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                        </a>
+                    </td>
+                </tr>
+                @cd.fax.map {fax =>
                     <tr>
-                        <th id="review-tbl__contact-details_heading" class="bold">@messages("cds.form.customs-contact")</th>
-                        <td id="review-tbl__contact-details">
-                            @cd.fullName <br/>
-                            @cd.telephone.appendBr
-                            @optionalFaxNumberWithPrefix(cd.fax).map(_.appendBr)
-                            @cd.street.map(_.appendBr)
-                            @cd.city.map(_.appendBr)
-                            @cd.postcode.map(_.appendBr)
-                            @transformCountryCodeToOptionalLabel(cd.countryCode).map(_.appendBr)
+                        <th id="review-tbl__contact-details_fax_heading" class="bold">@messages("cds.subscription.contact-details.fax.review.label")</th>
+                        <td id="review-tbl__contact-details_fax">
+                            @fax.appendBr
                         </td>
                         <td>
-                            <a id="review-tbl__contact-details_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsController.reviewForm(journey)">
+                            <a id="review-tbl__contact-details_change" href="@ContactDetailsController.reviewForm(journey)">
                                 @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
                             </a>
                         </td>
                     </tr>
                 }
 
+                <tr>
+                    <th id="review-tbl__contact-details_address_heading" class="bold">@messages("cds.subscription.contact-details.address.review.label")</th>
+                    <td id="review-tbl__contact-details_address">
+                        @cd.street.map(_.appendBr)
+                        @cd.city.map(_.appendBr)
+                        @cd.postcode.map(_.appendBr)
+                        @transformCountryCodeToOptionalLabel(cd.countryCode).map(_.appendBr)
+                    </td>
+                    <td>
+                        <a id="review-tbl__contact-details_address_change" href="@ContactDetailsIsRightAddressController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                        </a>
+                    </td>
+                </tr>
+
+                }
                 @dateEstablished.map { de =>
                     <tr id="review-tbl__doe">
                         <th class="bold">
@@ -320,8 +354,6 @@
                         </td>
                     </tr>
                 }
-
-
 
             </table>
             <p>@messages("cds.form.disclaimer")</p>

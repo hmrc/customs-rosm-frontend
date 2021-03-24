@@ -157,6 +157,9 @@ object MatchingForms {
   def useThisEoriYesNoAnswer()(implicit messages: Messages): Form[YesNo] =
     createYesNoAnswerForm("cds.subscription.this.eori.yes-no-answer")
 
+  def  isThisRightContactAddressYesNoAnswer()(implicit messages: Messages): Form[YesNo] =
+    createYesNoAnswerForm("cds.subscription.is-this-contact-address.yes-no-answer")
+
   private def createYesNoAnswerForm(
     invalidErrorMsgKey: String = messageKeyOptionInvalid
   )(implicit messages: Messages): Form[YesNo] = Form(

@@ -76,7 +76,7 @@ class RegisterWithoutIdServiceSpec
     SixLineAddressMatchModel("add1", Some("add2"), "add3", Some("add4"), None, "COUNTRY")
   private val address = Address("add1", Some("add2"), Some("add3"), Some("add4"), Some("postcode"), "country")
   private val contactDetails = Some(
-    ContactDetailsModel("John Doe", "john@doe.com", "01632961234", None, true, None, None, None, None)
+    ContactDetailsModel("John Doe", "john@doe.com", "01632961234", None, Some(true), None, None, None, None)
   )
   private val addressWithEmptyPostcode = Address("add1", Some("add2"), Some("add3"), Some("add4"), Some(""), "country")
 

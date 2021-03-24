@@ -66,7 +66,7 @@ class RegisterWithoutIdWithSubscriptionServiceSpec
     Some(RegisterWithoutIdResponseDetail("TestSafeId", None))
   )
   private val contactDetails =
-    ContactDetailsModel("John Doe", "john@doe.com", "01632961234private ", None, true, None, None, None, None)
+    ContactDetailsModel("John Doe", "john@doe.com", "01632961234private ", None, Some(true), None, None, None, None)
 
   private val service = new RegisterWithoutIdWithSubscriptionService(
     mockRegisterWithoutIdService,

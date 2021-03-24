@@ -28,6 +28,7 @@ trait SubscriptionContactDetailsPage extends WebPage {
 
   val fullNameFieldXPath = "//*[@id='full-name']"
   val fullNameFieldLevelErrorXPath = "//*[@id='full-name-outer']//span[@class='error-message']"
+  val fullNameLabelXPath = "//*[@id='full-name-outer']/label"
 
   val emailFieldXPath = "//*[@id='email']"
   val emailAddressFieldLabel = "Email address"
@@ -36,8 +37,10 @@ trait SubscriptionContactDetailsPage extends WebPage {
 
   val telephoneFieldXPath = "//*[@id='telephone']"
   val telephoneFieldLevelErrorXPath = "//*[@id='telephone-outer']//span[@class='error-message']"
+  val telephoneLabelXPath = "//*[@id='telephone-outer']/label"
 
   val faxFieldXPath = "//*[@id='fax']"
+  val faxLabelXPath = "//*[@id='fax-outer']/label"
   val faxFieldLevelErrorXPath = "//*[@id='fax-outer']//span[@class='error-message']"
 
   val streetFieldXPath = "//*[@id='street']"
@@ -56,6 +59,7 @@ trait SubscriptionContactDetailsPage extends WebPage {
 
   val registeredAddressQuestionXPath = "//*[@id='use-registered-address-fieldset']/legend/span[1]"
   val registeredAddressParaXPath = "//*[@id='registered-address']"
+  val addressParaXPath = "//*[@id='address']"
 
   val useRegisteredAddressYesRadioButtonXPath = "//*[@id='use-registered-address-yes']"
   val useRegisteredAddressNoRadioButtonXPath = "//*[@id='use-registered-address-no']"
