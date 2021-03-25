@@ -43,4 +43,10 @@ object AddressViewModel {
     val countryCode = sixLineAddress.countryCode
     AddressViewModel(line1, townCity, postCode, countryCode)
   }
+
+  def apply(contactDetailsModel: ContactDetailsModel): AddressViewModel =
+    AddressViewModel(street=contactDetailsModel.street.getOrElse(""),
+      city = contactDetailsModel.city.getOrElse(""),
+      postcode = contactDetailsModel.postcode,
+      countryCode = contactDetailsModel.countryCode.getOrElse(""))
 }

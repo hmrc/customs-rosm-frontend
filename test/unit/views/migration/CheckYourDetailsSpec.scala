@@ -38,7 +38,10 @@ class CheckYourDetailsSpec extends ViewSpec {
     ("eori", "review-tbl__eori-number_heading", "review-tbl__eori-number_change"),
     ("utr", "review-tbl__utr_heading", "review-tbl__utr_change"),
     ("nameAndAddress", "review-tbl__name-and-address_heading", "review-tbl__name-and-address_change"),
-    ("contactAddress", "review-tbl__contact-details_heading", "review-tbl__contact-details_change")
+    ("contactName", "review-tbl__contact-details_fullname_heading", "review-tbl__contact-details_fullname_change"),
+    ("contactFaxNo", "review-tbl__contact-details_fax_heading", "review-tbl__contact-details_fax_change"),
+    ("contactTelephone", "review-tbl__contact-details_telephone_heading", "review-tbl__contact-details_telephone_change"),
+    ("contactAddress", "review-tbl__contact-details_address_heading", "review-tbl__contact-details_address_change")
   )
 
   private val organisationType = Some(CdsOrganisationType.Company)
@@ -47,8 +50,8 @@ class CheckYourDetailsSpec extends ViewSpec {
       "John Doe",
       "email@example.com",
       "11111111111",
-      None,
-      useAddressFromRegistrationDetails = true,
+      fax=Some("11111111112"),
+      useAddressFromRegistrationDetails = Some(true),
       Some("Street"),
       Some("City"),
       Some("POSTCODE"),
@@ -88,7 +91,10 @@ class CheckYourDetailsSpec extends ViewSpec {
       page.title must startWith("Check your answers")
       page.getElementById("review-tbl__utr_heading").text mustBe "Corporation Tax UTR number"
       page.getElementById("review-tbl__name-and-address_heading").text mustBe "Company address"
-      page.getElementById("review-tbl__contact-details_heading").text mustBe "Contact"
+      page.getElementById("review-tbl__contact-details_fullname_heading").text mustBe "Contact name"
+      page.getElementById("review-tbl__contact-details_fax_heading").text mustBe "Fax number"
+      page.getElementById("review-tbl__contact-details_telephone_heading").text mustBe "Telephone number"
+      page.getElementById("review-tbl__contact-details_address_heading").text mustBe "Contact address"
     }
 
     "display the review page for 'SoleTrader' with 'Nino'" in {
@@ -185,10 +191,11 @@ class CheckYourDetailsSpec extends ViewSpec {
           |Postcode
           |United Kingdom
         """)
-      page.body().getElementById("review-tbl__contact-details_heading").text mustBe "Contact"
-      page.body().getElementById("review-tbl__contact-details").text mustBe strim("""
-          |John Doe
-          |11111111111
+      page.getElementById("review-tbl__contact-details_fullname_heading").text mustBe "Contact name"
+      page.getElementById("review-tbl__contact-details_fax_heading").text mustBe "Fax number"
+      page.getElementById("review-tbl__contact-details_telephone_heading").text mustBe "Telephone number"
+      page.getElementById("review-tbl__contact-details_address_heading").text mustBe "Contact address"
+      page.body().getElementById("review-tbl__contact-details_address").text mustBe strim("""
           |Street
           |City
           |POSTCODE
@@ -227,10 +234,11 @@ class CheckYourDetailsSpec extends ViewSpec {
           |Postcode
           |United Kingdom
         """)
-      page.body().getElementById("review-tbl__contact-details_heading").text mustBe "Contact"
-      page.body().getElementById("review-tbl__contact-details").text mustBe strim("""
-          |John Doe
-          |11111111111
+      page.getElementById("review-tbl__contact-details_fullname_heading").text mustBe "Contact name"
+      page.getElementById("review-tbl__contact-details_fax_heading").text mustBe "Fax number"
+      page.getElementById("review-tbl__contact-details_telephone_heading").text mustBe "Telephone number"
+      page.getElementById("review-tbl__contact-details_address_heading").text mustBe "Contact address"
+      page.body().getElementById("review-tbl__contact-details_address").text mustBe strim("""
           |Street
           |City
           |POSTCODE

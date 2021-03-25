@@ -138,7 +138,7 @@ class SubscriptionDetailsService @Inject()(
   private def contactDetails(view: ContactDetailsModel, isInReviewMode: Boolean)(
     implicit hc: HeaderCarrier
   ): Future[ContactDetailsModel] =
-    if (!isInReviewMode && view.useAddressFromRegistrationDetails) {
+    if (!isInReviewMode && view.useAddressFromRegistrationDetails.contains(true)) {
       sessionCache.registrationDetails map { registrationDetails =>
         contactDetailsAdaptor.toContactDetailsModelWithRegistrationAddress(view, registrationDetails.address)
       }

@@ -16,131 +16,137 @@
 
 package uk.gov.hmrc.customs.rosmfrontend.controllers.subscription
 
-import javax.inject.{Inject, Singleton}
 import play.api.Application
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
-import uk.gov.hmrc.customs.rosmfrontend.controllers.routes._
 import uk.gov.hmrc.customs.rosmfrontend.controllers.email.routes.CheckYourEmailController
-import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{
-  ContactDetailsSubscriptionFlowPageGetEori,
-  ContactDetailsSubscriptionFlowPageMigrate
-}
-import uk.gov.hmrc.customs.rosmfrontend.domain.{LoggedInUserWithEnrolments, NA}
-import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{AddressViewModel, ContactDetailsViewModel}
-import uk.gov.hmrc.customs.rosmfrontend.forms.subscription.ContactDetailsForm.contactDetailsCreateForm
+import uk.gov.hmrc.customs.rosmfrontend.controllers.routes._
+import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{ContactDetailsSubscriptionFlowPageGetEori, ContactDetailsSubscriptionFlowPageMigrate}
+import uk.gov.hmrc.customs.rosmfrontend.domain.{EtmpOrganisationType, LoggedInUserWithEnrolments, NA}
+import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactPersonViewModel.{fromContactDetailsModel, toContactDetailsModel}
+import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{AddressViewModel, ContactDetailsModel, ContactPersonViewModel}
+import uk.gov.hmrc.customs.rosmfrontend.forms.subscription.ContactDetailsForm._
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.{RequestSessionData, SessionCache}
-import uk.gov.hmrc.customs.rosmfrontend.services.countries.Countries
 import uk.gov.hmrc.customs.rosmfrontend.services.mapping.RegistrationDetailsCreator
-import uk.gov.hmrc.customs.rosmfrontend.services.organisation.OrgTypeLookup
 import uk.gov.hmrc.customs.rosmfrontend.services.registration.RegistrationDetailsService
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.{SubscriptionBusinessService, SubscriptionDetailsService}
 import uk.gov.hmrc.customs.rosmfrontend.views.html.subscription.contact_details
 import uk.gov.hmrc.http.HeaderCarrier
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class ContactDetailsController @Inject()(
-  override val currentApp: Application,
-  override val authConnector: AuthConnector,
-  subscriptionBusinessService: SubscriptionBusinessService,
-  requestSessionData: RequestSessionData,
-  sessionCache: SessionCache,
-  subscriptionFlowManager: SubscriptionFlowManager,
-  subscriptionDetailsService: SubscriptionDetailsService,
-  countries: Countries,
-  orgTypeLookup: OrgTypeLookup,
-  registrationDetailsService: RegistrationDetailsService,
-  mcc: MessagesControllerComponents,
-  contactDetailsView: contact_details,
-  regDetailsCreator: RegistrationDetailsCreator
+    override val currentApp: Application,
+    override val authConnector: AuthConnector,
+    subscriptionBusinessService: SubscriptionBusinessService,
+    requestSessionData: RequestSessionData,
+    sessionCache: SessionCache,
+    subscriptionFlowManager: SubscriptionFlowManager,
+    subscriptionDetailsService: SubscriptionDetailsService,
+    registrationDetailsService: RegistrationDetailsService,
+    mcc: MessagesControllerComponents,
+    contactDetailsView: contact_details,
+    regDetailsCreator: RegistrationDetailsCreator
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
   def createForm(journey: Journey.Value): Action[AnyContent] =
-    ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUserWithEnrolments =>
-      journey match {
-        case Journey.Migrate =>
-          val f = for {
-            orgType <- orgTypeLookup.etmpOrgType
+    ggAuthorisedUserWithEnrolmentsAction {
+      implicit request => _: LoggedInUserWithEnrolments =>
+        val orgType = requestSessionData.userSelectedOrganisationType.map(EtmpOrganisationType(_))
 
-            cachedCustomsId <- orgType match {
-              case Some(NA) => subscriptionDetailsService.cachedCustomsId
-              case _        => Future.successful(None)
-            }
-
-            cachedNameIdDetails <- orgType match {
-              case Some(NA) => Future.successful(None)
-              case _        => subscriptionDetailsService.cachedNameIdDetails
-            }
-          } yield {
-            (cachedCustomsId, cachedNameIdDetails) match {
-              case (None, None) => populateFormGYE(journey)(false)
-              case _ =>
-                Future.successful(
-                  Redirect(
-                    subscriptionFlowManager
-                      .stepInformation(ContactDetailsSubscriptionFlowPageMigrate)
-                      .nextPage
-                      .url
+        journey match {
+          case Journey.Migrate =>
+            val f = for {
+              cachedCustomsId <- orgType match {
+                case Some(NA) => subscriptionDetailsService.cachedCustomsId
+                case _        => Future.successful(None)
+              }
+              cachedNameIdDetails <- orgType match {
+                case Some(NA) => Future.successful(None)
+                case _        => subscriptionDetailsService.cachedNameIdDetails
+              }
+            } yield {
+              (cachedCustomsId, cachedNameIdDetails) match {
+                case (None, None) => populateFormGYE(journey)(false)
+                case _ =>
+                  Future.successful(
+                    Redirect(
+                      subscriptionFlowManager
+                        .stepInformation(
+                          ContactDetailsSubscriptionFlowPageMigrate)
+                        .nextPage
+                        .url
+                    )
                   )
-                )
+              }
             }
-          }
-          f.flatMap(identity)
-        case Journey.GetYourEORI => populateFormGYE(journey)(false)
-      }
+            f.flatMap(identity)
+          case Journey.GetYourEORI => populateFormGYE(journey)(false)
+        }
     }
 
   def reviewForm(journey: Journey.Value): Action[AnyContent] =
-    ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUserWithEnrolments =>
-      journey match {
-        case Journey.Migrate => populateFormGYE(journey)(true)
-        case _               => populateFormGYE(journey)(true)
-      }
+    ggAuthorisedUserWithEnrolmentsAction {
+      implicit request => _: LoggedInUserWithEnrolments =>
+        journey match {
+          case Journey.Migrate => populateFormGYE(journey)(true)
+          case _               => populateFormGYE(journey)(true)
+        }
     }
 
-  private def populateFormGYE(journey: Journey.Value)(isInReviewMode: Boolean)(implicit request: Request[AnyContent]) = {
+  private def populateFormGYE(journey: Journey.Value)(isInReviewMode: Boolean)(
+      implicit request: Request[AnyContent]) = {
     for {
       email <- sessionCache.mayBeEmail
       contactDetails <- subscriptionBusinessService.cachedContactDetailsModel
     } yield {
       if (email.isDefined) {
-        populateOkView(contactDetails.map(_.toContactDetailsViewModel), email, isInReviewMode = isInReviewMode, journey)
+        populateOkView(contactDetails.map(fromContactDetailsModel),
+                       email,
+                       isInReviewMode = isInReviewMode,
+                       journey)
       } else {
-        Future.successful(Redirect(CheckYourEmailController.emailConfirmed(journey)))
+        Future.successful(
+          Redirect(CheckYourEmailController.emailConfirmed(journey)))
       }
     }
   }.flatMap(identity)
 
-  def submit(isInReviewMode: Boolean, journey: Journey.Value): Action[AnyContent] =
-    ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUserWithEnrolments =>
-      sessionCache.email flatMap { email =>
-        contactDetailsCreateForm().bindFromRequest.fold(
-          formWithErrors => {
-            createContactDetails(journey).map { contactDetails =>
-              BadRequest(
-                contactDetailsView(formWithErrors, countries.all, contactDetails, Some(email), isInReviewMode, journey)
-              )
+  def submit(isInReviewMode: Boolean,
+             journey: Journey.Value): Action[AnyContent] =
+    ggAuthorisedUserWithEnrolmentsAction {
+      implicit request => _: LoggedInUserWithEnrolments =>
+        sessionCache.email flatMap { email =>
+          contactPersonDetailForm().bindFromRequest.fold(
+            formWithErrors => {
+              createContactDetails(journey).map { contactDetails =>
+                BadRequest(
+                  contactDetailsView(formWithErrors,
+                                     Some(email),
+                                     isInReviewMode,
+                                     journey)
+                )
+              }
+            },
+            formData => {
+              journey match {
+                case Journey.Migrate =>
+                  storeContactDetails(formData, email, isInReviewMode, journey)
+                case _ =>
+                  storeContactDetails(formData, email, isInReviewMode, journey)
+              }
             }
-          },
-          formData => {
-            journey match {
-              case Journey.Migrate =>
-                storeContactDetailsMigrate(formData, email, isInReviewMode, journey)
-              case _ =>
-                storeContactDetails(formData, email, isInReviewMode, journey)
-            }
-          }
-        )
-      }
+          )
+        }
     }
 
   private def createContactDetails(
-    journey: Journey.Value
+      journey: Journey.Value
   )(implicit request: Request[AnyContent]): Future[AddressViewModel] =
     sessionCache.subscriptionDetails flatMap { sd =>
       sd.contactDetails match {
@@ -156,42 +162,47 @@ class ContactDetailsController @Inject()(
         case _ =>
           journey match {
             case Journey.GetYourEORI =>
-              sessionCache.registrationDetails.map(rd => AddressViewModel(rd.address))
+              sessionCache.registrationDetails.map(rd =>
+                AddressViewModel(rd.address))
             case _ =>
               subscriptionDetailsService.cachedAddressDetails.map {
                 case Some(addressViewModel) => addressViewModel
                 case _ =>
-                  throw new IllegalStateException("No addressViewModel details found in cache")
+                  throw new IllegalStateException(
+                    "No addressViewModel details found in cache")
               }
           }
       }
     }
 
-  private def clearFieldsIfNecessary(cdm: ContactDetailsViewModel, isInReviewMode: Boolean): ContactDetailsViewModel =
-    if (!isInReviewMode && cdm.useAddressFromRegistrationDetails)
-      cdm.copy(postcode = None, city = None, countryCode = None, street = None)
-    else cdm
 
   private def populateOkView(
-    contactDetailsModel: Option[ContactDetailsViewModel],
-    email: Option[String],
-    isInReviewMode: Boolean,
-    journey: Journey.Value
-  )(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[Result] = {
-    val form = contactDetailsModel
-      .map(clearFieldsIfNecessary(_, isInReviewMode))
-      .fold(contactDetailsCreateForm())(f => contactDetailsCreateForm().fill(f))
+      contactDetailsModel: Option[ContactPersonViewModel],
+      email: Option[String],
+      isInReviewMode: Boolean,
+      journey: Journey.Value
+  )(implicit hc: HeaderCarrier,
+    request: Request[AnyContent]): Future[Result] = {
 
-    createContactDetails(journey) map (
-      contactDetails => Ok(contactDetailsView(form, countries.all, contactDetails, email, isInReviewMode, journey))
-    )
+    val form =  if (isInReviewMode) {
+      contactDetailsModel.fold(contactPersonDetailForm())(c =>contactPersonDetailForm().fill(c) )
+    } else {
+      contactPersonDetailForm()
+    }
+
+   Future.successful(Ok(
+      contactDetailsView(form,
+        email,
+        isInReviewMode,
+        journey)))
+
   }
 
   private def storeContactDetailsMigrate(
-    formData: ContactDetailsViewModel,
-    email: String,
-    isInReviewMode: Boolean,
-    journey: Journey.Value
+      formData: ContactPersonViewModel,
+      email: String,
+      isInReviewMode: Boolean,
+      journey: Journey.Value
   )(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[Result] = {
     for {
       cachedAddressDetails <- subscriptionDetailsService.cachedAddressDetails
@@ -205,36 +216,44 @@ class ContactDetailsController @Inject()(
   }.flatMap(identity)
 
   private def storeContactDetails(
-    formData: ContactDetailsViewModel,
-    email: String,
-    inReviewMode: Boolean,
-    journey: Journey.Value
-  )(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[Result] =
-    subscriptionDetailsService
-      .cacheContactDetails(
-        formData.copy(emailAddress = Some(email)).toContactDetailsModel,
-        isInReviewMode = inReviewMode
-      )
-      .map(
-        _ =>
-          (inReviewMode, journey) match {
-            case (true, _) =>
-              Redirect(DetermineReviewPageController.determineRoute(journey))
-            case (_, Journey.GetYourEORI) =>
-              Redirect(
-                subscriptionFlowManager
-                  .stepInformation(ContactDetailsSubscriptionFlowPageGetEori)
-                  .nextPage
-                  .url
-              )
-            case (_, _) =>
-              Redirect(
-                subscriptionFlowManager
-                  .stepInformation(ContactDetailsSubscriptionFlowPageMigrate)
-                  .nextPage
-                  .url
-              )
-        }
-      )
+      formData: ContactPersonViewModel,
+      email: String,
+      inReviewMode: Boolean,
+      journey: Journey.Value
+  )(implicit hc: HeaderCarrier,
+    request: Request[AnyContent]): Future[Result] = {
 
+    for {
+      mayBeContactDetails <- sessionCache.subscriptionDetails.map(
+        _.contactDetails)
+      contactDetails = mayBeContactDetails
+        .map(
+          ContactDetailsModel(_, formData.copy(emailAddress = Option(email))))
+        .getOrElse(toContactDetailsModel(formData.copy(emailAddress = Option(email))))
+      _ <- subscriptionDetailsService
+        .cacheContactDetails(
+          contactDetails,
+          isInReviewMode = inReviewMode
+        )
+    } yield {
+      (inReviewMode, journey) match {
+        case (true, _) =>
+          Redirect(DetermineReviewPageController.determineRoute(journey))
+        case (_, Journey.GetYourEORI) =>
+          Redirect(
+            subscriptionFlowManager
+              .stepInformation(ContactDetailsSubscriptionFlowPageGetEori)
+              .nextPage
+              .url
+          )
+        case (_, _) =>
+          Redirect(
+            subscriptionFlowManager
+              .stepInformation(ContactDetailsSubscriptionFlowPageMigrate)
+              .nextPage
+              .url
+          )
+      }
+    }
+  }
 }

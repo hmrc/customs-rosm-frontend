@@ -40,6 +40,10 @@
     elements.args.getOrElse('_isLabelH1, false).asInstanceOf[Boolean]
 }
 
+@appendClass = @{
+ elements.args.getOrElse('_appendClass, "").asInstanceOf[String]
+}
+
 <div id="@elements.field.name-outer" class="form-group @if(!isLabelH1 && allErrors.nonEmpty) {form-group-error}">
     @if(isLabelH1) {
     <h1>
@@ -82,7 +86,7 @@
             }
             name="@elements.field.name"
             id="@elements.field.name"
-            class="form-control @if(allErrors.nonEmpty) {form-control-error}"
+            class="form-control @appendClass @if(allErrors.nonEmpty) {form-control-error}"
             value="@elements.field.value" />
     </div>
 

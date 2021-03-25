@@ -22,7 +22,7 @@ import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes._
-import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.{SubscriptionCreateController, _}
+import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.SubscriptionCreateController
 import uk.gov.hmrc.customs.rosmfrontend.domain.RegisterWithEoriAndIdResponse._
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.registration.UserLocation

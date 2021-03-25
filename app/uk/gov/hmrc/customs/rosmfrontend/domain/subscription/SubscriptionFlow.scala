@@ -24,13 +24,18 @@ object SubscriptionFlows {
 
   private val individualFlowConfig = createFlowConfig(
     Journey.GetYourEORI,
-    List(ContactDetailsSubscriptionFlowPageGetEori, EoriConsentSubscriptionFlowPage)
+    List(ContactDetailsSubscriptionFlowPageGetEori,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
+      ContactDetailsAddressSubscriptionFlowPageGetEori,
+      EoriConsentSubscriptionFlowPage)
   )
 
   private val soleTraderFlowConfig = createFlowConfig(
     Journey.GetYourEORI,
     List(
       ContactDetailsSubscriptionFlowPageGetEori,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
+      ContactDetailsAddressSubscriptionFlowPageGetEori,
       SicCodeSubscriptionFlowPage,
       VatRegisteredUkSubscriptionFlowPage,
       VatDetailsSubscriptionFlowPage,
@@ -46,10 +51,11 @@ object SubscriptionFlows {
     List(
       DateOfEstablishmentSubscriptionFlowPage,
       ContactDetailsSubscriptionFlowPageGetEori,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
+      ContactDetailsAddressSubscriptionFlowPageGetEori,
       BusinessShortNameSubscriptionFlowPage,
       SicCodeSubscriptionFlowPage,
       VatRegisteredUkSubscriptionFlowPage,
-      //VatGroupFlowPage,
       VatDetailsSubscriptionFlowPage,
       VatRegisteredEuSubscriptionFlowPage,
       VatEUIdsSubscriptionFlowPage,
@@ -62,6 +68,8 @@ object SubscriptionFlows {
     List(
       DateOfEstablishmentSubscriptionFlowPage,
       ContactDetailsSubscriptionFlowPageGetEori,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
+      ContactDetailsAddressSubscriptionFlowPageGetEori,
       BusinessShortNameSubscriptionFlowPage,
       SicCodeSubscriptionFlowPage,
       VatRegisteredUkSubscriptionFlowPage,
@@ -75,13 +83,18 @@ object SubscriptionFlows {
 
   private val thirdCountryIndividualFlowConfig = createFlowConfig(
     Journey.GetYourEORI,
-    List(ContactDetailsSubscriptionFlowPageGetEori, EoriConsentSubscriptionFlowPage)
+    List(ContactDetailsSubscriptionFlowPageGetEori,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
+      ContactDetailsAddressSubscriptionFlowPageGetEori,
+      EoriConsentSubscriptionFlowPage)
   )
 
   private val thirdCountrySoleTraderFlowConfig = createFlowConfig(
     Journey.GetYourEORI,
     List(
       ContactDetailsSubscriptionFlowPageGetEori,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
+      ContactDetailsAddressSubscriptionFlowPageGetEori,
       SicCodeSubscriptionFlowPage,
       VatRegisteredUkSubscriptionFlowPage,
       VatDetailsSubscriptionFlowPage,
@@ -97,10 +110,11 @@ object SubscriptionFlows {
     List(
       DateOfEstablishmentSubscriptionFlowPage,
       ContactDetailsSubscriptionFlowPageGetEori,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
+      ContactDetailsAddressSubscriptionFlowPageGetEori,
       BusinessShortNameSubscriptionFlowPage,
       SicCodeSubscriptionFlowPage,
       VatRegisteredUkSubscriptionFlowPage,
-      //VatGroupFlowPage,
       VatDetailsSubscriptionFlowPage,
       VatRegisteredEuSubscriptionFlowPage,
       VatEUIdsSubscriptionFlowPage,
@@ -135,7 +149,9 @@ object SubscriptionFlows {
       EoriNumberSubscriptionFlowPage,
       NameDobDetailsSubscriptionFlowPage,
       AddressDetailsSubscriptionFlowPage,
-      ContactDetailsSubscriptionFlowPageMigrate
+      ContactDetailsSubscriptionFlowPageMigrate,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageMigrate,
+      ContactDetailsAddressSubscriptionFlowPageMigrate
     )
   )
 
@@ -147,7 +163,9 @@ object SubscriptionFlows {
       UtrSubscriptionFlowPage,
       NinoSubscriptionFlowPage,
       AddressDetailsSubscriptionFlowPage,
-      ContactDetailsSubscriptionFlowPageMigrate
+      ContactDetailsSubscriptionFlowPageMigrate,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageMigrate,
+      ContactDetailsAddressSubscriptionFlowPageMigrate
     )
   )
 
@@ -158,7 +176,9 @@ object SubscriptionFlows {
       NameDetailsSubscriptionFlowPage,
       AddressDetailsSubscriptionFlowPage,
       RowDateOfEstablishmentSubscriptionFlowPage,
-      ContactDetailsSubscriptionFlowPageMigrate
+      ContactDetailsSubscriptionFlowPageMigrate,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageMigrate,
+      ContactDetailsAddressSubscriptionFlowPageMigrate
     )
   )
 
@@ -170,7 +190,9 @@ object SubscriptionFlows {
       UtrSubscriptionFlowPage,
       AddressDetailsSubscriptionFlowPage,
       RowDateOfEstablishmentSubscriptionFlowPage,
-      ContactDetailsSubscriptionFlowPageMigrate
+      ContactDetailsSubscriptionFlowPageMigrate,
+      ContactDetailsIsThisRightAddressSubscriptionFlowPageMigrate,
+      ContactDetailsAddressSubscriptionFlowPageMigrate
     )
   )
 
@@ -276,12 +298,39 @@ case object ContactDetailsSubscriptionFlowPageGetEori
         .url
     )
 
+case object ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori
+  extends SubscriptionPage(
+    uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsIsRightAddressController
+      .createForm(journey = Journey.GetYourEORI)
+      .url
+  )
+
+case object ContactDetailsAddressSubscriptionFlowPageGetEori
+  extends SubscriptionPage(
+    uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsAddressController
+      .createForm(journey = Journey.GetYourEORI)
+      .url
+  )
 case object ContactDetailsSubscriptionFlowPageMigrate
     extends SubscriptionPage(
       uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsController
         .createForm(journey = Journey.Migrate)
         .url
     )
+
+case object ContactDetailsIsThisRightAddressSubscriptionFlowPageMigrate
+  extends SubscriptionPage(
+    uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsIsRightAddressController
+      .createForm(journey = Journey.Migrate)
+      .url
+  )
+
+case object ContactDetailsAddressSubscriptionFlowPageMigrate
+  extends SubscriptionPage(
+    uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsAddressController
+      .createForm(journey = Journey.Migrate)
+      .url
+  )
 
 case object UtrSubscriptionFlowPage
     extends SubscriptionPage(

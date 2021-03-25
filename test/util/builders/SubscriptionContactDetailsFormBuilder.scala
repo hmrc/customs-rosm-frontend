@@ -17,7 +17,7 @@
 package util.builders
 
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.ContactDetails
-import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactDetailsModel
+import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{ContactDetailsModel, ContactPersonViewModel}
 
 object SubscriptionContactDetailsFormBuilder {
 
@@ -49,6 +49,11 @@ object SubscriptionContactDetailsFormBuilder {
     emailFieldName -> Email,
     telephoneFieldName -> Telephone,
     useRegisteredAddressFlagFieldName -> "true"
+  )
+  val createFormMandatoryPersonDetailsFieldsMap: Map[String, String] = Map(
+    fullNameFieldName -> FullName,
+    emailFieldName -> Email,
+    telephoneFieldName -> Telephone
   )
 
   val editFormFields: Map[String, String] = Map(
@@ -83,7 +88,7 @@ object SubscriptionContactDetailsFormBuilder {
     city = Some(City),
     postcode = Some(Postcode),
     countryCode = Some(RevisedCountryCode),
-    useAddressFromRegistrationDetails = false
+    useAddressFromRegistrationDetails = Some(false)
   )
 
   val contactDetailsModel = ContactDetailsModel(
@@ -95,11 +100,11 @@ object SubscriptionContactDetailsFormBuilder {
     city = Some(City),
     postcode = Some(Postcode),
     countryCode = Some(CountryCode),
-    useAddressFromRegistrationDetails = false
+    useAddressFromRegistrationDetails = Some(false)
   )
 
   val contactDetailsModelWithRegisteredAddress: ContactDetailsModel =
-    contactDetailsModel.copy(useAddressFromRegistrationDetails = true)
+    contactDetailsModel.copy(useAddressFromRegistrationDetails = Some(true))
 
   val createFormMandatoryFieldsWhenNotUsingRegAddressMap: Map[String, String] = Map(
     fullNameFieldName -> FullName,
@@ -132,7 +137,7 @@ object SubscriptionContactDetailsFormBuilder {
     city = Some(City),
     postcode = Some(Postcode),
     countryCode = Some(CountryCode),
-    useAddressFromRegistrationDetails = false
+    useAddressFromRegistrationDetails = Some(false)
   )
 
   val createFormAllFieldsWhenUseRegAddressMap: Map[String, String] = Map(
@@ -141,6 +146,26 @@ object SubscriptionContactDetailsFormBuilder {
     telephoneFieldName -> Telephone,
     faxFieldName -> Fax,
     useRegisteredAddressFlagFieldName -> "true"
+  )
+  val createFormPersonDetailsMap: Map[String, String] = Map(
+    fullNameFieldName -> FullName,
+    emailFieldName -> Email,
+    telephoneFieldName -> Telephone,
+    faxFieldName -> Fax,
+  )
+
+  val createFormAddressMap: Map[String, String] = Map(
+    streetFieldName -> Street,
+    cityFieldName -> City,
+    postcodeFieldName -> Postcode,
+    countryCodeFieldName -> CountryCode,
+  )
+
+  val createFormAddressEmptyFormMap: Map[String, String] = Map(
+    streetFieldName -> "",
+    cityFieldName -> "",
+    postcodeFieldName -> "",
+    countryCodeFieldName -> "",
   )
 
   val createContactDetailsViewModelWhenUseRegAddress = ContactDetailsModel(
@@ -152,7 +177,14 @@ object SubscriptionContactDetailsFormBuilder {
     city = None,
     postcode = None,
     countryCode = None,
-    useAddressFromRegistrationDetails = true
+    useAddressFromRegistrationDetails = None
+  )
+
+  val createContactDetailsPersonViewModel = ContactPersonViewModel(
+    fullName = FullName,
+    emailAddress = Some(Email),
+    telephone = Telephone,
+    fax = Some(Fax)
   )
 
   val createFormAllFieldsEmptyMap: Map[String, String] = Map(
@@ -163,4 +195,10 @@ object SubscriptionContactDetailsFormBuilder {
     useRegisteredAddressFlagFieldName -> ""
   )
 
+  val createFormAllFieldsPersonDetailsEmptyMap: Map[String, String] = Map(
+    fullNameFieldName -> "",
+    emailFieldName -> "",
+    telephoneFieldName -> "",
+    faxFieldName -> ""
+  )
 }

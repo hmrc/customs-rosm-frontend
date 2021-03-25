@@ -1202,6 +1202,19 @@ cds.sole-trader.address-check.field-error.yes-no-answer=Select yes if these deta
 
 #contact details
 cds.subscription.contact-details.page.title=Who can we contact?
+cds.subscription.contact-details.is-this-address.title=Is this the contact address you want to use?
+cds.subscription.contact-details.company.enter-address.title=Enter the company's contact address
+cds.subscription.contact-details.partnership.enter-address.title=Enter the partnership's contact address
+cds.subscription.contact-details.telephone.review.label=Telephone number
+cds.subscription.contact-details.fax.review.label=Fax number
+cds.subscription.contact-details.address.review.label=Contact address
+cds.subscription.contact-details.name.review.label=Contact name
+cds.subscription.contact-details.email.review.label=Email address
+cds.subscription.contact-details.enter-address.title=Enter your contact address
+cds.subscription.contact-details.is-this-address.yes=Yes
+cds.subscription.contact-details.is-this-address.no=No, I need to change my contact address
+cds.subscription.is-this-contact-address.yes-no-answer=Tell us if the contact address is right
+
 cds.subscription.contact-details.steps=contact
 cds.subscription.contact-details.heading=Who can we contact?
 cds.subscription.contact-details.intro=We will use these details to contact you about your EORI number. We will also use them to contact you if there are any issues with your customs activities.

@@ -41,6 +41,15 @@ class RegistrationReviewPage extends WebPage {
 
   val UkVatDetailsChangeLinkId = "review-tbl__gb-vat_change"
 
+  val ContactDetailsAddressXPath = "//dd[@id='review-tbl__contact_address']"
+  val ContactDetailsAddressChangeXPath = "//a[@id='review-tbl__contact_address_change']"
+
+  val ContactDetailsNameXPath = "//dd[@id='review-tbl__fullname']"
+
+  val ContactDetailsFaxNoXPath = "//dd[@id='review-tbl__faxnumber']"
+
+  val ContactDetailsTelephoneXPath = "//dd[@id='review-tbl__telephone']"
+
   val ContactDetailsXPath = "//dd[@id='review-tbl__contact']"
 
   val ContactDetailsReviewLinkXPath = "//a[@id='review-tbl__contact_change']"
