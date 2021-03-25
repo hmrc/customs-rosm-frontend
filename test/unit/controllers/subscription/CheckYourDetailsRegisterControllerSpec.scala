@@ -252,11 +252,10 @@ class CheckYourDetailsRegisterControllerSpec
         val page = CdsPage(bodyOf(result))
         page.getElementsText(RegistrationReviewPage.UKVatIdentificationNumberXpath) shouldBe NotEntered
         page.getElementsText(RegistrationReviewPage.EUVatDetailsXpath) shouldBe NotEntered
-        page.getElementsText(RegistrationReviewPage.ContactDetailsXPath) shouldBe
+        page.getElementsText(RegistrationReviewPage.ContactDetailsNameXPath) shouldBe  contactUkDetailsModelWithMandatoryValuesOnly.fullName
+          page.getElementsText(RegistrationReviewPage.ContactDetailsTelephoneXPath) shouldBe contactUkDetailsModelWithMandatoryValuesOnly.telephone
+        page.getElementsText(RegistrationReviewPage.ContactDetailsAddressXPath) shouldBe
           strim(s"""
-                 |${contactUkDetailsModelWithMandatoryValuesOnly.fullName}
-                 |${contactUkDetailsModelWithMandatoryValuesOnly.emailAddress}
-                 |${contactUkDetailsModelWithMandatoryValuesOnly.telephone}
                  |${contactUkDetailsModelWithMandatoryValuesOnly.street.get}
                  |${contactUkDetailsModelWithMandatoryValuesOnly.city.get}
                  |United Kingdom
@@ -399,16 +398,17 @@ class CheckYourDetailsRegisterControllerSpec
 
       showForm(isIndividualSubscriptionFlow = true) { result =>
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(RegistrationReviewPage.ContactDetailsXPath) shouldBe
+        page.getElementsText(RegistrationReviewPage.ContactDetailsNameXPath) shouldBe  contactUkDetailsModelWithMandatoryValuesOnly.fullName
+        page.getElementsText(RegistrationReviewPage.ContactDetailsTelephoneXPath) shouldBe contactUkDetailsModelWithMandatoryValuesOnly.telephone
+        page.getElementsText(RegistrationReviewPage.ContactDetailsFaxNoXPath) shouldBe contactDetailsModelWithAllValues.fax.get
+
+        page.getElementsText(RegistrationReviewPage.ContactDetailsAddressXPath) shouldBe
           strim(s"""
-                 |${contactDetailsModelWithAllValues.fullName}
-                 |${contactDetailsModelWithAllValues.emailAddress}
-                 |${contactDetailsModelWithAllValues.telephone}
-                 |${messages("cds.review-page.fax-prefix")} ${contactDetailsModelWithAllValues.fax.get}
-                 |${contactDetailsModelWithAllValues.street.get}
-                 |${contactDetailsModelWithAllValues.city.get}
-                 |${contactDetailsModelWithAllValues.postcode.get} France
+                   |${contactUkDetailsModelWithMandatoryValuesOnly.street.get}
+                   |${contactUkDetailsModelWithMandatoryValuesOnly.city.get}
+                   |${contactDetailsModelWithAllValues.postcode.get} France
               """)
+
 
         page.elementIsPresent(RegistrationReviewPage.ShortNameXPath) shouldBe false
         page.elementIsPresent(RegistrationReviewPage.DateOfEstablishmentXPath) shouldBe false
@@ -455,21 +455,20 @@ class CheckYourDetailsRegisterControllerSpec
         .changeAnswerText("Date of establishment")
       page.getElementsHref(SubscriptionExistingDetailsReviewPage.DateOfEstablishmentReviewLinkXPath) shouldBe "/customs/register-for-cds/date-established/review"
 
-      page.getElementsText(SubscriptionExistingDetailsReviewPage.ContactDetailsXPathLabel) shouldBe "Contact"
-      page.getElementsText(SubscriptionExistingDetailsReviewPage.ContactDetailsXPath) shouldBe
-        strim("""
-            |John Doe
-            |john.doe@example.com
-            |01632961234
-            |fax: 01632961234
-            |Line 1
-            |city name
-            |SW1A 2BQ
-            |France
-          """)
-      page.getElementsText(SubscriptionExistingDetailsReviewPage.ContactDetailsReviewLinkXPath) shouldBe SubscriptionExistingDetailsReviewPage
-        .changeAnswerText("Contact")
-      page.getElementsHref(SubscriptionExistingDetailsReviewPage.ContactDetailsReviewLinkXPath) shouldBe "/customs/register-for-cds/contact-details/review"
+
+      page.getElementsText(RegistrationReviewPage.ContactDetailsNameXPath) shouldBe  contactUkDetailsModelWithMandatoryValuesOnly.fullName
+      page.getElementsText(RegistrationReviewPage.ContactDetailsTelephoneXPath) shouldBe contactUkDetailsModelWithMandatoryValuesOnly.telephone
+      page.getElementsText(RegistrationReviewPage.ContactDetailsFaxNoXPath) shouldBe contactDetailsModelWithAllValues.fax.get
+
+      page.getElementsText(RegistrationReviewPage.ContactDetailsAddressXPath) shouldBe
+        strim(s"""
+                 |${contactUkDetailsModelWithMandatoryValuesOnly.street.get}
+                 |${contactUkDetailsModelWithMandatoryValuesOnly.city.get}
+                 |${contactDetailsModelWithAllValues.postcode.get} France
+              """)
+
+
+      page.getElementsHref(RegistrationReviewPage.ContactDetailsAddressChangeXPath) shouldBe "/customs/register-for-cds/contact-details/is-this-right-address/review"
 
       page.getElementsText(SubscriptionExistingDetailsReviewPage.ShortNameXPathLabel) shouldBe "Shortened name"
       page.getElementsText(SubscriptionExistingDetailsReviewPage.ShortNameXPath) shouldBe "Short Name"
@@ -549,21 +548,21 @@ class CheckYourDetailsRegisterControllerSpec
         .changeAnswerText("Date of establishment")
       page.getElementsHref(SubscriptionExistingDetailsReviewPage.DateOfEstablishmentReviewLinkXPath) shouldBe "/customs/register-for-cds/date-established/review"
 
-      page.getElementsText(SubscriptionExistingDetailsReviewPage.ContactDetailsXPathLabel) shouldBe "Contact"
-      page.getElementsText(SubscriptionExistingDetailsReviewPage.ContactDetailsXPath) shouldBe
-        strim("""
-            |John Doe
-            |john.doe@example.com
-            |01632961234
-            |fax: 01632961234
-            |Line 1
-            |city name
-            |SW1A 2BQ
-            |France
-          """)
-      page.getElementsText(SubscriptionExistingDetailsReviewPage.ContactDetailsReviewLinkXPath) shouldBe SubscriptionExistingDetailsReviewPage
-        .changeAnswerText("Contact")
-      page.getElementsHref(SubscriptionExistingDetailsReviewPage.ContactDetailsReviewLinkXPath) shouldBe "/customs/register-for-cds/contact-details/review"
+
+
+      page.getElementsText(RegistrationReviewPage.ContactDetailsNameXPath) shouldBe  contactUkDetailsModelWithMandatoryValuesOnly.fullName
+      page.getElementsText(RegistrationReviewPage.ContactDetailsTelephoneXPath) shouldBe contactUkDetailsModelWithMandatoryValuesOnly.telephone
+      page.getElementsText(RegistrationReviewPage.ContactDetailsFaxNoXPath) shouldBe contactDetailsModelWithAllValues.fax.get
+
+      page.getElementsText(RegistrationReviewPage.ContactDetailsAddressXPath) shouldBe
+        strim(s"""
+                 |${contactUkDetailsModelWithMandatoryValuesOnly.street.get}
+                 |${contactUkDetailsModelWithMandatoryValuesOnly.city.get}
+                 |${contactDetailsModelWithAllValues.postcode.get} France
+              """)
+
+
+      page.getElementsHref(RegistrationReviewPage.ContactDetailsAddressChangeXPath) shouldBe "/customs/register-for-cds/contact-details/is-this-right-address/review"
 
       page.getElementsText(SubscriptionExistingDetailsReviewPage.ShortNameXPathLabel) shouldBe "Shortened name"
       page.getElementsText(SubscriptionExistingDetailsReviewPage.ShortNameXPath) shouldBe "Short Name"
@@ -758,17 +757,17 @@ class CheckYourDetailsRegisterControllerSpec
       case None    => ""
       case Some(x) => x
     }
+    page.getElementsText(RegistrationReviewPage.ContactDetailsNameXPath) shouldBe  contactUkDetailsModelWithMandatoryValuesOnly.fullName
+    page.getElementsText(RegistrationReviewPage.ContactDetailsTelephoneXPath) shouldBe contactUkDetailsModelWithMandatoryValuesOnly.telephone
+    page.getElementsText(RegistrationReviewPage.ContactDetailsFaxNoXPath) shouldBe contactDetailsModelWithAllValues.fax.get
 
-    page.getElementsText(RegistrationReviewPage.ContactDetailsXPath) shouldBe
+    page.getElementsText(RegistrationReviewPage.ContactDetailsAddressXPath) shouldBe
       strim(s"""
-           |${contactDetailsModelWithAllValues.fullName}
-           |${contactDetailsModelWithAllValues.emailAddress}
-           |${contactDetailsModelWithAllValues.telephone}
-           |${messages("cds.review-page.fax-prefix")} ${contactDetailsModelWithAllValues.fax.get}
-           |${contactDetailsModelWithAllValues.street.get}
-           |${contactDetailsModelWithAllValues.city.get}
-           |${contactDetailsModelWithAllValues.postcode.get} $countryString
+               |${contactUkDetailsModelWithMandatoryValuesOnly.street.get}
+               |${contactUkDetailsModelWithMandatoryValuesOnly.city.get}
+               |${contactDetailsModelWithAllValues.postcode.get} $countryString
               """)
+
   }
 
   private def assertUkVatDetailsShowValues(page: CdsPage) {

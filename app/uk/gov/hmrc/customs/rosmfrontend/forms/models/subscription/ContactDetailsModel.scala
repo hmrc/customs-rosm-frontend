@@ -42,18 +42,6 @@ case class ContactDetailsModel(
     countryCode.getOrElse("")
   )
 
-  def toContactDetailsViewModel: ContactDetailsViewModel =
-    ContactDetailsViewModel(
-      fullName,
-      Some(emailAddress),
-      telephone,
-      fax,
-      useAddressFromRegistrationDetails.get, //TODO Remove
-      street,
-      city,
-      postcode,
-      countryCode
-    )
 }
 
 object ContactDetailsModel {
@@ -89,7 +77,7 @@ object ContactDetailsModel {
 
 }
 
-case class ContactDetailsViewModel(
+case class  ContactDetailsViewModel(
     fullName: String,
     emailAddress: Option[String],
     telephone: String,
@@ -99,19 +87,8 @@ case class ContactDetailsViewModel(
     city: Option[String],
     postcode: Option[String],
     countryCode: Option[String]
-) {
-  def toContactDetailsModel: ContactDetailsModel = ContactDetailsModel(
-    fullName,
-    emailAddress.getOrElse(throw SessionTimeOutException("Email is required")),
-    telephone,
-    fax,
-    Some(useAddressFromRegistrationDetails),
-    street,
-    city,
-    postcode,
-    countryCode
-  )
-}
+)
+
 object ContactDetailsViewModel {
   implicit val jsonFormat: OFormat[ContactDetailsViewModel] =
     Json.format[ContactDetailsViewModel]

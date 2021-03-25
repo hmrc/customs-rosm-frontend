@@ -21,15 +21,13 @@ import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes._
-import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{ContactDetailsAddressSubscriptionFlowPageGetEori, ContactDetailsAddressSubscriptionFlowPageMigrate, ContactDetailsSubscriptionFlowPageMigrate}
+import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{ContactDetailsAddressSubscriptionFlowPageGetEori, ContactDetailsAddressSubscriptionFlowPageMigrate}
 import uk.gov.hmrc.customs.rosmfrontend.domain.{EtmpOrganisationType, LoggedInUserWithEnrolments}
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.AddressViewModel
 import uk.gov.hmrc.customs.rosmfrontend.forms.subscription.AddressDetailsForm.addressDetailsCreateForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.{RequestSessionData, SessionCache}
 import uk.gov.hmrc.customs.rosmfrontend.services.countries.Countries
-import uk.gov.hmrc.customs.rosmfrontend.services.mapping.RegistrationDetailsCreator
-import uk.gov.hmrc.customs.rosmfrontend.services.registration.RegistrationDetailsService
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.{SubscriptionBusinessService, SubscriptionDetailsService}
 import uk.gov.hmrc.customs.rosmfrontend.views.html.subscription.contact_address
 import uk.gov.hmrc.http.HeaderCarrier

@@ -1,0 +1,97 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.AddressViewModel
+@import uk.gov.hmrc.customs.rosmfrontend.services.countries._
+@import views.html.helper._
+@import views._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@(addressForm: Form[AddressViewModel], countries: List[Country], organisationType: Option[EtmpOrganisationType], isInReviewMode: Boolean, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+
+@labelForEUCountry(countryCode: String) = @{
+    messages(messageKeyForEUCountryCode(countryCode))
+}
+
+@messageKeyForEUCountryCode(countryCode: String) = @{
+    s"cds.country.$countryCode"
+}
+
+@isEUCountryCode(countryCode: String) = @{
+    messages.isDefinedAt(messageKeyForEUCountryCode(countryCode))
+}
+
+@isPartnership = @{
+    organisationType == Some(LLP) || organisationType == Some(Partnership)
+}
+
+@isIndividual = @{
+    organisationType == None
+}
+
+@headingAndTitle = @{
+  if (isPartnership)
+    messages("cds.subscription.contact-details.partnership.enter-address.title")
+  else if (isIndividual)
+    messages("cds.subscription.contact-details.enter-address.title")
+  else
+    messages("cds.subscription.contact-details.company.enter-address.title")
+}
+
+@countryCodeToLabel(code: String) = @{
+    code match {
+        case "GB" => messages("cds.country.GB")
+        case c if isEUCountryCode(c) => labelForEUCountry(c)
+        case nonEuCode => nonEuCode
+    }
+}
+
+@inputText(field: String, label: String, args: (Symbol, Any)*) = {
+    @helpers.inputText(addressForm)(field, label, args: _*)
+}
+
+@layout_di(headingAndTitle, AllCountriesInCountryPicker, form = Some(addressForm)) {
+
+<div class="column-two-thirds">
+
+
+    @helpers.errorSummary(addressForm)
+
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsAddressController.submit(isInReviewMode, journey), 'id -> "contactDetailsAddressForm") {
+
+        @CSRF.formField
+
+        <fieldset>
+            <legend>
+                <h1 class="heading-xlarge">@headingAndTitle</h1>
+            </legend>
+
+            <div id="contact">
+                @inputText("street", "cds.subscription.contact-details.street.label", '_appendClass -> "form-control-3-4")
+                @inputText("city", "cds.subscription.contact-details.city.label")
+                @inputText("postcode", "cds.subscription.contact-details.postcode.label")
+                @helpers.countryField(addressForm, "countryCode", "cds.subscription.contact-details.countryCode-auto-complete.label", countries)
+            </div>
+
+        </fieldset>
+        <input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>
+    }
+    @helpers.helpAndSupport()
+</div>
+}

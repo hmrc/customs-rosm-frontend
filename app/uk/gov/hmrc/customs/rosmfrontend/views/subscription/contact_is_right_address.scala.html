@@ -1,0 +1,106 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactDetailsViewModel
+@import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.AddressViewModel
+@import uk.gov.hmrc.customs.rosmfrontend.services.countries._
+@import uk.gov.hmrc.customs.customs._
+@import views.html.helper._
+@import views._
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+
+
+@this(layout_di: layout)
+@(isThisRightContactAddressForm: Form[YesNo], contactAddress: AddressViewModel,  isInReviewMode: Boolean, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+
+@messageKeyForEUCountryCode(countryCode: String) = @{
+    s"cds.country.$countryCode"
+}
+
+@labelForEUCountry(countryCode: String) = @{
+    messages(messageKeyForEUCountryCode(countryCode))
+}
+
+@isEUCountryCode(countryCode: String) = @{
+    messages.isDefinedAt(messageKeyForEUCountryCode(countryCode))
+}
+
+@countryCodeToLabel(code: String) = @{
+    code match {
+        case "GB" => messages("cds.country.GB")
+        case c if isEUCountryCode(c) => labelForEUCountry(c)
+        case nonEuCode => nonEuCode
+    }
+}
+
+@fourLineBusinessAddress = @{
+    List(contactAddress.street,
+         contactAddress.city,
+         contactAddress.postcode.getOrElse(""),
+         countryCodeToLabel(contactAddress.countryCode)
+    ).filter(_.nonEmpty)
+}
+
+
+
+@inputRadioGroup(field: String, options: Seq[(String, String)]) = {
+    @helpers.inputRadioGroup(
+    isThisRightContactAddressForm(field),
+    options,
+    Map.empty)
+}
+
+@layout_di(messages("cds.subscription.contact-details.is-this-address.title"), AllCountriesInCountryPicker, form = Some(isThisRightContactAddressForm)) {
+
+<div class="column-two-thirds">
+
+    <h1 class="heading-xlarge">@messages("cds.subscription.contact-details.is-this-address.title")</h1>
+
+    @helpers.errorSummary(isThisRightContactAddressForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
+
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsIsRightAddressController.submit(isInReviewMode, journey), 'id -> "isThisRightContactAddressForm") {
+
+    <fieldset class="form-group">
+
+        <dl class="">
+            <div id="address" class="govuk-!-margin-bottom-7">
+                <ul>
+                    <li>@contactAddress.street</li>
+                    <li>@contactAddress.city</li>
+                    <li>@contactAddress.postcode.getOrElse("")</li>
+                    <li>@countryCodeToLabel(contactAddress.countryCode)</li>
+                </ul>
+            </div>
+        </dl>
+
+    </fieldset>
+
+
+    @CSRF.formField
+
+    @inputRadioGroup(
+    "yes-no-answer",
+    Seq(
+    "true" -> messages("cds.subscription.contact-details.is-this-address.yes"),
+    "false" -> messages("cds.subscription.contact-details.is-this-address.no")
+    )
+    )
+        <input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>
+    }
+    @helpers.helpAndSupport()
+</div>
+}

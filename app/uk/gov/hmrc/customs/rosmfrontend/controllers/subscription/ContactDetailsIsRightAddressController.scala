@@ -241,9 +241,7 @@ class ContactDetailsIsRightAddressController @Inject()(
             s"$reviewLink/review"
           )
         }
-      case (true, _, true) =>
-        Future.successful(Redirect(DetermineReviewPageController.determineRoute(journey)))
-      case (_, Journey.GetYourEORI, true) =>
+      case (false, Journey.GetYourEORI, true) =>
         updateContactDetails(true, inReviewMode, journey).map { _ =>
           Redirect(
             subscriptionFlowManager
@@ -254,7 +252,7 @@ class ContactDetailsIsRightAddressController @Inject()(
           )
         }
 
-      case (_, Journey.GetYourEORI, false) =>
+      case (false, Journey.GetYourEORI, false) =>
         updateContactDetails(false, inReviewMode, journey).map { _ =>
           Redirect(
             subscriptionFlowManager
@@ -264,7 +262,7 @@ class ContactDetailsIsRightAddressController @Inject()(
               .url
           )
         }
-      case (_, Journey.Migrate, true) =>
+      case (false, Journey.Migrate, true) =>
         updateContactDetails(true, inReviewMode, journey).map { _ =>
           Redirect(
             subscriptionFlowManager
@@ -273,7 +271,7 @@ class ContactDetailsIsRightAddressController @Inject()(
               .url
           )
         }
-      case (_, Journey.Migrate, false) =>
+      case (false, Journey.Migrate, false) =>
         updateContactDetails(false, inReviewMode, journey).map { _ =>
           Redirect(
             subscriptionFlowManager
@@ -282,6 +280,8 @@ class ContactDetailsIsRightAddressController @Inject()(
               .url
           )
         }
+      case (_, _, _) =>
+        Future.successful(Redirect(DetermineReviewPageController.determineRoute(journey)))
 
     }
   }

@@ -20,17 +20,13 @@ import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation._
 import play.api.i18n.Messages
-import uk.gov.hmrc.customs.rosmfrontend.forms.FormUtils._
-import uk.gov.hmrc.customs.rosmfrontend.forms.FormValidation._
-import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{ContactDetailsViewModel, ContactPersonViewModel}
+import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactPersonViewModel
 import uk.gov.hmrc.customs.rosmfrontend.forms.subscription.SubscriptionForm._
-import uk.gov.hmrc.customs.rosmfrontend.playext.form.ConditionalMapping
-import uk.gov.voa.play.form.ConditionalMappings.isEqual
-import uk.gov.voa.play.form.MandatoryOptionalMapping
 object ContactDetailsForm {
   private val Length2 = 2
   private val yesAnswered = "true"
   private val noAnswered = "false"
+
   def contactPersonDetailForm()(implicit messages: Messages): Form[ContactPersonViewModel] =
     Form(
       mapping(
@@ -41,48 +37,6 @@ object ContactDetailsForm {
         )(ContactPersonViewModel.apply)(ContactPersonViewModel.unapply)
       )
 
-
-  def contactDetailsCreateForm()(implicit messages: Messages): Form[ContactDetailsViewModel] =
-    Form(
-      mapping(
-        "full-name" -> text.verifying(validFullName),
-        "email" -> optional(text),
-        "telephone" -> text.verifying(validPhone),
-        "fax" -> optional(text.verifying(validFax)),
-        "use-registered-address" -> validMultipleChoiceWithCustomError(
-          "cds.subscription.contact-details.error.use-registered-address"
-        ),
-        "street" -> ConditionalMapping(
-          condition = isEqual("use-registered-address", noAnswered),
-          wrapped = MandatoryOptionalMapping(text.verifying(validStreet)),
-          elseValue = (key, data) => data.get(key)
-        ),
-        "city" -> ConditionalMapping(
-          condition = isEqual("use-registered-address", noAnswered),
-          wrapped = MandatoryOptionalMapping(text.verifying(validCity)),
-          elseValue = (key, data) => data.get(key)
-        ),
-        "postcode" -> ConditionalMapping(
-          condition = isEqual("use-registered-address", noAnswered),
-          wrapped = postcodeMapping,
-          elseValue = (key, data) => data.get(key)
-        ),
-        "countryCode" -> ConditionalMapping(
-          condition = isEqual("use-registered-address", noAnswered),
-          wrapped = MandatoryOptionalMapping(
-            mandatoryString("cds.subscription.contact-details.form-error.country")(s => s.length == Length2)
-          ),
-          elseValue = (key, data) => data.get(key)
-        )
-      )(ContactDetailsViewModel.apply)(ContactDetailsViewModel.unapply)
-    )
-
-  private def validStreet: Constraint[String] =
-    Constraint({
-      case e if e.trim.isEmpty => Invalid(ValidationError("cds.subscription.contact-details.error.street"))
-      case e if e.length > 70  => Invalid(ValidationError("cds.subscription.contact-details.error.street.too-long"))
-      case _                   => Valid
-    })
 
   private def validPhone: Constraint[String] =
     Constraint({
