@@ -229,7 +229,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
       submitFormInCreateMode(YesNoFormBuilder.ValidRequest,journey = Journey.Migrate) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+          .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "next-page-url"
       }
@@ -243,7 +243,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
       submitFormInCreateMode(YesNoFormBuilder.ValidRequest,journey = Journey.Migrate) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+          .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "next-page-url"
       }
@@ -257,7 +257,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
       submitFormInCreateMode(YesNoFormBuilder.validRequestNo, journey = Journey.Migrate) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+          .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "next-page-url"
       }
@@ -292,7 +292,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
       submitFormInCreateMode(YesNoFormBuilder.ValidRequest, journey = Journey.Migrate) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+          .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "next-page-url"
       }
@@ -308,7 +308,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
       submitFormInCreateMode(YesNoFormBuilder.validRequestNo, journey = Journey.Migrate,isInReviewMode = true) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+          .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "next-page-url/review"
       }
@@ -342,7 +342,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
       submitFormInCreateMode(YesNoFormBuilder.ValidRequest) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+          .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "next-page-url"
       }
@@ -354,7 +354,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
       submitFormInCreateMode(YesNoFormBuilder.validRequestNo) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+          .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "next-page-url"
       }
@@ -386,7 +386,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
       submitFormInCreateMode(YesNoFormBuilder.ValidRequest) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+          .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "next-page-url"
       }
@@ -399,7 +399,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
       submitFormInCreateMode(YesNoFormBuilder.validRequestNo,isInReviewMode = true) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+          .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "next-page-url/review"
       }
@@ -474,7 +474,7 @@ class ContactDetailsIsThisRighAddressControllerSpec extends SubscriptionFlowSpec
   private def registerSaveContactDetailsMockSuccess() {
     when(
       mockSubscriptionDetailsHolderService
-        .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(any[HeaderCarrier])
+        .cacheContactDetails(any[ContactDetailsModel])(any[HeaderCarrier])
     ).thenReturn(Future.successful(()))
   }
 

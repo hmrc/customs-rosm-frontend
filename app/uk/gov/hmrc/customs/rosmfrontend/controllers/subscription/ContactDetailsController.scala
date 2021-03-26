@@ -22,7 +22,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.email.routes.CheckYourEmailController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes._
-import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{ContactDetailsSubscriptionFlowPageGetEori, ContactDetailsSubscriptionFlowPageMigrate}
+import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{ContactDetailsAddressSubscriptionFlowPageMigrate, ContactDetailsSubscriptionFlowPageGetEori, ContactDetailsSubscriptionFlowPageMigrate}
 import uk.gov.hmrc.customs.rosmfrontend.domain.{EtmpOrganisationType, LoggedInUserWithEnrolments, NA}
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactPersonViewModel.{fromContactDetailsModel, toContactDetailsModel}
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{AddressViewModel, ContactDetailsModel, ContactPersonViewModel}
@@ -78,7 +78,7 @@ class ContactDetailsController @Inject()(
                     Redirect(
                       subscriptionFlowManager
                         .stepInformation(
-                          ContactDetailsSubscriptionFlowPageMigrate)
+                          ContactDetailsAddressSubscriptionFlowPageMigrate)
                         .nextPage
                         .url
                     )
@@ -232,8 +232,7 @@ class ContactDetailsController @Inject()(
         .getOrElse(toContactDetailsModel(formData.copy(emailAddress = Option(email))))
       _ <- subscriptionDetailsService
         .cacheContactDetails(
-          contactDetails,
-          isInReviewMode = inReviewMode
+          contactDetails
         )
     } yield {
       (inReviewMode, journey) match {
