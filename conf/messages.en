@@ -1203,8 +1203,8 @@ cds.sole-trader.address-check.field-error.yes-no-answer=Select yes if these deta
 #contact details
 cds.subscription.contact-details.page.title=Who can we contact?
 cds.subscription.contact-details.is-this-address.title=Is this the contact address you want to use?
-cds.subscription.contact-details.company.enter-address.title=Enter the company's contact address
-cds.subscription.contact-details.partnership.enter-address.title=Enter the partnership's contact address
+cds.subscription.contact-details.company.enter-address.title=Enter the company''s contact address
+cds.subscription.contact-details.partnership.enter-address.title=Enter the partnership''s contact address
 cds.subscription.contact-details.telephone.review.label=Telephone number
 cds.subscription.contact-details.fax.review.label=Fax number
 cds.subscription.contact-details.address.review.label=Contact address

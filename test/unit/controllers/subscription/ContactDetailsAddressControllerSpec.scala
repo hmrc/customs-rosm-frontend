@@ -153,7 +153,7 @@ class ContactDetailsAddressControllerSpec
     "display the correct text in the heading and intro" in {
       showCreateForm() { result =>
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(headingXpath) shouldBe "Enter the companys contact address"
+        page.getElementsText(headingXpath) shouldBe "Enter the company's contact address"
       }
     }
 
@@ -242,7 +242,7 @@ class ContactDetailsAddressControllerSpec
       submitFormInCreateMode(createFormAddressMap) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(
+          .cacheContactDetails(any[ContactDetailsModel])(
             any[HeaderCarrier])
       }
     }
@@ -272,7 +272,7 @@ class ContactDetailsAddressControllerSpec
         result =>
           await(result)
           verify(mockSubscriptionDetailsHolderService)
-            .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(
+            .cacheContactDetails(any[ContactDetailsModel])(
               any[HeaderCarrier])
       }
     }
@@ -413,7 +413,7 @@ class ContactDetailsAddressControllerSpec
   private def registerSaveContactDetailsMockSuccess() {
     when(
       mockSubscriptionDetailsHolderService
-        .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(
+        .cacheContactDetails(any[ContactDetailsModel])(
           any[HeaderCarrier])
     ).thenReturn(Future.successful(()))
   }

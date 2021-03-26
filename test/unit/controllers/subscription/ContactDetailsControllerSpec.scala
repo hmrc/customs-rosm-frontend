@@ -177,7 +177,7 @@ class ContactDetailsControllerSpec
     case (flow, expectedLabel, orgType) =>
       s"redirect to next page in subscription flow $flow for mode create Migrate" in {
         setupMockSubscriptionFlowManager(
-          ContactDetailsSubscriptionFlowPageMigrate)
+          ContactDetailsAddressSubscriptionFlowPageMigrate)
         when(mockRegistrationDetails.address).thenReturn(defaultAddress)
 
         orgType match {
@@ -374,7 +374,7 @@ class ContactDetailsControllerSpec
       submitFormInCreateMode(createFormPersonDetailsMap) { result =>
         await(result)
         verify(mockSubscriptionDetailsHolderService)
-          .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(
+          .cacheContactDetails(any[ContactDetailsModel])(
             any[HeaderCarrier])
       }
     }
@@ -625,7 +625,7 @@ class ContactDetailsControllerSpec
   private def registerSaveContactDetailsMockSuccess() {
     when(
       mockSubscriptionDetailsHolderService
-        .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(
+        .cacheContactDetails(any[ContactDetailsModel])(
           any[HeaderCarrier])
     ).thenReturn(Future.successful(()))
   }
@@ -633,7 +633,7 @@ class ContactDetailsControllerSpec
   private def registerSaveContactDetailsMockFailure(exception: Throwable) {
     when(
       mockSubscriptionDetailsHolderService
-        .cacheContactDetails(any[ContactDetailsModel], any[Boolean])(
+        .cacheContactDetails(any[ContactDetailsModel])(
           any[HeaderCarrier])
     ).thenReturn(Future.failed(exception))
   }

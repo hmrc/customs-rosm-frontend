@@ -41,17 +41,17 @@
     organisationType == Some(LLP) || organisationType == Some(Partnership)
 }
 
-@isIndividual = @{
-    organisationType == None
+@isCompany = @{
+    organisationType == Some(CorporateBody) ||  organisationType == Some(UnincorporatedBody)
 }
 
 @headingAndTitle = @{
   if (isPartnership)
     messages("cds.subscription.contact-details.partnership.enter-address.title")
-  else if (isIndividual)
-    messages("cds.subscription.contact-details.enter-address.title")
+  else if (isCompany)
+     messages("cds.subscription.contact-details.company.enter-address.title")
   else
-    messages("cds.subscription.contact-details.company.enter-address.title")
+    messages("cds.subscription.contact-details.enter-address.title")
 }
 
 @countryCodeToLabel(code: String) = @{
