@@ -44,6 +44,9 @@ GET         /customs/:journey/matching/review-determine                         
 GET         /customs/:journey/row-utr                                              @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionController.createForm(journey: Journey.Value)
 POST        /customs/:journey/row-utr                                              @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionController.submit(journey: Journey.Value)
 
+GET         /customs/:journey/row-utr-yes-no                                       @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionYesNoController.createForm(journey: Journey.Value)
+POST        /customs/:journey/row-utr-yes-no                                       @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionYesNoController.submit(journey: Journey.Value)
+
 GET         /customs/:journey/row-nino                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionController.createForm(journey: Journey.Value)
 POST        /customs/:journey/row-nino                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionController.submit(journey: Journey.Value)
 

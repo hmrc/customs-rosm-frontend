@@ -1,0 +1,98 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@(field: play.api.data.Field,
+isYesFirst: Boolean = false,
+default: Option[Boolean] = None,
+divClass: Option[String] = None,
+legend: String = "",
+isLegendH1: Boolean = false,
+hintText: String = "",
+otherHtmlInLegend: Html = Html(""))(hiddenHtml: Html)(implicit messages: Messages)
+
+@import views.html.helper._
+
+@elements = @{
+    FieldElements(field.name, field, Html(""), args = Map.empty, messages)
+}
+
+
+@yesId = @{s"${field.name}-yes"}
+@noId = @{s"${field.name}-no"}
+@radioGroupName = @{field.name}
+
+@noRadio = {
+    <div class="multiple-choice" for="@noId">
+        <input type="radio" value="false" name="@radioGroupName" id="@noId"
+            @if(field.value.fold(default.contains(false))(_.equals("false"))) { checked="checked" }>
+        <label for="@noId">@messages("cds.no")</label>
+    </div>
+}
+
+@yesRadio = {
+    <div class="multiple-choice" for="@yesId">
+        <input type="radio" value="true" name="@radioGroupName" id="@yesId"
+            @if(field.value.fold(default.contains(true))(_.equals("true"))) { checked="checked" }>
+        <label for="@yesId">@messages("cds.yes")</label>
+    </div>
+}
+
+<div id='@{s"${field.name}-field"}' class="form-group"
+        data-trigger="js-toggle-trigger">
+        <fieldset id="@field.id-fieldset" class="inline">
+            <legend>
+                @if(isLegendH1){
+                <h1 class="heading-large">
+                    @legend
+                </h1>
+                }
+                @if(elements.hasErrors) {
+                <div class="form-group-error">
+                }
+
+                @if(!isLegendH1){
+                    <span class="heading-medium">
+                        @legend
+                    </span>
+                }
+
+                @if(hintText != "") {
+                    <p class="form-hint">@hintText</p>
+                }
+
+                @otherHtmlInLegend
+
+                @if(elements.hasErrors) {
+                    @elements.errors.map { error => <span class="error-message">@(error)</span> }
+                </div>
+                }
+            </legend>
+
+            @if(elements.hasErrors) {
+            <div class="form-group-error">
+            }
+            @if(isYesFirst) {
+                @yesRadio
+                @noRadio
+            } else  {
+                @noRadio
+                @yesRadio
+            }
+            @if(elements.hasErrors) {
+            </div>
+            }
+        </fieldset>
+</div>

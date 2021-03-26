@@ -16,21 +16,21 @@
 
 package unit.controllers.migration
 
-import common.pages.matching.{SubscriptionRowCompanyUtr, SubscriptionRowIndividualsUtr}
-import org.mockito.ArgumentMatchers.{any, eq => meq}
+import common.pages.matching.{SubscriptionRowCompanyUtrYesNo, SubscriptionRowIndividualsUtrYesNo}
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionController
+import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionYesNoController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType._
+import uk.gov.hmrc.customs.rosmfrontend.domain.NameOrganisationMatchModel
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{SubscriptionFlowInfo, SubscriptionPage}
-import uk.gov.hmrc.customs.rosmfrontend.domain.{CustomsId, NameOrganisationMatchModel}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.RequestSessionData
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetailsService
-import uk.gov.hmrc.customs.rosmfrontend.views.html.migration.match_utr_subscription
+import uk.gov.hmrc.customs.rosmfrontend.views.html.migration.match_utr_subscription_yes_no
 import uk.gov.hmrc.http.HeaderCarrier
 import unit.controllers.CdsPage
 import util.ControllerSpec
@@ -41,7 +41,7 @@ import util.builders.matching.OrganisationUtrFormBuilder._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
+class HaveUtrSubscriptionYesNoControllerSpec extends ControllerSpec {
 
   private val mockAuthConnector = mock[AuthConnector]
   private val mockRequestSessionData = mock[RequestSessionData]
@@ -50,32 +50,31 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
   private val mockSubscriptionFlowInfo = mock[SubscriptionFlowInfo]
   private val mockSubscriptionPage = mock[SubscriptionPage]
 
-  private val matchUtrSubscriptionView = app.injector.instanceOf[match_utr_subscription]
+  private val matchUtrSubscriptionYesNoView = app.injector.instanceOf[match_utr_subscription_yes_no]
 
-  private val nextPageFlowUrl = "/customs/subscribe-for-cds/row-nino"
+  private val nextPageFlowUrl = "/customs/subscribe-for-cds/row-utr"
+  private val addressPageFlowUrl = "/customs/subscribe-for-cds/address"
 
-  val controller = new HaveUtrSubscriptionController(
+  val controller = new HaveUtrSubscriptionYesNoController(
     app,
     mockAuthConnector,
     mockRequestSessionData,
     mockSubscriptionFlowManager,
     mcc,
-    matchUtrSubscriptionView,
+    matchUtrSubscriptionYesNoView,
     mockSubscriptionDetailsService
   )
 
   val utrLabelXPath = "//*[@id='utr-outer']//label"
 
-  "HaveUtrSubscriptionController createForm" should {
+  "HaveUtrSubscriptionYesNoController createForm" should {
     "return OK and display correct page when orgType is Company" in {
 
       when(mockRequestSessionData.userSelectedOrganisationType(any[Request[AnyContent]])).thenReturn(Some(Company))
       createForm(Journey.Migrate) { result =>
         status(result) shouldBe OK
         val page = CdsPage(bodyOf(result))
-        page.title should include(SubscriptionRowCompanyUtr.title)
-        page.getElementText(utrLabelXPath) shouldBe "What is your Corporation Tax Unique Taxpayer Reference? This is 10 numbers, for example 1234567890." +
-          " It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
+        page.title should include(SubscriptionRowCompanyUtrYesNo.title)
       }
     }
 
@@ -85,9 +84,7 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
       createForm(Journey.Migrate) { result =>
         status(result) shouldBe OK
         val page = CdsPage(bodyOf(result))
-        page.title should include(SubscriptionRowIndividualsUtr.title)
-        page.getElementText(utrLabelXPath) shouldBe "What is your Self Assessment Unique Taxpayer Reference? This is 10 numbers, for example 1234567890." +
-          " It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
+        page.title should include(SubscriptionRowIndividualsUtrYesNo.title)
 
       }
     }
@@ -98,7 +95,7 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
       createForm(Journey.Migrate) { result =>
         status(result) shouldBe OK
         val page = CdsPage(bodyOf(result))
-        page.title should include(SubscriptionRowIndividualsUtr.title)
+        page.title should include(SubscriptionRowIndividualsUtrYesNo.title)
       }
     }
 
@@ -125,55 +122,35 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
       }
     }
 
-    "return BadRequest when invalidUtr provided" in {
-      val invalidUtr = "0123456789"
-      when(mockRequestSessionData.userSelectedOrganisationType(any[Request[AnyContent]])).thenReturn(Some(Company))
-      submit(Journey.Migrate, ValidUtrRequest + ("utr" -> invalidUtr)) { result =>
-        status(result) shouldBe BAD_REQUEST
-      }
-    }
-
     "cache UTR and redirect to Address Page of the flow when rest of world and Company" in {
       reset(mockSubscriptionDetailsService)
       val nameOrganisationMatchModel = NameOrganisationMatchModel("orgName")
       when(mockRequestSessionData.userSelectedOrganisationType(any[Request[AnyContent]])).thenReturn(Some(Company))
-      when(mockSubscriptionDetailsService.cacheCustomsId(any[CustomsId])(any[HeaderCarrier]))
-        .thenReturn(Future.successful(()))
-      when(mockSubscriptionDetailsService.cachedNameDetails(any[HeaderCarrier]))
-        .thenReturn(Future.successful(Some(nameOrganisationMatchModel)))
-      submit(Journey.Migrate, ValidUtrRequest) { result =>
+      mockSubscriptionFlow(addressPageFlowUrl)
+      submit(Journey.Migrate, NoUtrYesNoRequest) { result =>
         status(result) shouldBe SEE_OTHER
-        result.header.headers(LOCATION) shouldBe "/customs/subscribe-for-cds/address"
+        result.header.headers(LOCATION) shouldBe addressPageFlowUrl
       }
-      verify(mockSubscriptionDetailsService, times(1)).cacheNameIdAndCustomsId(meq("orgName"), meq(ValidUtrId))(
-        any[HeaderCarrier]
-      )
     }
 
     "cache UTR and redirect to Address Page of the flow when rest of world other than Company" in {
       reset(mockSubscriptionDetailsService)
       val nameOrganisationMatchModel = NameOrganisationMatchModel("orgName")
       when(mockRequestSessionData.userSelectedOrganisationType(any[Request[AnyContent]])).thenReturn(Some(SoleTrader))
-      when(mockSubscriptionDetailsService.cacheCustomsId(any[CustomsId])(any[HeaderCarrier]))
-        .thenReturn(Future.successful(()))
-      when(mockSubscriptionDetailsService.cachedNameDetails(any[HeaderCarrier]))
-        .thenReturn(Future.successful(Some(nameOrganisationMatchModel)))
-      submit(Journey.Migrate, ValidUtrRequest) { result =>
+      mockSubscriptionFlow(addressPageFlowUrl)
+      submit(Journey.Migrate, NoUtrYesNoRequest) { result =>
         status(result) shouldBe SEE_OTHER
-        result.header.headers(LOCATION) shouldBe "/customs/subscribe-for-cds/address"
+        result.header.headers(LOCATION) shouldBe addressPageFlowUrl
       }
-      verify(mockSubscriptionDetailsService, times(1)).cacheCustomsId(any[CustomsId])(any[HeaderCarrier])
     }
 
-    "throws an exception with the orgType is Company and No business name or CustomsId cached" in {
-      reset(mockSubscriptionDetailsService)
-      when(mockRequestSessionData.userSelectedOrganisationType(any[Request[AnyContent]])).thenReturn(Some(Company))
-      when(mockSubscriptionDetailsService.cacheCustomsId(any[CustomsId])(any[HeaderCarrier]))
-        .thenReturn(Future.successful(()))
-      when(mockSubscriptionDetailsService.cachedNameDetails(any[HeaderCarrier])).thenReturn(Future.successful(None))
-      intercept[IllegalStateException] {
-        submit(Journey.Migrate, ValidUtrRequest)(result => status(result))
-      }.getMessage shouldBe "No business name or CustomsId cached"
+    "redirect to next page in the flow when 'No' UTR selected" in {
+      when(mockRequestSessionData.userSelectedOrganisationType(any[Request[AnyContent]])).thenReturn(Some(SoleTrader))
+      mockSubscriptionFlow(nextPageFlowUrl)
+      submit(Journey.Migrate, NoUtrYesNoRequest) { result =>
+        status(result) shouldBe SEE_OTHER
+        result.header.headers(LOCATION) shouldBe addressPageFlowUrl
+      }
     }
   }
 

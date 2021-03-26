@@ -210,11 +210,11 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
       showForm(CdsOrganisationType.ThirdCountryOrganisationId) { result =>
         val page = CdsPage(bodyOf(result))
         page.title should startWith(
-          "Does your organisation have a Unique Taxpayer Reference (UTR) number issued in the UK?"
+          "Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR)?"
         )
-        page.h1 shouldBe "Does your organisation have a Unique Taxpayer Reference (UTR) number issued in the UK?"
+        page.h1 shouldBe "Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR)?"
 
-        page.getElementsText("//*[@id='intro']") shouldBe "You will have a UTR number if your organisation pays corporation tax in the UK."
+        page.getElementsText("//*[@id='intro']") shouldBe "Your organisation will have a Corporation Tax UTR number if it pays corporation tax. It is on tax returns and other letters from HMRC."
       }
     }
   }
@@ -263,20 +263,20 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
       showForm(CdsOrganisationType.ThirdCountrySoleTraderId, defaultUserId) { result =>
         val page = CdsPage(bodyOf(result))
         page.title should startWith(
-          "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
+          "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
         )
-        page.h1 shouldBe "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
-        page.getElementsText("//*[@id='intro']") shouldBe "You will have a self assessment UTR number if you registered for Self Assessment in the UK."
+        page.h1 shouldBe "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
+        page.getElementsText("//*[@id='intro']") shouldBe "You will have a Self Assessment Unique Taxpayer Reference if you registered for Self Assessment in the UK."
       }
     }
     "contain a proper content for individuals" in {
       showForm(CdsOrganisationType.ThirdCountryIndividualId, defaultUserId) { result =>
         val page = CdsPage(bodyOf(result))
         page.title should startWith(
-          "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
+          "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
         )
-        page.h1 shouldBe "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
-        page.getElementsText("//*[@id='intro']") shouldBe "You will have a self assessment UTR number if you registered for Self Assessment in the UK."
+        page.h1 shouldBe "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
+        page.getElementsText("//*[@id='intro']") shouldBe "You will have a Self Assessment Unique Taxpayer Reference if you registered for Self Assessment in the UK."
       }
     }
   }

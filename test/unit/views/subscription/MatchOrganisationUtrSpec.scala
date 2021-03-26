@@ -79,7 +79,7 @@ class MatchOrganisationUtrSpec extends ViewSpec {
     "have the correct h1 text" in {
       docAsSoleTraderIndividual.body
         .getElementsByTag("h1")
-        .text mustBe "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
+        .text mustBe "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
     }
     "not show the link for corporation tax UTR number, for sole traders" in {
       docAsSoleTraderIndividual.body.getElementsByTag("summary").text mustBe ""

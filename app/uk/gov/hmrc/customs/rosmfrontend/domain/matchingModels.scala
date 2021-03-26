@@ -221,9 +221,14 @@ object IdMatchModel {
 }
 
 case class UtrMatchModel(haveUtr: Option[Boolean], id: Option[String])
+case class UtrMatchModelMandatory(id: Option[String])
 
 object UtrMatchModel {
   implicit val jsonFormat = Json.format[UtrMatchModel]
+}
+
+object UtrMatchModelMandatory {
+  implicit val jsonFormat = Json.format[UtrMatchModelMandatory]
 }
 
 trait NameMatch {

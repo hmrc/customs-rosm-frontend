@@ -18,71 +18,43 @@
 @import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType
 @import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionController
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
-
+@import uk.gov.hmrc.customs.rosmfrontend.domain.UtrMatchModelMandatory
 
 @this(layout_di: layout)
-@(matchOrgIdForm: Form[UtrMatchModel], organisationType: String, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
 
+@(matchOrgIdForm: Form[UtrMatchModelMandatory], organisationType: String, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
 
 @inputText(field: String, label: String, args: (Symbol, Any)*) = {
-    @defining(Seq('_label -> Html(messages(label))) ++ args) { args =>
+    @defining(Seq('_label -> label, '_isLabelH1 -> true) ++ args) { args =>
         @helpers.input(matchOrgIdForm(field), args: _*)
     }
 }
 
 @headerAndTitle = @{
     organisationType match {
-        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.row-sole-trader-individual.utr.title-and-heading")
-        case _ => messages("cds.matching.row-organisation.utr.title-and-heading")
-    }
-}
-
-@utrLabel = @{
-    organisationType match {
-        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.sole-trader-individual-utr.label")
-        case _ => messages("cds.matching.organisation-utr.label")
-    }
-}
-
-@intro = @{
-    organisationType match {
-        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.row-sole-trader-individual.utr.paragraph")
-        case _ => messages("cds.matching.row-organisation.utr.paragraph")
-    }
-}
-
-@errorLabel = @{
-    organisationType match {
-        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => "cds.matching.sole-trader-individual-utr.error"
-        case _ => "cds.matching.organisation-utr.error"
+        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.row-sole-trader-individual.utr-submit.title-and-heading")
+        case _ => messages("cds.matching.row-organisation.utr-submit.title-and-heading")
     }
 }
 
 @layout_di(headerAndTitle, form = Some(matchOrgIdForm)) {
-<div class="column-two-thirds">
+
+    <div class="column-two-thirds">
 
 
-    @helpers.errorSummary(matchOrgIdForm)
+        @helpers.errorSummary(matchOrgIdForm)
 
-    @helper.form(HaveUtrSubscriptionController.submit(journey), 'id -> "subscriptionUtrForm") {
-    @CSRF.formField
-    <div class="form-group">
-        @helpers.hideRevealToggle(
-        matchOrgIdForm("have-utr"),
-        isYesFirst = true,
-        legend = headerAndTitle,
-        isLegendH1 = true,
-        otherHtmlInLegend = Html("<p id='intro'>" + intro + "</p>")
-        ) {
-        @inputText(
-        "utr",
-        utrLabel
-        )
+        @helper.form(HaveUtrSubscriptionController.submit(journey), 'id -> "subscriptionUtrForm") {
+            @CSRF.formField
+
+            @inputText("utr",
+                headerAndTitle,
+                '_hintText -> Html(messages("cds.matching.row.utr-submit.paragraph")))
+
+            <p><input class="button" type="submit" value="@messages("cds.navigation.continue")"></p>
         }
-    </div>
-    <p><input class="button" type="submit" value="@messages("cds.navigation.continue")"></p>
 
-    @helpers.helpAndSupport()
-    }
-</div>
+        @helpers.helpAndSupport()
+
+    </div>
 }

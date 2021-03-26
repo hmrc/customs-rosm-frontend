@@ -1,0 +1,88 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionYesNoController
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+@import uk.gov.hmrc.customs.rosmfrontend.domain.YesNo
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+
+@this(layout_di: layout)
+
+@(yesNoForm: Form[YesNo], organisationType: String, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+@inputText(field: String, label: String, args: (Symbol, Any)*) = {
+@defining(Seq('_label -> Html(messages(label))) ++ args) { args =>
+    @helpers.input(yesNoForm(field), args: _*)
+}
+}
+
+@headerAndTitle = @{
+    organisationType match {
+        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.row-sole-trader-individual.utr.title-and-heading")
+        case _ => messages("cds.matching.row-organisation.utr.title-and-heading")
+    }
+}
+
+@utrLabel = @{
+    organisationType match {
+        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.sole-trader-individual-utr.label")
+        case _ => messages("cds.matching.organisation-utr.label")
+    }
+}
+
+@intro = @{
+    organisationType match {
+        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.row-sole-trader-individual.utr.paragraph")
+        case _ => messages("cds.matching.row-organisation.utr.paragraph")
+    }
+}
+
+@errorLabel = @{
+    organisationType match {
+        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => "cds.matching.row-organisation.utr.error"
+        case _ => "cds.matching.row-sole-trader-individual.utr.error"
+    }
+}
+@formAction = @{
+    uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionYesNoController.submit(journey)
+}
+
+
+@layout_di(headerAndTitle, form = Some(yesNoForm)) {
+    <div class="column-two-thirds">
+        @helpers.errorSummary(yesNoForm)
+
+        @helper.form(HaveUtrSubscriptionYesNoController.submit(journey), 'id -> "subscriptionUtrForm") {
+            @CSRF.formField
+            <div class="form-group">
+            @helpers.yesNoToggle(
+                yesNoForm("yes-no-answer"),
+                isYesFirst = true,
+                legend = headerAndTitle,
+                isLegendH1 = true,
+                otherHtmlInLegend = Html("<p id='intro'>" + intro + "</p>")
+            ) {
+                    <!-- comment -->
+            }
+            </div>
+            <p><input class="button" type="submit" value="@messages("cds.navigation.continue")"></p>
+
+            @helpers.helpAndSupport()
+        }
+    </div>
+}

@@ -21,34 +21,33 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
-import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, UtrMatchModelMandatory}
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.utrFormMandatory
+import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, YesNo}
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.yesNoUtrAnswerForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
-import uk.gov.hmrc.customs.rosmfrontend.views.html.migration.match_utr_subscription
+import uk.gov.hmrc.customs.rosmfrontend.views.html.migration.match_utr_subscription_yes_no
 import util.ViewSpec
 
-class HaveUtrSubscriptionSpec extends ViewSpec {
+class HaveUtrSubscriptionYesNoSpec extends ViewSpec {
 
   implicit val request = withFakeCSRF(FakeRequest())
 
   private val invalidUtr = "0123456789"
-  private val standardForm: Form[UtrMatchModelMandatory] = utrFormMandatory
-  private val noOptionSelectedForm = utrFormMandatory.bind(Map.empty[String, String])
-  private val incorrectUtrForm = utrFormMandatory.bind(Map("utr" -> invalidUtr))
+  private val standardForm: Form[YesNo] = yesNoUtrAnswerForm("Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?")
+  private val noOptionSelectedForm = yesNoUtrAnswerForm("Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?").bind(Map.empty[String, String])
+  private val incorrectUtrForm = yesNoUtrAnswerForm("Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?").bind(Map("utr" -> invalidUtr))
 
-  private val view = app.injector.instanceOf[match_utr_subscription]
+  private val view = app.injector.instanceOf[match_utr_subscription_yes_no]
 
-  "Fresh Subscription Have Utr Page for Company" should {
+  "Fresh Subscription Have Utr Yes No Page for Company" should {
     "display correct heading" in {
       companyDoc.body
         .getElementsByTag("h1")
-        .text mustBe "What is your Corporation Tax Unique Taxpayer Reference? This is 10 numbers, for example 1234567890." +
-        " It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
+        .text mustBe "Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR)?"
     }
 
     "display correct title" in {
       companyDoc.title must startWith(
-        "What is your Corporation Tax Unique Taxpayer Reference?"
+        "Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR)?"
       )
     }
   }
@@ -57,27 +56,25 @@ class HaveUtrSubscriptionSpec extends ViewSpec {
     "display correct heading" in {
       individualDoc.body
         .getElementsByTag("h1")
-        .text mustBe "What is your Self Assessment Unique Taxpayer Reference? This is 10 numbers, for example 1234567890." +
-        " It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
+        .text mustBe "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
     }
 
     "display correct title" in {
       individualDoc.title must startWith(
-        "What is your Self Assessment Unique Taxpayer Reference?"
+        "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
       )
     }
   }
 
   "Subscription Have Utr Page" should {
-    "text input with correct label" in {
-      companyDoc.body.getElementById("utr").attr("type") mustBe "text"
-      companyDoc.body.getElementsByAttributeValue("for", "utr").text must include("What is your Corporation Tax Unique Taxpayer Reference?")
+    "radio button yes with correct label" in {
+      companyDoc.body.getElementById("yes-no-answer-yes").attr("value") mustBe "true"
+      companyDoc.body.getElementsByAttributeValue("for", "yes-no-answer-yes").text must include("Yes")
     }
-  }
 
-  "Form with incorrect UTR format" should {
-    "display item level error message" in {
-      incorrectUtrDoc.body.getElementsByClass("error-message").text mustBe "Enter a valid Unique Taxpayer Reference"
+    "radio button no with correct label" in {
+      companyDoc.body.getElementById("yes-no-answer-no").attr("value") mustBe "false"
+      companyDoc.body.getElementsByAttributeValue("for", "yes-no-answer-no").text must include("No")
     }
   }
 

@@ -130,6 +130,8 @@ object MatchingForms {
 
   def yesNoAnswerForm(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm()
 
+  def yesNoUtrAnswerForm(invalidErrorMsgKey: String)(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm(invalidErrorMsgKey)
+
   def disclosePersonalDetailsYesNoAnswerForm()(implicit messages: Messages): Form[YesNo] =
     createYesNoAnswerForm("cds.subscription.organisation-disclose-personal-details-consent.error.yes-no-answer")
 
@@ -455,6 +457,12 @@ object MatchingForms {
       "have-utr" -> optional(boolean).verifying(validHaveUtr),
       "utr" -> mandatoryIfTrue("have-utr", text.verifying(validUtr))
     )(UtrMatchModel.apply)(UtrMatchModel.unapply)
+  )
+
+  val utrFormMandatory: Form[UtrMatchModelMandatory] = Form(
+    mapping(
+      "utr" -> mandatory(text.verifying(validUtr))
+    )(UtrMatchModelMandatory.apply)(UtrMatchModelMandatory.unapply)
   )
 
   def validHaveNino: Constraint[Option[Boolean]] =
