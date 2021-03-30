@@ -23,7 +23,7 @@ import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain._
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.utrFormMandatory
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.utrForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.RequestSessionData
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetailsService
@@ -48,7 +48,7 @@ class HaveUtrSubscriptionController @Inject()(
   def createForm(journey: Journey.Value): Action[AnyContent] = ggAuthorisedUserWithEnrolmentsAction {
     implicit request => _: LoggedInUserWithEnrolments =>
       requestSessionData.userSelectedOrganisationType match {
-        case Some(orgType) => Future.successful(Ok(matchUtrSubscriptionView(utrFormMandatory, orgType.id, journey)))
+        case Some(orgType) => Future.successful(Ok(matchUtrSubscriptionView(utrForm, orgType.id, journey)))
         case None          => noOrgTypeSelected
       }
   }
@@ -57,7 +57,7 @@ class HaveUtrSubscriptionController @Inject()(
     implicit request => _: LoggedInUserWithEnrolments =>
       requestSessionData.userSelectedOrganisationType match {
         case Some(orgType) =>
-          utrFormMandatory.bindFromRequest.fold(
+          utrForm.bindFromRequest.fold(
             formWithErrors =>
               Future.successful(BadRequest(matchUtrSubscriptionView(formWithErrors, orgType.id, journey))),
             formData => destinationsByAnswer(formData, journey, orgType)
@@ -66,7 +66,7 @@ class HaveUtrSubscriptionController @Inject()(
       }
   }
 
-  private def destinationsByAnswer(form: UtrMatchModelMandatory, journey: Journey.Value, orgType: CdsOrganisationType)(
+  private def destinationsByAnswer(form: UtrMatchModel, journey: Journey.Value, orgType: CdsOrganisationType)(
     implicit hc: HeaderCarrier,
     request: Request[AnyContent]
   ): Future[Result] =
@@ -79,7 +79,7 @@ class HaveUtrSubscriptionController @Inject()(
       case _ => throw new IllegalStateException("No Data from the form")
     }
 
-  private def cacheNameIdDetails(form: UtrMatchModelMandatory, journey: Journey.Value)(
+  private def cacheNameIdDetails(form: UtrMatchModel, journey: Journey.Value)(
     implicit hc: HeaderCarrier
   ): Future[Result] =
     for {

@@ -30,7 +30,7 @@ import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.DetermineReviewPageCo
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.Individual
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.matching.Organisation
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.utrForm
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.haveUtrForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.registration.MatchingService
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetailsService
@@ -56,7 +56,7 @@ class DoYouHaveAUtrNumberController @Inject()(
     ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUserWithEnrolments =>
       {
         Future.successful(
-          Ok(matchOrganisationUtrView(utrForm, organisationType, OrganisationModeDM, journey, isInReviewMode))
+          Ok(matchOrganisationUtrView(haveUtrForm, organisationType, OrganisationModeDM, journey, isInReviewMode))
         )
       }
     }
@@ -64,7 +64,7 @@ class DoYouHaveAUtrNumberController @Inject()(
   def submit(organisationType: String, journey: Journey.Value, isInReviewMode: Boolean = false): Action[AnyContent] =
     ggAuthorisedUserWithEnrolmentsAction { implicit request => loggedInUser: LoggedInUserWithEnrolments =>
       {
-        utrForm.bindFromRequest.fold(
+        haveUtrForm.bindFromRequest.fold(
           formWithErrors => Future.successful(BadRequest(view(organisationType, formWithErrors, journey))),
           formData =>
             destinationsByAnswer(
@@ -79,11 +79,11 @@ class DoYouHaveAUtrNumberController @Inject()(
     }
 
   private def destinationsByAnswer(
-    formData: UtrMatchModel,
-    organisationType: String,
-    journey: Journey.Value,
-    isInReviewMode: Boolean,
-    internalId: InternalId
+                                    formData: HaveUtrMatchModel,
+                                    organisationType: String,
+                                    journey: Journey.Value,
+                                    isInReviewMode: Boolean,
+                                    internalId: InternalId
   )(implicit request: Request[AnyContent]): Future[Result] =
     formData.haveUtr match {
       case Some(true) =>
@@ -151,16 +151,16 @@ class DoYouHaveAUtrNumberController @Inject()(
       case None => Future.successful(false)
     }
 
-  private def view(organisationType: String, form: Form[UtrMatchModel], journey: Journey.Value)(
+  private def view(organisationType: String, form: Form[HaveUtrMatchModel], journey: Journey.Value)(
     implicit request: Request[AnyContent]
   ): HtmlFormat.Appendable =
     matchOrganisationUtrView(form, organisationType, OrganisationModeDM, journey)
 
   private def matchBusinessOrIndividual(
-    formData: UtrMatchModel,
-    journey: Journey.Value,
-    organisationType: String,
-    internalId: InternalId
+                                         formData: HaveUtrMatchModel,
+                                         journey: Journey.Value,
+                                         organisationType: String,
+                                         internalId: InternalId
   )(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[Result] =
     (organisationType match {
       case CdsOrganisationType.ThirdCountrySoleTraderId | CdsOrganisationType.ThirdCountryIndividualId =>
@@ -182,7 +182,7 @@ class DoYouHaveAUtrNumberController @Inject()(
       case false => matchNotFoundBadRequest(organisationType, formData, journey)
     }
 
-  private def matchNotFoundBadRequest(organisationType: String, formData: UtrMatchModel, journey: Journey.Value)(
+  private def matchNotFoundBadRequest(organisationType: String, formData: HaveUtrMatchModel, journey: Journey.Value)(
     implicit request: Request[AnyContent]
   ): Result = {
     val errorMsg = organisationType match {
@@ -191,7 +191,7 @@ class DoYouHaveAUtrNumberController @Inject()(
         Messages("cds.matching-error.individual-not-found")
       case _ => Messages("cds.matching-error-organisation.not-found")
     }
-    val errorForm = utrForm.withGlobalError(errorMsg).fill(formData)
+    val errorForm = haveUtrForm.withGlobalError(errorMsg).fill(formData)
     BadRequest(view(organisationType, errorForm, journey))
   }
 }

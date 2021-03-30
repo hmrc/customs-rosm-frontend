@@ -452,17 +452,17 @@ object MatchingForms {
       case _    => Valid
     })
 
-  val utrForm: Form[UtrMatchModel] = Form(
+  val haveUtrForm: Form[HaveUtrMatchModel] = Form(
     mapping(
       "have-utr" -> optional(boolean).verifying(validHaveUtr),
       "utr" -> mandatoryIfTrue("have-utr", text.verifying(validUtr))
-    )(UtrMatchModel.apply)(UtrMatchModel.unapply)
+    )(HaveUtrMatchModel.apply)(HaveUtrMatchModel.unapply)
   )
 
-  val utrFormMandatory: Form[UtrMatchModelMandatory] = Form(
+  val utrForm: Form[UtrMatchModel] = Form(
     mapping(
       "utr" -> mandatory(text.verifying(validUtr))
-    )(UtrMatchModelMandatory.apply)(UtrMatchModelMandatory.unapply)
+    )(UtrMatchModel.apply)(UtrMatchModel.unapply)
   )
 
   def validHaveNino: Constraint[Option[Boolean]] =

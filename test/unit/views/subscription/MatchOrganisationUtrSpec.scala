@@ -21,16 +21,16 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
-import uk.gov.hmrc.customs.rosmfrontend.domain.UtrMatchModel
+import uk.gov.hmrc.customs.rosmfrontend.domain.HaveUtrMatchModel
 import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms._
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.views.html.registration.match_organisation_utr
 import util.ViewSpec
 
 class MatchOrganisationUtrSpec extends ViewSpec {
-  val form: Form[UtrMatchModel] = utrForm
-  val formWithNoSelectionError: Form[UtrMatchModel] = utrForm.bind(Map.empty[String, String])
-  val formWithNoUtrEnteredError: Form[UtrMatchModel] = utrForm.bind(Map("have-utr" -> "true", "utr" -> ""))
+  val form: Form[HaveUtrMatchModel] = haveUtrForm
+  val formWithNoSelectionError: Form[HaveUtrMatchModel] = haveUtrForm.bind(Map.empty[String, String])
+  val formWithNoUtrEnteredError: Form[HaveUtrMatchModel] = haveUtrForm.bind(Map("have-utr" -> "true", "utr" -> ""))
   val isInReviewMode = false
   val previousPageUrl = "/"
   val nonSoleTraderType = "charity-public-body-not-for-profit"
@@ -161,7 +161,7 @@ class MatchOrganisationUtrSpec extends ViewSpec {
 
   lazy val doc: Document = getDoc(form)
 
-  private def getDoc(form: Form[UtrMatchModel]) = {
+  private def getDoc(form: Form[HaveUtrMatchModel]) = {
     val result = view(form, nonSoleTraderType, "", Journey.GetYourEORI)
     val doc = Jsoup.parse(contentAsString(result))
     doc

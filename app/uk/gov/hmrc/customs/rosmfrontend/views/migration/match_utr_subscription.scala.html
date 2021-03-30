@@ -18,11 +18,11 @@
 @import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType
 @import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionController
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
-@import uk.gov.hmrc.customs.rosmfrontend.domain.UtrMatchModelMandatory
+@import uk.gov.hmrc.customs.rosmfrontend.domain.UtrMatchModel
 
 @this(layout_di: layout)
 
-@(matchOrgIdForm: Form[UtrMatchModelMandatory], organisationType: String, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+@(matchOrgIdForm: Form[UtrMatchModel], organisationType: String, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
 
 @inputText(field: String, label: String, args: (Symbol, Any)*) = {
     @defining(Seq('_label -> label, '_isLabelH1 -> true) ++ args) { args =>

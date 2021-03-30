@@ -21,8 +21,8 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
-import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, UtrMatchModelMandatory}
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.utrFormMandatory
+import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, UtrMatchModel}
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.utrForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.views.html.migration.match_utr_subscription
 import util.ViewSpec
@@ -32,9 +32,9 @@ class HaveUtrSubscriptionSpec extends ViewSpec {
   implicit val request = withFakeCSRF(FakeRequest())
 
   private val invalidUtr = "0123456789"
-  private val standardForm: Form[UtrMatchModelMandatory] = utrFormMandatory
-  private val noOptionSelectedForm = utrFormMandatory.bind(Map.empty[String, String])
-  private val incorrectUtrForm = utrFormMandatory.bind(Map("utr" -> invalidUtr))
+  private val standardForm: Form[UtrMatchModel] = utrForm
+  private val noOptionSelectedForm = utrForm.bind(Map.empty[String, String])
+  private val incorrectUtrForm = utrForm.bind(Map("utr" -> invalidUtr))
 
   private val view = app.injector.instanceOf[match_utr_subscription]
 

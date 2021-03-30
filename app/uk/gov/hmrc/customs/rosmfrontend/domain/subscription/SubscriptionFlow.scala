@@ -56,7 +56,6 @@ object SubscriptionFlows {
       BusinessShortNameSubscriptionFlowPage,
       SicCodeSubscriptionFlowPage,
       VatRegisteredUkSubscriptionFlowPage,
-      //VatGroupFlowPage,
       VatDetailsSubscriptionFlowPage,
       VatRegisteredEuSubscriptionFlowPage,
       VatEUIdsSubscriptionFlowPage,
@@ -425,8 +424,6 @@ case object VatRegisteredUkSubscriptionFlowPage
         .createForm(journey = Journey.GetYourEORI)
         .url
     )
-
-//case object VatGroupFlowPage extends SubscriptionPage(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.VatGroupController.createForm(journey = Journey.GetYourEORI).url)
 
 case object BusinessShortNameSubscriptionFlowPage
     extends SubscriptionPage(
