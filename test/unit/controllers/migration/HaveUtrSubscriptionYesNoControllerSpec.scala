@@ -146,7 +146,7 @@ class HaveUtrSubscriptionYesNoControllerSpec extends ControllerSpec {
 
     "redirect to next page in the flow when 'No' UTR selected" in {
       when(mockRequestSessionData.userSelectedOrganisationType(any[Request[AnyContent]])).thenReturn(Some(SoleTrader))
-      mockSubscriptionFlow(nextPageFlowUrl)
+      mockSubscriptionFlow(addressPageFlowUrl)
       submit(Journey.Migrate, NoUtrYesNoRequest) { result =>
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe addressPageFlowUrl

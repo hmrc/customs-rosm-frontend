@@ -167,12 +167,12 @@ object MatchingForms {
   def  confirmIdentityYesNoAnswer()(implicit messages: Messages): Form[YesNo] =
     createYesNoAnswerForm("cds.subscription.nino.utr.invalid")
 
+  private def createYesNoAnswerForm(invalidErrorMsgKey: String = messageKeyOptionInvalid)(implicit messages: Messages): Form[YesNo] =
+    createUtrYesNoAnswerForm(invalidErrorMsgKey, "yes-no-answer")
 
-  private def createYesNoAnswerForm(
-    invalidErrorMsgKey: String = messageKeyOptionInvalid
-  )(implicit messages: Messages): Form[YesNo] = Form(
+  private def createUtrYesNoAnswerForm(invalidErrorMsgKey: String = messageKeyOptionInvalid, formId: String)(implicit messages: Messages): Form[YesNo] = Form(
     mapping(
-      "yes-no-answer" -> optional(text.verifying(messages(invalidErrorMsgKey), oneOf(validYesNoAnswerOptions)))
+      formId -> optional(text.verifying(messages(invalidErrorMsgKey), oneOf(validYesNoAnswerOptions)))
         .verifying(messages(invalidErrorMsgKey), _.isDefined)
         .transform[Boolean](str => str.get.toBoolean, bool => Option(String.valueOf(bool)))
     )(YesNo.apply)(YesNo.unapply)

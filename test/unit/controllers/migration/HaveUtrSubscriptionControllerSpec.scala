@@ -188,11 +188,4 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
       test(controller.submit(journey).apply(SessionBuilder.buildRequestWithSessionAndFormValues(defaultUserId, form)))
     )
   }
-
-  private def mockSubscriptionFlow(url: String) = {
-    when(mockSubscriptionFlowManager.stepInformation(any())(any[HeaderCarrier], any[Request[AnyContent]]))
-      .thenReturn(mockSubscriptionFlowInfo)
-    when(mockSubscriptionFlowInfo.nextPage).thenReturn(mockSubscriptionPage)
-    when(mockSubscriptionPage.url).thenReturn(url)
-  }
 }

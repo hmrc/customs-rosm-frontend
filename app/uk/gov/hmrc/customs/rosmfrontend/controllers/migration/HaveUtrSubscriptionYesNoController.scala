@@ -21,10 +21,11 @@ import play.api.i18n.Messages
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
+import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain._
-import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.UtrSubscriptionFlowYesNoPage
+import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{UtrSubscriptionFlowPage, UtrSubscriptionFlowYesNoPage}
 import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.yesNoUtrAnswerForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.RequestSessionData
@@ -81,8 +82,8 @@ class HaveUtrSubscriptionYesNoController @Inject()(
     request: Request[AnyContent]
   ): Future[Result] =
     form.isYes match {
-      case true => Future.successful(Redirect(subscriptionFlowManager.stepInformation(UtrSubscriptionFlowYesNoPage).nextPage.url))
-      case false => Future.successful(Redirect(AddressController.createForm(journey)))
+      case true => Future.successful(Redirect(HaveUtrSubscriptionController.createForm(journey)))
+      case false => Future.successful(Redirect(subscriptionFlowManager.stepInformation(UtrSubscriptionFlowPage).nextPage.url))// Skip UTR entry page
       case _ => throw new IllegalStateException("No Data from the form")
     }
 

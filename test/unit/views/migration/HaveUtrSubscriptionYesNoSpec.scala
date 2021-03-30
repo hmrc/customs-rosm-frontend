@@ -68,13 +68,13 @@ class HaveUtrSubscriptionYesNoSpec extends ViewSpec {
 
   "Subscription Have Utr Page" should {
     "radio button yes with correct label" in {
-      companyDoc.body.getElementById("yes-no-answer-yes").attr("value") mustBe "true"
-      companyDoc.body.getElementsByAttributeValue("for", "yes-no-answer-yes").text must include("Yes")
+      companyDoc.body.getElementById("have-utr-yes").attr("value") mustBe "true"
+      companyDoc.body.getElementsByAttributeValue("for", "have-utr-yes").text must include("Yes")
     }
 
     "radio button no with correct label" in {
-      companyDoc.body.getElementById("yes-no-answer-no").attr("value") mustBe "false"
-      companyDoc.body.getElementsByAttributeValue("for", "yes-no-answer-no").text must include("No")
+      companyDoc.body.getElementById("have-utr-no").attr("value") mustBe "false"
+      companyDoc.body.getElementsByAttributeValue("for", "have-utr-no").text must include("No")
     }
   }
 
