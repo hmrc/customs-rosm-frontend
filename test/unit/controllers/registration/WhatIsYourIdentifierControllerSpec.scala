@@ -118,7 +118,7 @@ class WhatIsYourIdentifierControllerSpec extends ControllerSpec with BeforeAndAf
     }
 
     "redirect to 'What is your Self Assessment Unique Taxpayer Reference' page when No is selected" in {
-      val utrForm = Map("id" -> "1111111111")
+      val utrForm = Map("id" -> utr)
       when(mockSessionCache.hasNino(any[HeaderCarrier])).thenReturn(
         Future.successful(Some(false))
       )
@@ -129,7 +129,43 @@ class WhatIsYourIdentifierControllerSpec extends ControllerSpec with BeforeAndAf
       }
     }
 
-    "redirect to 'What is your National insurance number' page when no option is selected " in {
+    "redirect to 'What is your Self Assessment Unique Taxpayer Reference' page when No is selected Utr doesn't match in backend" in {
+      val utrForm = Map("id" -> utr)
+      when(mockSessionCache.hasNino(any[HeaderCarrier])).thenReturn(
+        Future.successful(Some(false))
+      )
+      when(
+        mockMatchingService
+          .matchIndividualWithId(ArgumentMatchers.eq(Utr(utr)), any[Individual], any())(any[HeaderCarrier])
+      ).thenReturn(Future.successful(false))
+
+      submitForm(utrForm) { result =>
+        await(result)
+        status(result) shouldBe BAD_REQUEST
+        val page = CdsPage(bodyOf(result))
+        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Your details have not been found. Check that your details are correct and then try again."
+      }
+    }
+
+    "redirect to 'What is your National insurance number' page when yes option is selected and nino doesn't match in backend" in {
+      val ninoForm = Map("id" -> nino)
+      when(mockSessionCache.hasNino(any[HeaderCarrier])).thenReturn(
+        Future.successful(Some(true))
+      )
+      when(
+        mockMatchingService
+          .matchIndividualWithId(ArgumentMatchers.eq(Nino(nino)), any[Individual], any())(any[HeaderCarrier])
+      ).thenReturn(Future.successful(false))
+
+      submitForm(ninoForm) { result =>
+        await(result)
+        status(result) shouldBe BAD_REQUEST
+        val page = CdsPage(bodyOf(result))
+        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Your details have not been found. Check that your details are correct and then try again."
+      }
+    }
+
+    "redirect to 'What is your National insurance number' page when yes option is selected " in {
       val ninoForm = Map("id" -> "")
       when(mockSessionCache.hasNino(any[HeaderCarrier])).thenReturn(
         Future.successful(Some(true))
