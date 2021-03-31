@@ -224,8 +224,8 @@ class ContactDetailsControllerSpec
             page.getElementText(emailLabelXPath) shouldBe emailAddressFieldLabel
             page.getElementText(emailFieldXPath) shouldBe Email
             page.getElementText(fullNameLabelXPath) shouldBe "Full name"
-            page.getElementText(telephoneLabelXPath) shouldBe "Telephone Only enter numbers, for example 01632 960 001"
-            page.getElementText(faxLabelXPath) shouldBe "Fax (optional) Only enter numbers, for example 01632 960 001"
+            page.getElementText(telephoneLabelXPath) shouldBe "Telephone number Only enter numbers, for example 01632 960 001"
+            page.getElementText(faxLabelXPath) shouldBe "Fax number (optional) Only enter numbers, for example 01632 960 001"
         }
       }
   }
@@ -287,8 +287,8 @@ class ContactDetailsControllerSpec
         page.getElementText(emailLabelXPath) shouldBe emailAddressFieldLabel
         page.getElementText(emailFieldXPath) shouldBe Email
         page.getElementText(fullNameLabelXPath) shouldBe "Full name"
-        page.getElementText(telephoneLabelXPath) shouldBe "Telephone Only enter numbers, for example 01632 960 001"
-        page.getElementText(faxLabelXPath) shouldBe "Fax (optional) Only enter numbers, for example 01632 960 001"
+        page.getElementText(telephoneLabelXPath) shouldBe "Telephone number Only enter numbers, for example 01632 960 001"
+        page.getElementText(faxLabelXPath) shouldBe "Fax number (optional) Only enter numbers, for example 01632 960 001"
       }
     }
 
