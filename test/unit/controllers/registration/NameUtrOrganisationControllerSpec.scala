@@ -79,8 +79,8 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
     )
   private val NameMaxLength = 105
 
-  private val UtrInvalidError = "Enter a valid UTR number"
-  private val UtrWrongLengthError = "The UTR number must be 10 numbers"
+  private val UtrInvalidError = "Enter a valid Unique Taxpayer Reference number"
+  private val UtrWrongLengthError = "The Unique Taxpayer Reference number must be 10 numbers"
   private val BusinessNotMatchedError =
     "Your business details have not been found. Check that your details are correct and try again."
 
@@ -224,8 +224,8 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
           submitForm(form = ValidNameUtrRequest + ("utr" -> ""), organisationType) { result =>
             status(result) shouldBe BAD_REQUEST
             val page = CdsPage(bodyOf(result))
-            page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your UTR number"
-            page.getElementsText(fieldLevelErrorUtr) shouldBe "Enter your UTR number"
+            page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your Unique Taxpayer Reference number"
+            page.getElementsText(fieldLevelErrorUtr) shouldBe "Enter your Unique Taxpayer Reference number"
             page.getElementsText("title") should startWith("Error: ")
           }
         }

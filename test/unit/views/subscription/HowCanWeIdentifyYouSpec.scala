@@ -95,11 +95,11 @@ class HowCanWeIdentifyYouSpec extends ViewSpec {
     }
 
     "display an page level error if utr radio button is selected but no nino entered" in {
-      docWithNoUtrError.body().getElementsByClass("error-summary-list").text() mustBe "Enter your UTR number"
+      docWithNoUtrError.body().getElementsByClass("error-summary-list").text() mustBe "Enter your Unique Taxpayer Reference number"
     }
 
     "display an field level error if utr radio button is selected but no utr entered" in {
-      docWithNoUtrError.body().getElementsByClass("error-message").text() mustBe "Enter your UTR number"
+      docWithNoUtrError.body().getElementsByClass("error-message").text() mustBe "Enter your Unique Taxpayer Reference number"
     }
   }
 

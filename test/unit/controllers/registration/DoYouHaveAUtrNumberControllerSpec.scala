@@ -67,7 +67,7 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
     mockSubscriptionDetailsService
   )
 
-  private val UtrInvalidError = "Enter a valid UTR number"
+  private val UtrInvalidError = "Enter a valid Unique Taxpayer Reference number"
   private val BusinessNotMatchedError =
     "Your business details have not been found. Check that your details are correct and try again."
   private val IndividualNotMatchedError =
@@ -100,7 +100,7 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
           val page = CdsPage(bodyOf(result))
 
           val labelForUtr = "Corporation Tax UTR number"
-          val errorMessage = "Error: Enter your UTR number"
+          val errorMessage = "Error: Enter your Unique UTR number"
 
           page.getElementsText(labelForUtrXpath) shouldBe labelForUtr + " " + errorMessage
       }
@@ -119,8 +119,8 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
         result =>
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
-          page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your UTR number"
-          page.getElementsText(fieldLevelErrorUtr) shouldBe "Enter your UTR number"
+          page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your Unique Taxpayer Reference number"
+          page.getElementsText(fieldLevelErrorUtr) shouldBe "Enter your Unique Taxpayer Reference number"
           page.getElementsText("title") should startWith("Error: ")
       }
     }

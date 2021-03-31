@@ -138,10 +138,10 @@ class MatchOrganisationUtrSpec extends ViewSpec {
       docWithNoUtrEnteredError.body
         .getElementById("utr-outer")
         .getElementsByClass("error-message")
-        .text mustBe "Enter your UTR number"
+        .text mustBe "Enter your Unique Taxpayer Reference number"
     }
     "display a page level error message" in {
-      docWithNoUtrEnteredError.body.getElementsByClass("error-summary-list").text mustBe "Enter your UTR number"
+      docWithNoUtrEnteredError.body.getElementsByClass("error-summary-list").text mustBe "Enter your Unique Taxpayer Reference number"
     }
   }
 
@@ -150,12 +150,12 @@ class MatchOrganisationUtrSpec extends ViewSpec {
       docWithNoUtrEnteredErrorAsSoleTrader.body
         .getElementById("utr-outer")
         .getElementsByClass("error-message")
-        .text mustBe "Enter your UTR number"
+        .text mustBe "Enter your Unique Taxpayer Reference number"
     }
     "display a page level error message" in {
       docWithNoUtrEnteredErrorAsSoleTrader.body
         .getElementsByClass("error-summary-list")
-        .text mustBe "Enter your UTR number"
+        .text mustBe "Enter your Unique Taxpayer Reference number"
     }
   }
 

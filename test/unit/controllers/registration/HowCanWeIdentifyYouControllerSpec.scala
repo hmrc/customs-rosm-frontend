@@ -108,8 +108,8 @@ class HowCanWeIdentifyYouControllerSpec extends ControllerSpec with BeforeAndAft
       submitForm(Map("nino" -> "TOOSHORT", "utr" -> "12345678901", "ninoOrUtrRadio" -> "utr")) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscribeHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "The UTR number must be 10 numbers"
-        page.getElementsText(SubscribeHowCanWeIdentifyYouPage.fieldLevelErrorUtr) shouldBe "The UTR number must be 10 numbers"
+        page.getElementsText(SubscribeHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "The Unique Taxpayer Reference number must be 10 numbers"
+        page.getElementsText(SubscribeHowCanWeIdentifyYouPage.fieldLevelErrorUtr) shouldBe "The Unique Taxpayer Reference number must be 10 numbers"
         page.getElementsText(SubscribeHowCanWeIdentifyYouPage.fieldLevelErrorNino) shouldBe empty
       }
     }
@@ -146,8 +146,8 @@ class HowCanWeIdentifyYouControllerSpec extends ControllerSpec with BeforeAndAft
       submitForm(Map("utr" -> "ABCDE12345", "ninoOrUtrRadio" -> "utr")) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscribeHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a valid UTR number"
-        page.getElementsText(SubscribeHowCanWeIdentifyYouPage.fieldLevelErrorUtr) shouldBe "Enter a valid UTR number"
+        page.getElementsText(SubscribeHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a valid Unique Taxpayer Reference number"
+        page.getElementsText(SubscribeHowCanWeIdentifyYouPage.fieldLevelErrorUtr) shouldBe "Enter a valid Unique Taxpayer Reference number"
       }
     }
 

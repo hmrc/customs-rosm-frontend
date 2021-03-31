@@ -433,7 +433,7 @@ subscription-journey.how-confirm-identity=What information can we use to confirm
 subscription-journey.utr.label=Self Assessment Unique Taxpayer Reference
 subscription-journey.utr.hint=This is 10 numbers, for example 1234567890. It will be on tax returns and other letters about Self Assessment. It may be called ''reference'', ''UTR'' or ''official use''. You can <a href="https://www.gov.uk/find-lost-utr-number" target="_blank" rel="noopener noreferrer">find a lost UTR number (opens in a new window or tab)</a>.
 cds.matching.id.page-error.nino=Enter your National Insurance number
-cds.matching.id.page-error.utr=Enter your Unique Taxpayer Reference
+cds.matching.id.page-error.utr=Enter your Self Assessment Unique Taxpayer Reference
 cds.matching.id.page-error.ninoOrUtrRadio=Tell us how we can identify you
 
 
@@ -644,7 +644,7 @@ cds.matching.name-id-organisation.error.partnership.utr=Enter the Corporation Ta
 cds.matching.name-id-organisation.error.organisation.utr=Enter the Corporation Tax UTR number
 cds.matching-error.business-details.business-name.isEmpty=Enter your registered organisation name
 cds.matching-error.business-details.business-name.too-long=The organisation name must be 105 characters or less
-cds.matching-error.business-details.utr.isEmpty=Enter your Self Assessment Unique Taxpayer Reference
+cds.matching-error.business-details.utr.isEmpty=Enter your Unique Taxpayer Reference number
 cds.matching-error.business-details.partnership-name.isEmpty=Enter your registered partnership name
 cds.matching-error.business-details.partnership-name.too-long=The partnership name must be 105 characters or less
 cds.matching-error.business-details.company-name.isEmpty=Enter your registered company name
@@ -1222,7 +1222,7 @@ cds.subscription.contact-details.heading=Who can we contact?
 cds.subscription.contact-details.intro=We will use these details to contact you about your EORI number. We will also use them to contact you if there are any issues with your customs activities.
 cds.subscription.contact-details.full-name.label=Full name
 cds.subscription.contact-details.email.label=Email address
-cds.subscription.contact-details.telephone.label=Telephone number
+cds.subscription.contact-details.telephone.label=Telephone
 cds.subscription.contact-details.telephone.hint=Only enter numbers, for example 01632 960 001
 cds.subscription.contact-details.fax.label=Fax number (optional)
 cds.subscription.contact-details.fax.hint=Only enter numbers, for example 01632 960 001
