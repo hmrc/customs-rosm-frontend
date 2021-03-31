@@ -430,10 +430,10 @@ countries-in-the-eu.list=Austria, Belgium, Bulgaria, Croatia, Republic of Cyprus
 
 #How can we identify you?
 subscription-journey.how-confirm-identity=What information can we use to confirm your identity?
-subscription-journey.utr.label=Self assessment UTR number
+subscription-journey.utr.label=Self Assessment Unique Taxpayer Reference
 subscription-journey.utr.hint=This is 10 numbers, for example 1234567890. It will be on tax returns and other letters about Self Assessment. It may be called ''reference'', ''UTR'' or ''official use''. You can <a href="https://www.gov.uk/find-lost-utr-number" target="_blank" rel="noopener noreferrer">find a lost UTR number (opens in a new window or tab)</a>.
 cds.matching.id.page-error.nino=Enter your National Insurance number
-cds.matching.id.page-error.utr=Enter your Self Assessment UTR number
+cds.matching.id.page-error.utr=Enter your Unique Taxpayer Reference
 cds.matching.id.page-error.ninoOrUtrRadio=Tell us how we can identify you
 
 
@@ -644,7 +644,7 @@ cds.matching.name-id-organisation.error.partnership.utr=Enter the Corporation Ta
 cds.matching.name-id-organisation.error.organisation.utr=Enter the Corporation Tax UTR number
 cds.matching-error.business-details.business-name.isEmpty=Enter your registered organisation name
 cds.matching-error.business-details.business-name.too-long=The organisation name must be 105 characters or less
-cds.matching-error.business-details.utr.isEmpty=Enter your UTR number
+cds.matching-error.business-details.utr.isEmpty=Enter your Self Assessment Unique Taxpayer Reference
 cds.matching-error.business-details.partnership-name.isEmpty=Enter your registered partnership name
 cds.matching-error.business-details.partnership-name.too-long=The partnership name must be 105 characters or less
 cds.matching-error.business-details.company-name.isEmpty=Enter your registered company name
@@ -772,8 +772,10 @@ cds.registration-model.form-error.min-length.last-name=Enter 2 or more character
 # Confirm
 cds.matching.confirm.confirm=Continue
 #Error Messages
-cds.matching-error.utr.invalid=Enter a valid UTR number
-cds.matching-error.utr.length=The UTR number must be 10 numbers
+
+cds.matching.enter-utr-number.page.title=What is your Self Assessment Unique Taxpayer Reference?
+cds.matching-error.utr.invalid=Enter a valid Unique Taxpayer Reference number
+cds.matching-error.utr.length=The Unique Taxpayer Reference number must be 10 numbers
 cds.matching-error.not-found=Your business details have not been found. Check that your details are correct and try again.
 cds.matching-error-organisation.not-found=Your business details have not been found. Check that your details are correct and try again.
 cds.matching-error.individual-not-found=Your details have not been found. Check that your details are correct and then try again.

@@ -25,7 +25,6 @@ import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.SecuritySignOutContro
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.SessionCache
 import uk.gov.hmrc.customs.rosmfrontend.views.html.display_sign_out
-
 import scala.concurrent.ExecutionContext
 
 @Singleton

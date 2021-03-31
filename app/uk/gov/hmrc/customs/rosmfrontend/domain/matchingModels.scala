@@ -154,6 +154,7 @@ case class YesNo(isYes: Boolean) {
   def isNo: Boolean = !isYes
 }
 
+
 case class NinoMatch(firstName: String, lastName: String, dateOfBirth: LocalDate, nino: String)
 
 trait NameDobMatch {

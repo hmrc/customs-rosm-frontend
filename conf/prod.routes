@@ -140,8 +140,12 @@ GET         /customs/:journey/matching/nino/:organisationType                   
 POST        /customs/:journey/matching/nino/:organisationType                      @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.NinoController.submit(organisationType, journey: Journey.Value)
 GET         /customs/:journey/matching/name-date-of-birth/:organisationType        @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.NameDobController.form(organisationType, journey: Journey.Value)
 POST        /customs/:journey/matching/name-date-of-birth/:organisationType        @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.NameDobController.submit(organisationType, journey: Journey.Value)
-GET         /customs/:journey/matching/chooseid/:organisationType                  @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.GYEHowCanWeIdentifyYouController.form(organisationType, journey: Journey.Value)
-POST        /customs/:journey/matching/chooseid/:organisationType                  @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.GYEHowCanWeIdentifyYouController.submit(organisationType, journey: Journey.Value)
+
+GET         /customs/:journey/matching/chooseid/:organisationType                  @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.ConfirmYourIdentityController.form(organisationType, journey: Journey.Value)
+POST        /customs/:journey/matching/chooseid/:organisationType                  @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.ConfirmYourIdentityController.submit(organisationType, journey: Journey.Value)
+GET         /customs/:journey/matching/:organisationType/confirm                   @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourIdentifierController.form(organisationType, journey: Journey.Value)
+POST        /customs/:journey/matching/:organisationType/confirm                   @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourIdentifierController.submit(organisationType, journey: Journey.Value)
+
 GET         /customs/:journey/matching/address/:organisationType                   @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.SixLineAddressController.showForm(isInReviewMode: Boolean = false, organisationType, journey: Journey.Value)
 POST        /customs/:journey/matching/address/:organisationType                   @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.SixLineAddressController.submit(isInReviewMode: Boolean = false, organisationType, journey: Journey.Value)
 GET         /customs/:journey/matching/address/:organisationType/review            @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.SixLineAddressController.showForm(isInReviewMode: Boolean = true, organisationType, journey: Journey.Value)
