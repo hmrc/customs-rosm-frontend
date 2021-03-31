@@ -100,7 +100,7 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
           val page = CdsPage(bodyOf(result))
 
           val labelForUtr = "Corporation Tax UTR number"
-          val errorMessage = "Error: Enter your Unique UTR number"
+          val errorMessage = "Error: Enter your Unique Taxpayer Reference number"
 
           page.getElementsText(labelForUtrXpath) shouldBe labelForUtr + " " + errorMessage
       }
