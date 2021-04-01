@@ -29,6 +29,7 @@
     elements.args.getOrElse('_legend, "").asInstanceOf[String]
 }
 
+
 <div id="@field.id-field" class="form-group">
     @if(elements.hasErrors) {
         <div class="form-group-error">
@@ -68,8 +69,9 @@
                     <label for="@inputId">
                         @label
                         @hints.get(value).map { hint =>
-                            <span class="form-hint">@hint</span>
+                            <span class="form-hint">@Html(hint)</span>
                         }
+
                     </label>
                 </div>
             }

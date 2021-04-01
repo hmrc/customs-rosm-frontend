@@ -41,7 +41,8 @@ sealed case class CachedData(
   subscriptionStatusOutcome: Option[SubscriptionStatusOutcome] = None,
   registerWithEoriAndIdResponse: Option[RegisterWithEoriAndIdResponse] = None,
   email: Option[String] = None,
-  eori: Option[String] = None
+  eori: Option[String] = None,
+  hasNino: Option[Boolean] = None
 ) {
 
   def registrationDetails(sessionId: Id): RegistrationDetails =
@@ -88,6 +89,7 @@ object CachedData {
   val subscriptionCreateOutcomeKey = "subscriptionCreateOutcome"
   val registerWithEoriAndIdResponseKey = "registerWithEoriAndIdResponse"
   val emailKey = "email"
+  val hasNinoKey = "hasNino"
   val safeIdKey = "safeId"
   val groupIdKey = "cachedGroupId"
   val eoriKey = "eori"
@@ -152,6 +154,9 @@ class SessionCache @Inject()(appConfig: AppConfig, mongo: ReactiveMongoComponent
   def saveEmail(email: String)(implicit hc: HeaderCarrier): Future[Boolean] =
     createOrUpdate(sessionId, emailKey, Json.toJson(email)) map (_ => true)
 
+  def saveHasNino(hasNino: Boolean)(implicit hc: HeaderCarrier): Future[Boolean] =
+    createOrUpdate(sessionId, hasNinoKey, Json.toJson(hasNino)) map (_ => true)
+
   def saveEori(eori: Eori)(implicit hc: HeaderCarrier): Future[Boolean] =
     createOrUpdate(sessionId, eoriKey, Json.toJson(eori.id)) map (_ => true)
 
@@ -183,6 +188,9 @@ class SessionCache @Inject()(appConfig: AppConfig, mongo: ReactiveMongoComponent
 
   def email(implicit hc: HeaderCarrier): Future[String] =
     getCached[String](sessionId, (cachedData, id) => cachedData.email(id))
+
+  def hasNino(implicit hc: HeaderCarrier): Future[Option[Boolean]] =
+    getCached[Option[Boolean]](sessionId, (cachedData, _) => cachedData.hasNino)
 
   def mayBeEmail(implicit hc: HeaderCarrier): Future[Option[String]] =
     getCached[Option[String]](sessionId, (cachedData, _) => cachedData.email)

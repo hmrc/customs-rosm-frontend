@@ -24,9 +24,11 @@ import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.Address
 import uk.gov.hmrc.customs.rosmfrontend.domain.registration.{JourneyType, UserLocation}
 import uk.gov.hmrc.customs.rosmfrontend.forms.FormUtils.{mandatoryDateTodayOrBefore, _}
-import uk.gov.hmrc.domain.Nino
+import uk.gov.hmrc.domain.{Nino => nino}
 import uk.gov.voa.play.form.ConditionalMappings._
 import uk.gov.hmrc.customs.rosmfrontend.forms.FormValidation._
+import uk.gov.hmrc.customs.rosmfrontend.domain.{Nino, Utr}
+
 object MatchingForms {
 
   val Length35 = 35
@@ -159,6 +161,10 @@ object MatchingForms {
 
   def  isThisRightContactAddressYesNoAnswer()(implicit messages: Messages): Form[YesNo] =
     createYesNoAnswerForm("cds.subscription.is-this-contact-address.yes-no-answer")
+
+  def  confirmIdentityYesNoAnswer()(implicit messages: Messages): Form[YesNo] =
+    createYesNoAnswerForm("cds.subscription.nino.utr.invalid")
+
 
   private def createYesNoAnswerForm(
     invalidErrorMsgKey: String = messageKeyOptionInvalid
@@ -319,12 +325,24 @@ object MatchingForms {
       case s if s.isEmpty                    => Invalid(ValidationError("cds.subscription.nino.error.empty"))
       case s if s.length != 9                => Invalid(ValidationError("cds.subscription.nino.error.wrong-length"))
       case s if !s.matches("[a-zA-Z0-9]*")   => Invalid(ValidationError("cds.matching.nino.invalid"))
-      case s if !Nino.isValid(s.toUpperCase) => Invalid(ValidationError("cds.matching.nino.invalid"))
+      case s if !nino.isValid(s.toUpperCase) => Invalid(ValidationError("cds.matching.nino.invalid"))
       case _                                 => Valid
     })
 
   val subscriptionNinoForm: Form[IdMatchModel] = Form(
     mapping("nino" -> text.verifying(validNino))(IdMatchModel.apply)(IdMatchModel.unapply)
+  )
+
+  val ninoIdentityForm: Form[Nino] = Form(
+    mapping(
+      "id" -> text.verifying(validNino)
+    )(Nino.apply)(Nino.unapply)
+  )
+
+  val utrIdentityForm: Form[Utr] = Form(
+    mapping(
+      "id" -> text.verifying(validUtr)
+    )(Utr.apply)(Utr.unapply)
   )
 
   val ninoOrUtrForm: Form[NinoOrUtr] = Form(
@@ -335,6 +353,7 @@ object MatchingForms {
         .verifying("cds.subscription.nino.utr.invalid", _.fold(false)(x => x.trim.nonEmpty))
     )(NinoOrUtr.apply)(NinoOrUtr.unapply)
   )
+
 
   private val countryCodeGB = "GB"
   private val countryCodeGG = "GG"

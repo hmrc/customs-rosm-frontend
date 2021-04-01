@@ -67,7 +67,7 @@ class NameDobController @Inject()(
   ): Future[Result] =
     cdsFrontendDataCache.saveSubscriptionDetails(SubscriptionDetails(nameDobDetails = Some(formData))).map { _ =>
       Redirect(
-        uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.GYEHowCanWeIdentifyYouController
+        uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.ConfirmYourIdentityController
           .form(organisationType, journey)
       )
     }
