@@ -248,8 +248,8 @@ class NameIDOrgControllerSpec extends SubscriptionFlowSpec with ControllerSpec w
       submitFormInCreateMode(createFormAllFieldsUtrMap + (utrFieldName -> "")) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your Unique Taxpayer Reference number"
-        page.getElementsText(utrFieldLevelErrorXPath) shouldBe "Enter your Unique Taxpayer Reference number"
+        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your Unique Taxpayer Reference"
+        page.getElementsText(utrFieldLevelErrorXPath) shouldBe "Enter your Unique Taxpayer Reference"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -259,7 +259,7 @@ class NameIDOrgControllerSpec extends SubscriptionFlowSpec with ControllerSpec w
       submitFormInCreateMode(createEmptyFormUtrMap) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your registered organisation name Enter your Unique Taxpayer Reference number"
+        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your registered organisation name Enter your Unique Taxpayer Reference"
         page.getElementsText("title") should startWith("Error: ")
       }
     }

@@ -110,7 +110,7 @@ class HaveUtrSubscriptionSpec extends ViewSpec {
 
   "Form with incorrect UTR format" should {
     "display item level error message" in {
-      incorrectUtrDoc.body.getElementsByClass("error-message").text mustBe "Enter a valid Unique Taxpayer Reference number"
+      incorrectUtrDoc.body.getElementsByClass("error-message").text mustBe "Enter a valid Unique Taxpayer Reference"
     }
   }
 
