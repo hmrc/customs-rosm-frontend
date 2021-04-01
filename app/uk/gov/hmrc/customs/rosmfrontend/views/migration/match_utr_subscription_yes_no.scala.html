@@ -25,23 +25,10 @@
 
 @(yesNoForm: Form[YesNo], organisationType: String, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
 
-@inputText(field: String, label: String, args: (Symbol, Any)*) = {
-@defining(Seq('_label -> Html(messages(label))) ++ args) { args =>
-    @helpers.input(yesNoForm(field), args: _*)
-}
-}
-
 @headerAndTitle = @{
     organisationType match {
         case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.row-sole-trader-individual.utr.title-and-heading")
         case _ => messages("cds.matching.row-organisation.utr.title-and-heading")
-    }
-}
-
-@utrLabel = @{
-    organisationType match {
-        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.sole-trader-individual-utr.label")
-        case _ => messages("cds.matching.organisation-utr.label")
     }
 }
 
@@ -52,35 +39,40 @@
     }
 }
 
-@errorLabel = @{
-    organisationType match {
-        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => "cds.matching.row-organisation.utr.error"
-        case _ => "cds.matching.row-sole-trader-individual.utr.error"
-    }
-}
 @formAction = @{
-    uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionYesNoController.submit(journey)
+    HaveUtrSubscriptionYesNoController.submit(journey)
+}
+
+@inputRadioGroup(field: String, options: Seq[(String, String)]) = {
+
+    @helpers.inputRadioGroup(
+        yesNoForm(field),
+        options,
+        Map.empty,
+        '_divClass -> "createForm-group form-group inline",
+        '_legend -> headerAndTitle,
+        '_isLegendH1 -> true,
+        '_hintText -> intro,
+        '_fieldsetStyle -> "inline",
+        '_trueSuffix -> "yes",
+        '_falseSuffix -> "no"
+    )
 }
 
 
 @layout_di(headerAndTitle, form = Some(yesNoForm)) {
     <div class="column-two-thirds">
+
         @helpers.errorSummary(yesNoForm)
 
-        @helper.form(HaveUtrSubscriptionYesNoController.submit(journey), 'id -> "subscriptionUtrForm") {
+        @helper.form(formAction, 'id -> "subscriptionUtrForm") {
             @CSRF.formField
-            <div class="form-group">
-            @helpers.yesNoToggle(
-                yesNoForm("have-utr"),
-                isYesFirst = true,
-                legend = headerAndTitle,
-                isLegendH1 = true,
-                otherHtmlInLegend = Html("<p id='intro'>" + intro + "</p>")
-            ) {
-                    <!-- comment -->
-            }
-            </div>
-            <p><input class="button" type="submit" value="@messages("cds.navigation.continue")"></p>
+
+            @inputRadioGroup("have-utr",
+                Seq("true" -> messages("cds.yes"),
+                    "false" -> messages("cds.no")))
+
+            <input class="button" type="submit" value="@messages("cds.navigation.continue")">
 
             @helpers.helpAndSupport()
         }

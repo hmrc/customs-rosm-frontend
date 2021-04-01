@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@(field: Field, radioOptions: Seq[(String, String)], hints: Map[String, String],  args: (Symbol, Any)*)(implicit messages: Messages, formInstance: Option[Form[_]] = None)
+@(field: Field, radioOptions: Seq[(String, String)], hints: Map[String, String], args: (Symbol, Any)*)(implicit messages: Messages, formInstance: Option[Form[_]] = None)
 
 @import play.api.i18n._
 @import views.html.helper._
@@ -28,13 +28,22 @@
 @legend = @{
     elements.args.getOrElse('_legend, "").asInstanceOf[String]
 }
+@fieldsetStyle = @{
+    if(elements.args.contains('_fieldsetStyle))
+        s"""class=${elements.args.getOrElse('_fieldsetStyle, "").asInstanceOf[String]}"""
+    else
+        ""
+}
+@suffix(value: String) = @{
+    elements.args.getOrElse(Symbol.apply(s"_${value}Suffix"), value.toLowerCase.replace(" ", "_"))
+}
 
 
 <div id="@field.id-field" class="form-group">
     @if(elements.hasErrors) {
         <div class="form-group-error">
         }
-    <fieldset id="@field.id-fieldset" @if(elements.hasErrors) { aria-describedby="@{elements.field.name}-error"}>
+    <fieldset id="@field.id-fieldset" @if(elements.hasErrors) { aria-describedby="@{elements.field.name}-error"} @fieldsetStyle >
 
         <legend>
             @if(isLegendH1){
@@ -58,7 +67,7 @@
         }
 
         @radioOptions.map { case (value, label) =>
-            @defining(s"${elements.field.name}-${value.toLowerCase.replace(" ", "_")}") { inputId =>
+            @defining(s"${elements.field.name}-${suffix(value)}") { inputId =>
                 <div class="multiple-choice">
                     <input
                     type="radio"
