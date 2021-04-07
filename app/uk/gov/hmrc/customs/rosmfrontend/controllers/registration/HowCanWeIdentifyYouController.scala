@@ -54,8 +54,8 @@ class HowCanWeIdentifyYouController @Inject()(
     implicit request => _: LoggedInUserWithEnrolments =>
       subscriptionBusinessService.getCachedCustomsId.map { i =>
         val ninoOrUtr = i match {
-          case Nino(id) => NinoOrUtr(Some(id), None, Some("nino"))
-          case Utr(id)  => NinoOrUtr(None, Some(id), Some("utr"))
+          case Some(Nino(id)) => NinoOrUtr(Some(id), None, Some("nino"))
+          case Some(Utr(id))  => NinoOrUtr(None, Some(id), Some("utr"))
           case unexpected =>
             throw new IllegalStateException("Expected a Nino or UTR from the cached customs Id but got: " + unexpected)
         }

@@ -67,10 +67,6 @@ POST        /customs/:journey/namedob                                           
 GET         /customs/:journey/namedob/review                                       @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.NameDobSoleTraderController.reviewForm(journey: Journey.Value)
 POST        /customs/:journey/namedob/review                                       @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.NameDobSoleTraderController.submit(isInReviewMode:Boolean = true, journey: Journey.Value)
 
-GET         /customs/:journey/chooseid                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.HowCanWeIdentifyYouController.createForm(journey: Journey.Value)
-POST        /customs/:journey/chooseid                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.HowCanWeIdentifyYouController.submit(isInReviewMode: Boolean = false, journey: Journey.Value)
-GET         /customs/:journey/chooseid/review                                      @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.HowCanWeIdentifyYouController.reviewForm(journey: Journey.Value)
-POST        /customs/:journey/chooseid/review                                      @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.HowCanWeIdentifyYouController.submit(isInReviewMode: Boolean = true, journey: Journey.Value)
 
 GET         /customs/:journey/start-again                                          @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.CacheController.clearCache(journey: Journey.Value)
 
@@ -140,6 +136,22 @@ GET         /customs/:journey/matching/nino/:organisationType                   
 POST        /customs/:journey/matching/nino/:organisationType                      @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.NinoController.submit(organisationType, journey: Journey.Value)
 GET         /customs/:journey/matching/name-date-of-birth/:organisationType        @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.NameDobController.form(organisationType, journey: Journey.Value)
 POST        /customs/:journey/matching/name-date-of-birth/:organisationType        @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.NameDobController.submit(organisationType, journey: Journey.Value)
+
+ GET         /customs/:journey/chooseid/old                                           @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.HowCanWeIdentifyYouController.createForm(journey: Journey.Value)
+ POST        /customs/:journey/chooseid/old                                           @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.HowCanWeIdentifyYouController.submit(isInReviewMode: Boolean = false, journey: Journey.Value)
+ GET         /customs/:journey/chooseid/review/old                                    @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.HowCanWeIdentifyYouController.reviewForm(journey: Journey.Value)
+ POST        /customs/:journey/chooseid/review/old                                    @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.HowCanWeIdentifyYouController.submit(isInReviewMode: Boolean = true, journey: Journey.Value)
+
+GET         /customs/:journey/chooseid/confirm                                     @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.WhatIsYourIdentifierController.form(journey: Journey.Value)
+POST        /customs/:journey/chooseid/confirm                                     @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.WhatIsYourIdentifierController.submit(isInReviewMode: Boolean = false, journey: Journey.Value)
+GET         /customs/:journey/chooseid/confirm/review                              @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.WhatIsYourIdentifierController.reviewForm(journey: Journey.Value)
+POST        /customs/:journey/chooseid/confirm/review                              @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.WhatIsYourIdentifierController.submit(isInReviewMode: Boolean = true, journey: Journey.Value)
+
+GET         /customs/:journey/chooseid                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.ConfirmYourIdentityController.form(journey: Journey.Value)
+POST        /customs/:journey/chooseid                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.ConfirmYourIdentityController.submit(isInReviewMode: Boolean = false, journey: Journey.Value)
+GET         /customs/:journey/chooseid/review                                      @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.ConfirmYourIdentityController.reviewForm(journey: Journey.Value)
+POST        /customs/:journey/chooseid/review                                      @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.ConfirmYourIdentityController.submit(isInReviewMode: Boolean = true, journey: Journey.Value)
+
 
 GET         /customs/:journey/matching/chooseid/:organisationType                  @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.ConfirmYourIdentityController.form(organisationType, journey: Journey.Value)
 POST        /customs/:journey/matching/chooseid/:organisationType                  @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.ConfirmYourIdentityController.submit(organisationType, journey: Journey.Value)
