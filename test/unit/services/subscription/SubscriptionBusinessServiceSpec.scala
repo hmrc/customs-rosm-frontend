@@ -343,16 +343,14 @@ class SubscriptionBusinessServiceSpec extends UnitSpec with MockitoSugar with Be
     "retrieve any previously cached Named Id from the cdsFrontendCache" in {
       when(mockCdsFrontendDataCache.subscriptionDetails).thenReturn(mockSubscriptionDetailsHolder)
       when(mockSubscriptionDetailsHolder.customsId).thenReturn(customsIDUTR)
-      await(subscriptionBusinessService.getCachedCustomsId) shouldBe customsIDUTR.get
+      await(subscriptionBusinessService.getCachedCustomsId) shouldBe customsIDUTR
     }
 
-    "throw exception when cache Name Id is not saved in cdsFrontendCache" in {
+    "return None customsId is not in cache" in {
       when(mockCdsFrontendDataCache.subscriptionDetails).thenReturn(mockSubscriptionDetailsHolder)
       when(mockSubscriptionDetailsHolder.customsId).thenReturn(None)
-      val thrown = intercept[IllegalStateException] {
-        await(subscriptionBusinessService.getCachedCustomsId)
-      }
-      thrown.getMessage shouldBe "No Nino/Utr  Cached"
+      await(subscriptionBusinessService.getCachedCustomsId) shouldBe None
+
     }
   }
 

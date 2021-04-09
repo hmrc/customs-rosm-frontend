@@ -373,12 +373,6 @@ case object NameDobDetailsSubscriptionFlowPage
         .url
     )
 
-case object HowCanWeIdentifyYouSubscriptionFlowPage
-    extends SubscriptionPage(
-      uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.HowCanWeIdentifyYouController
-        .createForm(journey = Journey.Migrate)
-        .url
-    )
 
 case object ConfirmYourIdentityControllerFlowPage
   extends SubscriptionPage(

@@ -253,24 +253,31 @@ class SubscriptionFlowManagerSpec
         MigrationEoriSoleTraderSubscriptionFlow,
         EoriNumberSubscriptionFlowPage,
         1,
-        4,
+        5,
         NameDobDetailsSubscriptionFlowPage
       ),
       (
         MigrationEoriSoleTraderSubscriptionFlow,
         NameDobDetailsSubscriptionFlowPage,
         2,
-        4,
-        HowCanWeIdentifyYouSubscriptionFlowPage
+        5,
+        ConfirmYourIdentityControllerFlowPage
       ),
       (
         MigrationEoriSoleTraderSubscriptionFlow,
-        HowCanWeIdentifyYouSubscriptionFlowPage,
+        ConfirmYourIdentityControllerFlowPage,
         3,
+        5,
+        WhatIsYourIdentifierControllerFlowPage
+      ),
+      (
+        MigrationEoriSoleTraderSubscriptionFlow,
+        WhatIsYourIdentifierControllerFlowPage,
         4,
+        5,
         AddressDetailsSubscriptionFlowPage
       ),
-      (MigrationEoriSoleTraderSubscriptionFlow, AddressDetailsSubscriptionFlowPage, 4, 4, ReviewDetailsPageSubscription)
+      (MigrationEoriSoleTraderSubscriptionFlow, AddressDetailsSubscriptionFlowPage, 5, 5, ReviewDetailsPageSubscription)
     )
 
     TableDrivenPropertyChecks.forAll(values) {
