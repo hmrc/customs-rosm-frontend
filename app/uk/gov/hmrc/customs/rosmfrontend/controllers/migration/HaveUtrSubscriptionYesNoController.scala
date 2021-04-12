@@ -72,7 +72,7 @@ class HaveUtrSubscriptionYesNoController @Inject()(
 
   private def errorMessageByAnswer(orgType: CdsOrganisationType)(implicit hc: HeaderCarrier, request: Request[AnyContent]): String = {
     orgType match {
-      case CdsOrganisationType.Company => Messages("cds.matching.row-organisation.utr.error")
+      case CdsOrganisationType.Company | CdsOrganisationType.ThirdCountryOrganisation => Messages("cds.matching.row-organisation.utr.error")
       case _ => Messages("cds.matching.row-sole-trader-individual.utr.error")
     }
   }

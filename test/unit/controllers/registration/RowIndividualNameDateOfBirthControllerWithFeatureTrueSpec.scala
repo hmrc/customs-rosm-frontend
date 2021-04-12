@@ -148,7 +148,7 @@ class RowIndividualNameDateOfBirthControllerWithFeatureTrueSpec
           submitForm(formData(individualNameAndDateOfBirth)) { result =>
             CdsPage(contentAsString(result)).getElementsHtml(webPage.pageLevelErrorSummaryListXPath) shouldBe empty
             status(result) shouldBe SEE_OTHER
-            result.header.headers(LOCATION) shouldBe s"/customs/register-for-cds/matching/utr/$organisationType"
+            result.header.headers(LOCATION) shouldBe s"/customs/register-for-cds/matching/utr-yes-no/$organisationType"
             verify(mockSubscriptionDetailsService).cacheNameDobDetails(any())(any())
           }
       }

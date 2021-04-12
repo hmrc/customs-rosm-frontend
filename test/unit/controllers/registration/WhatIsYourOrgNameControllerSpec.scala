@@ -80,7 +80,7 @@ class WhatIsYourOrgNameControllerSpec extends ControllerSpec with BeforeAndAfter
         "charity-public-body-not-for-profit",
         CharityPublicBodyNotForProfitOrganisation,
         "organisation",
-        "/customs/register-for-cds/matching/utr/charity-public-body-not-for-profit",
+        "/customs/register-for-cds/matching/utr-yes-no/charity-public-body-not-for-profit",
         UserLocation.Uk,
         false,
         ""

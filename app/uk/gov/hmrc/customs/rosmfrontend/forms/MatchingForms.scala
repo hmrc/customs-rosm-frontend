@@ -130,7 +130,7 @@ object MatchingForms {
 
   def yesNoAnswerForm(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm()
 
-  def yesNoUtrAnswerForm(invalidErrorMsgKey: String)(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm(invalidErrorMsgKey)
+  def yesNoUtrAnswerForm(invalidErrorMsgKey: String, formId: String = "have-utr")(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm(invalidErrorMsgKey, formId)
 
   def disclosePersonalDetailsYesNoAnswerForm()(implicit messages: Messages): Form[YesNo] =
     createYesNoAnswerForm("cds.subscription.organisation-disclose-personal-details-consent.error.yes-no-answer")
@@ -167,10 +167,7 @@ object MatchingForms {
   def  confirmIdentityYesNoAnswer()(implicit messages: Messages): Form[YesNo] =
     createYesNoAnswerForm("cds.subscription.nino.utr.invalid")
 
-  private def createYesNoAnswerForm(invalidErrorMsgKey: String = messageKeyOptionInvalid)(implicit messages: Messages): Form[YesNo] =
-    createUtrYesNoAnswerForm(invalidErrorMsgKey, "yes-no-answer")
-
-  private def createUtrYesNoAnswerForm(invalidErrorMsgKey: String = messageKeyOptionInvalid, formId: String)(implicit messages: Messages): Form[YesNo] = Form(
+  private def createYesNoAnswerForm(invalidErrorMsgKey: String = messageKeyOptionInvalid, formId: String = "yes-no-answer")(implicit messages: Messages): Form[YesNo] = Form(
     mapping(
       formId -> optional(text.verifying(messages(invalidErrorMsgKey), oneOf(validYesNoAnswerOptions)))
         .verifying(messages(invalidErrorMsgKey), _.isDefined)

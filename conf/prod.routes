@@ -166,8 +166,13 @@ GET         /customs/:journey/matching/name/:organisationType                   
 POST        /customs/:journey/matching/name/:organisationType                      @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourOrgNameController.submit(isInReviewMode: Boolean = false, organisationType, journey: Journey.Value)
 GET         /customs/:journey/matching/name/:organisationType/review               @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourOrgNameController.showForm(isInReviewMode: Boolean = true,organisationType, journey: Journey.Value)
 POST        /customs/:journey/matching/name/:organisationType/review               @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourOrgNameController.submit(isInReviewMode: Boolean = true, organisationType, journey: Journey.Value)
+
+GET         /customs/:journey/matching/utr-yes-no/:organisationType                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberYesNoController.form(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
+POST        /customs/:journey/matching/utr-yes-no/:organisationType                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberYesNoController.submit(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
+
 GET         /customs/:journey/matching/utr/:organisationType                       @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberController.form(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
 POST        /customs/:journey/matching/utr/:organisationType                       @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberController.submit(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
+
 GET         /customs/:journey/matching/utr/:organisationType/review                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberController.form(organisationType, journey: Journey.Value, isInReviewMode: Boolean = true)
 POST        /customs/:journey/matching/utr/:organisationType/review                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberController.submit(organisationType, journey: Journey.Value, isInReviewMode: Boolean = true)
 GET         /customs/:journey/you-need-a-different-service                         @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.YouNeedADifferentServiceController.form(journey: Journey.Value)

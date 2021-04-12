@@ -63,7 +63,7 @@
 @layout_di(headerAndTitle, form = Some(yesNoForm)) {
     <div class="column-two-thirds">
 
-        @helpers.errorSummary(yesNoForm)
+        @helpers.errorSummary(yesNoForm, focusOverrides = Map("have-utr" -> "have-utr-yes"))
 
         @helper.form(formAction, 'id -> "subscriptionUtrForm") {
             @CSRF.formField

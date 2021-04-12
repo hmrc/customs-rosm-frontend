@@ -79,7 +79,7 @@ class WhatIsYourOrgNameControllerRowSpec extends ControllerSpec with BeforeAndAf
       submitForm(isInReviewMode = false, form = ValidNameRequest) { result =>
         status(result) shouldBe SEE_OTHER
         result.header.headers("Location") should endWith(
-          "/customs/register-for-cds/matching/utr/third-country-organisation"
+          "/customs/register-for-cds/matching/utr-yes-no/third-country-organisation"
         )
         verify(mockSubscriptionDetailsService).cacheNameDetails(any())(any())
       }

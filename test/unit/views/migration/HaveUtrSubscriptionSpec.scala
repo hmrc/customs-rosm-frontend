@@ -43,7 +43,7 @@ class HaveUtrSubscriptionSpec extends ViewSpec {
       companyDoc.body
         .getElementsByTag("h1")
         .text mustBe "What is your Corporation Tax Unique Taxpayer Reference? This is 10 numbers, for example 1234567890." +
-        " It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
+        " It will be on tax returns and other letters about Corporation Tax. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
     }
 
     "display correct title" in {

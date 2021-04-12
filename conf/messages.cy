@@ -614,15 +614,20 @@ cds.matching.organisation-utr.label=Rhif Cyfeirnod Unigryw y Trethdalwr (UTR) ar
 cds.matching.organisation-utr.error.utr=Nodwch rif Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer Treth Gorfforaeth
 cds.matching.organisation-utr.error.have-utr=Rhowch wybod i ni a oes gennych rif Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer Treth Gorfforaeth
 cds.matching.organisation-utr.field-error.have-utr=Rhowch wybod i ni a oes gennych rif Cyfeirnod Unigryw y Trethdalwr (UTR)
+
 cds.matching.row-organisation.utr.title-and-heading=A oes Cyfeirnod Unigryw y Trethdalwr ar gyfer Treth Gorfforaeth gan eich sefydliad?
 cds.matching.row-organisation.utr.paragraph=Bydd Cyfeirnod Unigryw y Trethdalwr ar gyfer Treth Gorfforaeth gan eich sefydliad os yw’n talu Treth Gorfforaeth. Bydd hwn i’w weld ar Ffurflenni Treth a llythyrau eraill oddi wrth CThEM.
 cds.matching.row-organisation.utr.error=Rhowch wybod i ni os oes Cyfeirnod Unigryw y Trethdalwr gan eich sefydliad
+
 cds.matching.row-sole-trader-individual.utr.title-and-heading=A oes Cyfeirnod Unigryw y Trethdalwr ar gyfer Hunanasesiad a gyhoeddwyd yn y DU gennych?
 cds.matching.row-sole-trader-individual.utr.paragraph=Bydd Cyfeirnod Unigryw y Trethdalwr ar gyfer Hunanasesiad gennych os gwnaethoch gofrestru ar gyfer Hunanasesiad yn y DU.
 cds.matching.row-sole-trader-individual.utr.error=Rhowch wybod i ni a oes gennych Gyfeirnod Unigryw y Trethdalwr ar gyfer Hunanasesiad a gyhoeddwyd yn y DU
+
 cds.matching.row-organisation.utr-submit.title-and-heading=Beth yw’ch Cyfeirnod Unigryw y Trethdalwr ar gyfer Treth Gorfforaeth?
 cds.matching.row-sole-trader-individual.utr-submit.title-and-heading=Beth yw’ch Cyfeirnod Unigryw y Trethdalwr ar gyfer Hunanasesiad?
-cds.matching.row.utr-submit.paragraph=Mae hwn yn cynnwys 10 rhif, er enghraifft 1234567890. Bydd i’w weld ar Ffurflenni Treth a llythyrau eraill ynghylch Hunanasesiad. Efallai y cyfeirir ato gan ddefnyddio’r geiriau ‘cyfeirnod’, ‘UTR’ neu ‘defnydd swyddogol’. Gallwch <a href="https://www.gov.uk/find-lost-utr-number">ddod o hyd i  Gyfeirnod Unigryw y Trethdalwr sydd ar goll</a>.
+cds.matching.row-sole-trader-individual.utr-submit.paragraph=Mae hwn yn cynnwys 10 rhif, er enghraifft 1234567890. Bydd i’w weld ar Ffurflenni Treth a llythyrau eraill ynghylch Hunanasesiad. Efallai y cyfeirir ato gan ddefnyddio’r geiriau ‘cyfeirnod’, ‘UTR’ neu ‘defnydd swyddogol’. Gallwch <a href="https://www.gov.uk/find-lost-utr-number">ddod o hyd i  Gyfeirnod Unigryw y Trethdalwr sydd ar goll</a>.
+cds.matching.row-organisation.utr-submit.paragraph=Mae hwn yn cynnwys 10 rhif, er enghraifft 1234567890. Bydd i’w weld ar Ffurflenni Treth a llythyrau eraill ynghylch Treth Gorfforaeth. Efallai y cyfeirir ato gan ddefnyddio’r geiriau ‘cyfeirnod’, ‘UTR’ neu ‘defnydd swyddogol’. Gallwch <a href="https://www.gov.uk/find-lost-utr-number">ddod o hyd i Gyfeirnod Unigryw y Trethdalwr sydd ar goll</a>.
+
 cds.matching.sole-trader-individual-utr.label=Rhif Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer Hunanasesiad
 cds.matching.sole-trader-individual-utr.error.utr=Nodwch rif Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer Hunanasesiad
 cds.matching.sole-trader-individual-utr.error.have-utr=Rhowch wybod i ni a oes gennych rif Cyfeirnod Unigryw y Trethdalwr (UTR) ar gyfer Hunanasesiad

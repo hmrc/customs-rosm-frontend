@@ -37,6 +37,14 @@
     }
 }
 
+@intro = @{
+    organisationType match {
+        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.row-sole-trader-individual.utr-submit.paragraph")
+        case _ => messages("cds.matching.row-organisation.utr-submit.paragraph")
+    }
+}
+
+
 @layout_di(headerAndTitle, form = Some(matchOrgIdForm)) {
 
     <div class="column-two-thirds">
@@ -49,7 +57,7 @@
 
             @inputText("utr",
                 headerAndTitle,
-                '_hintText -> Html(messages("cds.matching.row.utr-submit.paragraph")))
+                '_hintText -> Html(intro))
 
             <p><input class="button" type="submit" value="@messages("cds.navigation.continue")"></p>
         }
