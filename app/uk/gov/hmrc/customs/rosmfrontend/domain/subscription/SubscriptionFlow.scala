@@ -128,7 +128,8 @@ object SubscriptionFlows {
     List(
       EoriNumberSubscriptionFlowPage,
       NameDobDetailsSubscriptionFlowPage,
-      HowCanWeIdentifyYouSubscriptionFlowPage,
+      ConfirmYourIdentityControllerFlowPage,
+      WhatIsYourIdentifierControllerFlowPage,
       AddressDetailsSubscriptionFlowPage
     )
   )
@@ -372,12 +373,19 @@ case object NameDobDetailsSubscriptionFlowPage
         .url
     )
 
-case object HowCanWeIdentifyYouSubscriptionFlowPage
-    extends SubscriptionPage(
-      uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.HowCanWeIdentifyYouController
-        .createForm(journey = Journey.Migrate)
-        .url
-    )
+
+case object ConfirmYourIdentityControllerFlowPage
+  extends SubscriptionPage(
+    uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.ConfirmYourIdentityController
+      .form(journey = Journey.Migrate)
+      .url
+  )
+case object WhatIsYourIdentifierControllerFlowPage
+  extends SubscriptionPage(
+    uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.WhatIsYourIdentifierController
+      .form(journey = Journey.Migrate)
+      .url
+  )
 
 case object RowDateOfEstablishmentSubscriptionFlowPage
     extends SubscriptionPage(

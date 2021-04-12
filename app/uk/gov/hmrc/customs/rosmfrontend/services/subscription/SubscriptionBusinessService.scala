@@ -141,9 +141,9 @@ class SubscriptionBusinessService @Inject()(
       subscriptionDetails.nameDobDetails
     }
 
-  def getCachedCustomsId(implicit hc: HeaderCarrier): Future[CustomsId] =
+  def getCachedCustomsId(implicit hc: HeaderCarrier): Future[Option[CustomsId]] =
     cdsFrontendDataCache.subscriptionDetails map { subscriptionDetails =>
-      subscriptionDetails.customsId.getOrElse(throw new IllegalStateException("No Nino/Utr  Cached"))
+      subscriptionDetails.customsId
     }
 
   def getCachedSubscriptionIdViewModel(implicit hc: HeaderCarrier): Future[IdMatchModel] =

@@ -26,7 +26,7 @@
 @import  uk.gov.hmrc.customs.rosmfrontend.controllers.email.routes._
 @import uk.gov.hmrc.customs.customs._
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
-
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes._
 
 @this(layout_di: layout)
     @(  isThirdCountrySubscription: Boolean,
@@ -217,7 +217,7 @@
                         </td>
                         <td>
                             @if(!isThirdCountrySubscription){
-                            <a id="review-tbl__nino_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.HowCanWeIdentifyYouController.reviewForm(journey)">
+                            <a id="review-tbl__nino_change" href="@ConfirmYourIdentityController.reviewForm(journey)">
                                 @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.nino.label")</span>
 
                             </a>
@@ -234,7 +234,7 @@
                         </td>
                         <td>
                             @if(!isThirdCountrySubscription){
-                            <a id="review-tbl__utr_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.HowCanWeIdentifyYouController.reviewForm(journey)">
+                            <a id="review-tbl__utr_change" href="@ConfirmYourIdentityController.reviewForm(journey)">
                                 @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.utr.label")</span>
                             </a>
                             }

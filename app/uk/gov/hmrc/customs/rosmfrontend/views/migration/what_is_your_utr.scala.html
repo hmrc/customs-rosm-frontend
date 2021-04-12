@@ -1,0 +1,57 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+@import uk.gov.hmrc.customs.rosmfrontend.domain._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes._
+@import uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription._
+
+@this(layout_di: layout)
+@(utrForm: Form[Utr],
+    isInReviewMode: Boolean,
+    journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+@import views.html.helper._
+
+@inputText(field: String, args: (Symbol, Any)*) = {
+@defining(Seq(
+    '_label -> Html(messages("cds.matching.enter-utr-number.page.title")),
+    '_isLabelH1 -> true) ++ args) { args =>
+        @helpers.input(utrForm(field), args: _*)
+    }
+}
+
+@layout_di(messages("cds.matching.enter-utr-number.page.title"), form = Some(utrForm)) {
+
+<div class="column-two-thirds">
+
+
+    @helpers.errorSummary(utrForm)
+
+    @helper.form(WhatIsYourIdentifierController.submit(isInReviewMode, journey),'id -> "utrForm") {
+        @CSRF.formField
+
+        @inputText("id",
+            '_hintText -> Html(messages("subscription-journey.utr.hint")))
+
+        <p><input class="button" type="submit" value='@ViewHelper.continueButtonText(isInReviewMode)'></p>
+    }
+
+    @helpers.helpAndSupport()
+
+</div>
+}
+
