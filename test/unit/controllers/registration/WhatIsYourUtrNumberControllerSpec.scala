@@ -48,7 +48,7 @@ import util.builders.matching.OrganisationUtrFormBuilder._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar with BeforeAndAfterEach {
+class WhatIsYourUtrNumberControllerSpec extends ControllerSpec with MockitoSugar with BeforeAndAfterEach {
 
   private val mockAuthConnector = mock[AuthConnector]
   private val mockMatchingService = mock[MatchingService]

@@ -41,18 +41,14 @@ import util.builders.matching.OrganisationUtrFormBuilder._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
+class WhatIsYourUtrSubscriptionControllerSpec extends ControllerSpec {
 
   private val mockAuthConnector = mock[AuthConnector]
   private val mockRequestSessionData = mock[RequestSessionData]
   private val mockSubscriptionFlowManager = mock[SubscriptionFlowManager]
   private val mockSubscriptionDetailsService = mock[SubscriptionDetailsService]
-  private val mockSubscriptionFlowInfo = mock[SubscriptionFlowInfo]
-  private val mockSubscriptionPage = mock[SubscriptionPage]
 
   private val matchUtrSubscriptionView = app.injector.instanceOf[match_utr_subscription]
-
-  private val nextPageFlowUrl = "/customs/subscribe-for-cds/row-nino"
 
   val controller = new HaveUtrSubscriptionController(
     app,
