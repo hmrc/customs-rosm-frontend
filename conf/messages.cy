@@ -704,6 +704,7 @@ cds.registration-model.form-error.min-length.first-name=Nodwch 2 neu fwy o gymer
 cds.registration-model.form-error.min-length.middle-name=Nodwch 2 neu fwy o gymeriadau ar gyfer enw canol
 cds.registration-model.form-error.min-length.last-name=Nodwch 2 neu fwy o gymeriadau ar gyfer enw olaf
 cds.matching.confirm.confirm=Yn eich blaen
+cds.matching.enter-utr-number.page.title=Beth yw eich Cyfeirnod Unigryw y Trethdalwr (UTR)
 cds.matching-error.utr.invalid=Nodwch rif Cyfeirnod Unigryw y Trethdalwr (UTR) dilys
 cds.matching-error.utr.length=Mae’n rhaid i’r rhif Cyfeirnod Unigryw y Trethdalwr (UTR) fod yn 10 digid
 cds.matching-error.not-found=Nid ydym wedi dod o hyd i fanylion eich busnes. Gwiriwch fod eich manylion yn gywir a rhowch gynnig arall arni.
