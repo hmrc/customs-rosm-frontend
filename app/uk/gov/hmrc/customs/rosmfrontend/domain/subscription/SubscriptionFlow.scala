@@ -161,6 +161,7 @@ object SubscriptionFlows {
     List(
       EoriNumberSubscriptionFlowPage,
       NameDobDetailsSubscriptionFlowPage,
+      UtrSubscriptionFlowYesNoPage,
       UtrSubscriptionFlowPage,
       NinoSubscriptionFlowPage,
       AddressDetailsSubscriptionFlowPage,
@@ -188,6 +189,7 @@ object SubscriptionFlows {
     List(
       EoriNumberSubscriptionFlowPage,
       NameDetailsSubscriptionFlowPage,
+      UtrSubscriptionFlowYesNoPage,
       UtrSubscriptionFlowPage,
       AddressDetailsSubscriptionFlowPage,
       RowDateOfEstablishmentSubscriptionFlowPage,
@@ -312,12 +314,20 @@ case object ContactDetailsAddressSubscriptionFlowPageGetEori
       .createForm(journey = Journey.GetYourEORI)
       .url
   )
+
 case object ContactDetailsSubscriptionFlowPageMigrate
     extends SubscriptionPage(
       uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsController
         .createForm(journey = Journey.Migrate)
         .url
     )
+
+case object UtrSubscriptionFlowYesNoPage
+  extends SubscriptionPage(
+    uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionYesNoController
+      .createForm(journey = Journey.Migrate)
+      .url
+  )
 
 case object ContactDetailsIsThisRightAddressSubscriptionFlowPageMigrate
   extends SubscriptionPage(
@@ -335,7 +345,7 @@ case object ContactDetailsAddressSubscriptionFlowPageMigrate
 
 case object UtrSubscriptionFlowPage
     extends SubscriptionPage(
-      uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionController
+      uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.WhatIsYourUtrSubscriptionController
         .createForm(journey = Journey.Migrate)
         .url
     )
@@ -414,8 +424,6 @@ case object VatRegisteredUkSubscriptionFlowPage
         .createForm(journey = Journey.GetYourEORI)
         .url
     )
-
-//case object VatGroupFlowPage extends SubscriptionPage(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.VatGroupController.createForm(journey = Journey.GetYourEORI).url)
 
 case object BusinessShortNameSubscriptionFlowPage
     extends SubscriptionPage(

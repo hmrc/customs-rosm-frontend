@@ -26,7 +26,11 @@ object OrganisationUtrFormBuilder {
 
   val ValidUtr = Utr(ValidUtrId)
   val ValidUtrRequest = Map("have-utr" -> "true", "utr" -> ValidUtrId)
+
   val NoUtrRequest = Map("have-utr" -> "false")
+
+  val YesUtrYesNoRequest = Map("have-utr" -> "true")
+  val NoUtrYesNoRequest = Map("have-utr" -> "false")
 
   val charityPublicBodyNotForProfitOrganisation = Organisation(ValidName, "Unincorporated Body")
   val thirdCountryOrganisation = Organisation(ValidName, "Corporate Body")

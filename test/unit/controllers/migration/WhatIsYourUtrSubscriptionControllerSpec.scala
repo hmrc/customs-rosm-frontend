@@ -22,10 +22,9 @@ import org.mockito.Mockito._
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionController
+import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.WhatIsYourUtrSubscriptionController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType._
-import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{SubscriptionFlowInfo, SubscriptionPage}
 import uk.gov.hmrc.customs.rosmfrontend.domain.{CustomsId, NameOrganisationMatchModel}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.RequestSessionData
@@ -41,20 +40,16 @@ import util.builders.matching.OrganisationUtrFormBuilder._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
+class WhatIsYourUtrSubscriptionControllerSpec extends ControllerSpec {
 
   private val mockAuthConnector = mock[AuthConnector]
   private val mockRequestSessionData = mock[RequestSessionData]
   private val mockSubscriptionFlowManager = mock[SubscriptionFlowManager]
   private val mockSubscriptionDetailsService = mock[SubscriptionDetailsService]
-  private val mockSubscriptionFlowInfo = mock[SubscriptionFlowInfo]
-  private val mockSubscriptionPage = mock[SubscriptionPage]
 
   private val matchUtrSubscriptionView = app.injector.instanceOf[match_utr_subscription]
 
-  private val nextPageFlowUrl = "/customs/subscribe-for-cds/row-nino"
-
-  val controller = new HaveUtrSubscriptionController(
+  val controller = new WhatIsYourUtrSubscriptionController(
     app,
     mockAuthConnector,
     mockRequestSessionData,
@@ -64,7 +59,7 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
     mockSubscriptionDetailsService
   )
 
-  val utrLabelXPath = "//*[@id='utr-outer']/label"
+  val utrLabelXPath = "//*[@id='utr-outer']//label"
 
   "HaveUtrSubscriptionController createForm" should {
     "return OK and display correct page when orgType is Company" in {
@@ -74,7 +69,8 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
         status(result) shouldBe OK
         val page = CdsPage(bodyOf(result))
         page.title should include(SubscriptionRowCompanyUtr.title)
-        page.getElementText(utrLabelXPath) shouldBe "Corporation Tax UTR number"
+        page.getElementText(utrLabelXPath) shouldBe "What is your Corporation Tax Unique Taxpayer Reference? This is 10 numbers, for example 1234567890." +
+          " It will be on tax returns and other letters about Corporation Tax. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
       }
     }
 
@@ -85,7 +81,8 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
         status(result) shouldBe OK
         val page = CdsPage(bodyOf(result))
         page.title should include(SubscriptionRowIndividualsUtr.title)
-        page.getElementText(utrLabelXPath) shouldBe "Self Assessment UTR number"
+        page.getElementText(utrLabelXPath) shouldBe "What is your Self Assessment Unique Taxpayer Reference? This is 10 numbers, for example 1234567890." +
+          " It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
 
       }
     }
@@ -173,15 +170,6 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
         submit(Journey.Migrate, ValidUtrRequest)(result => status(result))
       }.getMessage shouldBe "No business name or CustomsId cached"
     }
-
-    "redirect to next page in the flow when 'No' UTR selected" in {
-      when(mockRequestSessionData.userSelectedOrganisationType(any[Request[AnyContent]])).thenReturn(Some(SoleTrader))
-      mockSubscriptionFlow(nextPageFlowUrl)
-      submit(Journey.Migrate, NoUtrRequest) { result =>
-        status(result) shouldBe SEE_OTHER
-        result.header.headers(LOCATION) shouldBe nextPageFlowUrl
-      }
-    }
   }
 
   private def createForm(journey: Journey.Value)(test: Future[Result] => Any) = {
@@ -194,12 +182,5 @@ class HaveUtrSubscriptionControllerSpec extends ControllerSpec {
     await(
       test(controller.submit(journey).apply(SessionBuilder.buildRequestWithSessionAndFormValues(defaultUserId, form)))
     )
-  }
-
-  private def mockSubscriptionFlow(url: String) = {
-    when(mockSubscriptionFlowManager.stepInformation(any())(any[HeaderCarrier], any[Request[AnyContent]]))
-      .thenReturn(mockSubscriptionFlowInfo)
-    when(mockSubscriptionFlowInfo.nextPage).thenReturn(mockSubscriptionPage)
-    when(mockSubscriptionPage.url).thenReturn(url)
   }
 }

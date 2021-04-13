@@ -40,7 +40,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class DoYouHaveAUtrNumberController @Inject()(
+class WhatIsYourUtrNumberController @Inject()(
   override val currentApp: Application,
   override val authConnector: AuthConnector,
   matchingService: MatchingService,
@@ -79,57 +79,18 @@ class DoYouHaveAUtrNumberController @Inject()(
     }
 
   private def destinationsByAnswer(
-    formData: UtrMatchModel,
-    organisationType: String,
-    journey: Journey.Value,
-    isInReviewMode: Boolean,
-    internalId: InternalId
+                                    formData: UtrMatchModel,
+                                    organisationType: String,
+                                    journey: Journey.Value,
+                                    isInReviewMode: Boolean,
+                                    internalId: InternalId
   )(implicit request: Request[AnyContent]): Future[Result] =
-    formData.haveUtr match {
-      case Some(true) =>
+    formData.id match {
+      case Some(_) =>
         matchBusinessOrIndividual(formData, journey, organisationType, internalId)
-      case Some(false) => {
-        subscriptionDetailsService.updateSubscriptionDetails
-        noUtrDestination(organisationType, journey, isInReviewMode)
-      }
       case _ =>
         throw new IllegalArgumentException("Have UTR should be Some(true) or Some(false) but was None")
     }
-
-  private def noUtrDestination(
-    organisationType: String,
-    journey: Journey.Value,
-    isInReviewMode: Boolean
-  ): Future[Result] =
-    organisationType match {
-      case CdsOrganisationType.CharityPublicBodyNotForProfitId =>
-        Future.successful(Redirect(VatRegisteredUkController.form()))
-      case CdsOrganisationType.ThirdCountryOrganisationId =>
-        noUtrThirdCountryOrganisationRedirect(isInReviewMode, organisationType, journey)
-      case CdsOrganisationType.ThirdCountrySoleTraderId | CdsOrganisationType.ThirdCountryIndividualId =>
-        noUtrThirdCountryIndividualsRedirect(journey)
-      case _ =>
-        Future.successful(Redirect(YouNeedADifferentServiceController.form(journey)))
-    }
-
-  private def noUtrThirdCountryOrganisationRedirect(
-    isInReviewMode: Boolean,
-    organisationType: String,
-    journey: Journey.Value
-  ): Future[Result] =
-    if (isInReviewMode) {
-      Future.successful(Redirect(DetermineReviewPageController.determineRoute(journey)))
-    } else {
-      Future.successful(
-        Redirect(
-          SixLineAddressController
-            .showForm(isInReviewMode = false, organisationType, journey)
-        )
-      )
-    }
-
-  private def noUtrThirdCountryIndividualsRedirect(journey: Journey.Value): Future[Result] =
-    Future.successful(Redirect(DoYouHaveNinoController.displayForm(journey)))
 
   private def matchBusiness(
     id: CustomsId,
@@ -157,10 +118,10 @@ class DoYouHaveAUtrNumberController @Inject()(
     matchOrganisationUtrView(form, organisationType, OrganisationModeDM, journey)
 
   private def matchBusinessOrIndividual(
-    formData: UtrMatchModel,
-    journey: Journey.Value,
-    organisationType: String,
-    internalId: InternalId
+                                         formData: UtrMatchModel,
+                                         journey: Journey.Value,
+                                         organisationType: String,
+                                         internalId: InternalId
   )(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[Result] =
     (organisationType match {
       case CdsOrganisationType.ThirdCountrySoleTraderId | CdsOrganisationType.ThirdCountryIndividualId =>

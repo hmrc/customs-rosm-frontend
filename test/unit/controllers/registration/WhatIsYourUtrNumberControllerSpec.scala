@@ -26,7 +26,7 @@ import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.connector.MatchingServiceConnector
-import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberController
+import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourUtrNumberController
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.Individual
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.matching.{
@@ -48,7 +48,7 @@ import util.builders.matching.OrganisationUtrFormBuilder._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar with BeforeAndAfterEach {
+class WhatIsYourUtrNumberControllerSpec extends ControllerSpec with MockitoSugar with BeforeAndAfterEach {
 
   private val mockAuthConnector = mock[AuthConnector]
   private val mockMatchingService = mock[MatchingService]
@@ -58,7 +58,7 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
   private val mockSubscriptionDetailsService = mock[SubscriptionDetailsService]
   private val matchOrganisationUtrView = app.injector.instanceOf[match_organisation_utr]
 
-  private val controller = new DoYouHaveAUtrNumberController(
+  private val controller = new WhatIsYourUtrNumberController(
     app,
     mockAuthConnector,
     mockMatchingService,
@@ -99,10 +99,7 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
 
-          val labelForUtr = "Corporation Tax UTR number"
-          val errorMessage = "Error: Enter your Unique Taxpayer Reference"
-
-          page.getElementsText(labelForUtrXpath) shouldBe labelForUtr + " " + errorMessage
+          page.getElementsText("//*[@id='utr-outer']//span[@class='error-message']") shouldBe "Enter your Unique Taxpayer Reference"
       }
     }
   }
@@ -194,27 +191,17 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
     }
   }
 
-  "submitting the form for a charity without a utr" should {
-
-    "direct the user to the Are You VAT Registered in the UK? page" in {
-      submitForm(NoUtrRequest, CdsOrganisationType.CharityPublicBodyNotForProfitId) { result =>
-        status(result) shouldBe SEE_OTHER
-        result.header.headers("Location") should endWith("/customs/register-for-cds/are-you-vat-registered-in-uk")
-      }
-    }
-  }
-
   "display the form for ROW organisation" should {
 
     "when ThirdCountryOrganisationId is passed" in {
       showForm(CdsOrganisationType.ThirdCountryOrganisationId) { result =>
         val page = CdsPage(bodyOf(result))
         page.title should startWith(
-          "Does your organisation have a Unique Taxpayer Reference (UTR) number issued in the UK?"
+          "What is your Corporation Tax Unique Taxpayer Reference?"
         )
-        page.h1 shouldBe "Does your organisation have a Unique Taxpayer Reference (UTR) number issued in the UK?"
+        page.h1 shouldBe "What is your Corporation Tax Unique Taxpayer Reference? This is 10 numbers, for example 1234567890. It will be on tax returns and other letters about Corporation Tax. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
 
-        page.getElementsText("//*[@id='intro']") shouldBe "You will have a UTR number if your organisation pays corporation tax in the UK."
+        page.getElementsText("//*[@class='form-hint']") shouldBe "This is 10 numbers, for example 1234567890. It will be on tax returns and other letters about Corporation Tax. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
       }
     }
   }
@@ -240,22 +227,6 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
         )
       }
     }
-
-    "redirect to Confirm Details page based on NO answer" in {
-      submitForm(form = NoUtrRequest, CdsOrganisationType.ThirdCountryOrganisationId) { result =>
-        status(result) shouldBe SEE_OTHER
-        result.header.headers("Location") should endWith(
-          s"register-for-cds/matching/address/${CdsOrganisationType.ThirdCountryOrganisationId}"
-        )
-      }
-    }
-
-    "redirect to Review page while on review mode" in {
-      submitForm(form = NoUtrRequest, CdsOrganisationType.ThirdCountryOrganisationId, isInReviewMode = true) { result =>
-        status(await(result)) shouldBe SEE_OTHER
-        result.header.headers("Location") should endWith("register-for-cds/matching/review-determine")
-      }
-    }
   }
 
   "display the form for ROW" should {
@@ -263,20 +234,24 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
       showForm(CdsOrganisationType.ThirdCountrySoleTraderId, defaultUserId) { result =>
         val page = CdsPage(bodyOf(result))
         page.title should startWith(
-          "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
+          "What is your Self Assessment Unique Taxpayer Reference?"
         )
-        page.h1 shouldBe "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
-        page.getElementsText("//*[@id='intro']") shouldBe "You will have a self assessment UTR number if you registered for Self Assessment in the UK."
+        page.h1 shouldBe "What is your Self Assessment Unique Taxpayer Reference? This is 10 numbers, for example 1234567890. " +
+          "It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
+        page.getElementsText("//*[@class='form-hint']") shouldBe "This is 10 numbers, for example 1234567890. " +
+          "It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
       }
     }
     "contain a proper content for individuals" in {
       showForm(CdsOrganisationType.ThirdCountryIndividualId, defaultUserId) { result =>
         val page = CdsPage(bodyOf(result))
         page.title should startWith(
-          "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
+          "What is your Self Assessment Unique Taxpayer Reference?"
         )
-        page.h1 shouldBe "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
-        page.getElementsText("//*[@id='intro']") shouldBe "You will have a self assessment UTR number if you registered for Self Assessment in the UK."
+        page.h1 shouldBe "What is your Self Assessment Unique Taxpayer Reference? This is 10 numbers, for example 1234567890. " +
+          "It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
+        page.getElementsText("//*[@class='form-hint']") shouldBe "This is 10 numbers, for example 1234567890. " +
+          "It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
       }
     }
   }
@@ -293,13 +268,6 @@ class DoYouHaveAUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
         await(result)
         status(result) shouldBe SEE_OTHER
         result.header.headers("Location") should endWith("register-for-cds/matching/confirm")
-      }
-    }
-
-    "redirect to Nino page based on NO answer" in {
-      submitForm(form = NoUtrRequest, CdsOrganisationType.ThirdCountrySoleTraderId) { result =>
-        status(result) shouldBe SEE_OTHER
-        result.header.headers("Location") should endWith("register-for-cds/matching/row/nino")
       }
     }
 

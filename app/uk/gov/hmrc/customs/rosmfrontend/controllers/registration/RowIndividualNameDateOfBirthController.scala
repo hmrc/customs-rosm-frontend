@@ -99,7 +99,7 @@ class RowIndividualNameDateOfBirthController @Inject()(
     subscriptionDetailsService.cacheNameDobDetails(nameDobMatchModel) map { _ =>
       (isInReviewMode, rowHaveUtrEnabled) match {
         case (true, _)      => Redirect(DetermineReviewPageController.determineRoute(journey))
-        case (false, true)  => Redirect(DoYouHaveAUtrNumberController.form(organisationType, journey, false))
+        case (false, true)  => Redirect(DoYouHaveAUtrNumberYesNoController.form(organisationType, journey))
         case (false, false) => Redirect(SixLineAddressController.showForm(false, organisationType, journey))
       }
     }

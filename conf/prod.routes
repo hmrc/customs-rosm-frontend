@@ -41,8 +41,11 @@ GET         /customs/:journey/matching/use-this-eori-different-gg               
 
 GET         /customs/:journey/matching/review-determine                            @uk.gov.hmrc.customs.rosmfrontend.controllers.DetermineReviewPageController.determineRoute(journey: Journey.Value)
 
-GET         /customs/:journey/row-utr                                              @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionController.createForm(journey: Journey.Value)
-POST        /customs/:journey/row-utr                                              @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionController.submit(journey: Journey.Value)
+GET         /customs/:journey/row-utr                                              @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.WhatIsYourUtrSubscriptionController.createForm(journey: Journey.Value)
+POST        /customs/:journey/row-utr                                              @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.WhatIsYourUtrSubscriptionController.submit(journey: Journey.Value)
+
+GET         /customs/:journey/row-utr-yes-no                                       @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionYesNoController.createForm(journey: Journey.Value)
+POST        /customs/:journey/row-utr-yes-no                                       @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionYesNoController.submit(journey: Journey.Value)
 
 GET         /customs/:journey/row-nino                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionController.createForm(journey: Journey.Value)
 POST        /customs/:journey/row-nino                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionController.submit(journey: Journey.Value)
@@ -117,8 +120,8 @@ GET         /customs/register-for-cds/review                                    
 GET         /customs/register-for-cds/complete                                     @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionCreateController.end
 GET         /customs/register-for-cds/xi-eori-guidance                             @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionCreateController.xiEoriGuidance
 
-GET         /customs/:journey/business-details-recovery                    @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.BusinessDetailsRecoveryController.form(journey: Journey.Value)
-GET         /customs/:journey/business-details-recovery/continue           @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.BusinessDetailsRecoveryController.continue(journey: Journey.Value)
+GET         /customs/:journey/business-details-recovery                            @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.BusinessDetailsRecoveryController.form(journey: Journey.Value)
+GET         /customs/:journey/business-details-recovery/continue                   @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.BusinessDetailsRecoveryController.continue(journey: Journey.Value)
 
 GET         /customs/:journey/enrolment-exists-against-groupId                     @uk.gov.hmrc.customs.rosmfrontend.controllers.EnrolmentExistsAgainstGroupIdController.show(journey: Journey.Value)
 GET         /customs/:journey/enrolment-pending-against-groupId                    @uk.gov.hmrc.customs.rosmfrontend.controllers.EnrolmentPendingAgainstGroupIdController.show(journey: Journey.Value)
@@ -163,10 +166,15 @@ GET         /customs/:journey/matching/name/:organisationType                   
 POST        /customs/:journey/matching/name/:organisationType                      @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourOrgNameController.submit(isInReviewMode: Boolean = false, organisationType, journey: Journey.Value)
 GET         /customs/:journey/matching/name/:organisationType/review               @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourOrgNameController.showForm(isInReviewMode: Boolean = true,organisationType, journey: Journey.Value)
 POST        /customs/:journey/matching/name/:organisationType/review               @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourOrgNameController.submit(isInReviewMode: Boolean = true, organisationType, journey: Journey.Value)
-GET         /customs/:journey/matching/utr/:organisationType                       @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberController.form(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
-POST        /customs/:journey/matching/utr/:organisationType                       @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberController.submit(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
-GET         /customs/:journey/matching/utr/:organisationType/review                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberController.form(organisationType, journey: Journey.Value, isInReviewMode: Boolean = true)
-POST        /customs/:journey/matching/utr/:organisationType/review                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberController.submit(organisationType, journey: Journey.Value, isInReviewMode: Boolean = true)
+
+GET         /customs/:journey/matching/utr-yes-no/:organisationType                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberYesNoController.form(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
+POST        /customs/:journey/matching/utr-yes-no/:organisationType                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberYesNoController.submit(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
+
+GET         /customs/:journey/matching/utr/:organisationType                       @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourUtrNumberController.form(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
+POST        /customs/:journey/matching/utr/:organisationType                       @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourUtrNumberController.submit(organisationType, journey: Journey.Value, isInReviewMode: Boolean = false)
+
+GET         /customs/:journey/matching/utr/:organisationType/review                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourUtrNumberController.form(organisationType, journey: Journey.Value, isInReviewMode: Boolean = true)
+POST        /customs/:journey/matching/utr/:organisationType/review                @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourUtrNumberController.submit(organisationType, journey: Journey.Value, isInReviewMode: Boolean = true)
 GET         /customs/:journey/you-need-a-different-service                         @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.YouNeedADifferentServiceController.form(journey: Journey.Value)
 GET         /customs/:journey/matching/row-name-date-of-birth/:userType            @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.RowIndividualNameDateOfBirthController.form(userType, journey: Journey.Value)
 POST        /customs/:journey/matching/row-name-date-of-birth/:userType            @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.RowIndividualNameDateOfBirthController.submit(isInReviewMode: Boolean = false, userType, journey: Journey.Value)
@@ -176,7 +184,7 @@ GET         /customs/:journey/matching/row/nino                                 
 POST        /customs/:journey/matching/row/nino                                    @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveNinoController.submit(journey: Journey.Value)
 
 GET         /customs/:journey/complete-enrolment                                   @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.SubscriptionRecoveryController.complete(journey: Journey.Value)
-GET         /customs/:journey/eori-exist                                    @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.EoriExistsController.eoriExist(journey: Journey.Value)
+GET         /customs/:journey/eori-exist                                           @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.EoriExistsController.eoriExist(journey: Journey.Value)
 
 GET         /customs/register-for-cds/match                                        @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.MatchingIdController.matchWithIdOnly
 

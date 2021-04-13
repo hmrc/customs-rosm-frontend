@@ -1,0 +1,80 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionYesNoController
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+@import uk.gov.hmrc.customs.rosmfrontend.domain.YesNo
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+
+@this(layout_di: layout)
+
+@(yesNoForm: Form[YesNo], organisationType: String, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+@headerAndTitle = @{
+    organisationType match {
+        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.row-sole-trader-individual.utr.title-and-heading")
+        case _ => messages("cds.matching.row-organisation.utr.title-and-heading")
+    }
+}
+
+@intro = @{
+    organisationType match {
+        case CdsOrganisationType.SoleTraderId | CdsOrganisationType.IndividualId => messages("cds.matching.row-sole-trader-individual.utr.paragraph")
+        case _ => messages("cds.matching.row-organisation.utr.paragraph")
+    }
+}
+
+@formAction = @{
+    HaveUtrSubscriptionYesNoController.submit(journey)
+}
+
+@inputRadioGroup(field: String, options: Seq[(String, String)]) = {
+
+    @helpers.inputRadioGroup(
+        yesNoForm(field),
+        options,
+        Map.empty,
+        '_divClass -> "createForm-group form-group inline",
+        '_legend -> headerAndTitle,
+        '_isLegendH1 -> true,
+        '_hintText -> intro,
+        '_fieldsetStyle -> "inline",
+        '_trueSuffix -> "yes",
+        '_falseSuffix -> "no"
+    )
+}
+
+
+@layout_di(headerAndTitle, form = Some(yesNoForm)) {
+    <div class="column-two-thirds">
+
+        @helpers.errorSummary(yesNoForm, focusOverrides = Map("have-utr" -> "have-utr-yes"))
+
+        @helper.form(formAction, 'id -> "subscriptionUtrForm") {
+            @CSRF.formField
+
+            @inputRadioGroup("have-utr",
+                Seq("true" -> messages("cds.yes"),
+                    "false" -> messages("cds.no")))
+
+            <input class="button" type="submit" value="@messages("cds.navigation.continue")">
+
+            @helpers.helpAndSupport()
+        }
+    </div>
+}

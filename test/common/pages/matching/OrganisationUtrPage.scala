@@ -33,13 +33,22 @@ object OrganisationUtrPage extends OrganisationUtrPage
 
 object SubscriptionRowIndividualsUtr extends OrganisationUtrPage {
   override val url = Env.frontendHost + "/customs/subscribe-for-cds/row-utr"
-  override val title = "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
-  val formId = "SubscriptionUtrForm"
+  override val title = "What is your Self Assessment Unique Taxpayer Reference?"
+}
+
+object SubscriptionRowIndividualsUtrYesNo extends OrganisationUtrPage {
+  override val url = Env.frontendHost + "/customs/subscribe-for-cds/row-utr-yes-no"
+  override val title = "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
 }
 
 object SubscriptionRowCompanyUtr extends OrganisationUtrPage {
   override val url = Env.frontendHost + "/customs/subscribe-for-cds/row-utr"
-  override val title = "Does your organisation have a Unique Taxpayer Reference (UTR) number issued in the UK?"
+  override val title = "What is your Corporation Tax Unique Taxpayer Reference?"
 
-  val formId = "SubscriptionUtrForm"
+}
+
+object SubscriptionRowCompanyUtrYesNo extends OrganisationUtrPage {
+  override val url = Env.frontendHost + "/customs/subscribe-for-cds/row-utr-yes-no"
+  override val title = "Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR)?"
+
 }

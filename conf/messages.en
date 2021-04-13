@@ -662,11 +662,20 @@ cds.matching.organisation-utr.error.utr=Enter the Corporation Tax UTR number
 cds.matching.organisation-utr.error.have-utr=Tell us if you have a Corporation Tax UTR number
 cds.matching.organisation-utr.field-error.have-utr=Tell us if you have a UTR number
 
-#Matching UTR ROW
-cds.matching.row-organisation.utr.title-and-heading=Does your organisation have a Unique Taxpayer Reference (UTR) number issued in the UK?
-cds.matching.row-organisation.utr.paragraph=You will have a UTR number if your organisation pays corporation tax in the UK.
-cds.matching.row-sole-trader-individual.utr.title-and-heading=Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?
-cds.matching.row-sole-trader-individual.utr.paragraph=You will have a self assessment UTR number if you registered for Self Assessment in the UK.
+#Matching UTR ROW Yes No PAGE
+cds.matching.row-organisation.utr.title-and-heading=Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR)?
+cds.matching.row-organisation.utr.paragraph=Your organisation will have a Corporation Tax UTR number if it pays corporation tax. It is on tax returns and other letters from HMRC.
+cds.matching.row-organisation.utr.error=Tell us if your organisation has a Unique Taxpayer Reference
+
+cds.matching.row-sole-trader-individual.utr.title-and-heading=Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?
+cds.matching.row-sole-trader-individual.utr.paragraph=You will have a Self Assessment Unique Taxpayer Reference if you registered for Self Assessment in the UK.
+cds.matching.row-sole-trader-individual.utr.error=Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?
+
+# Matching UTR Entry Page
+cds.matching.row-organisation.utr-submit.title-and-heading=What is your Corporation Tax Unique Taxpayer Reference?
+cds.matching.row-sole-trader-individual.utr-submit.title-and-heading=What is your Self Assessment Unique Taxpayer Reference?
+cds.matching.row-sole-trader-individual.utr-submit.paragraph=This is 10 numbers, for example 1234567890. It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can <a href="https://www.gov.uk/find-lost-utr-number">find a lost UTR number</a>.
+cds.matching.row-organisation.utr-submit.paragraph=This is 10 numbers, for example 1234567890. It will be on tax returns and other letters about Corporation Tax. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can <a href="https://www.gov.uk/find-lost-utr-number">find a lost UTR number</a>.
 
 #Matching UTR Sole Trader
 cds.matching.sole-trader-individual-utr.label=Self Assessment UTR number

@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.customs.rosmfrontend.controllers.migration
 
-import javax.inject.{Inject, Singleton}
 import play.api.Application
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
@@ -24,7 +23,6 @@ import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain._
-import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.UtrSubscriptionFlowPage
 import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.utrForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.RequestSessionData
@@ -32,10 +30,11 @@ import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetail
 import uk.gov.hmrc.customs.rosmfrontend.views.html.migration.match_utr_subscription
 import uk.gov.hmrc.http.HeaderCarrier
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class HaveUtrSubscriptionController @Inject()(
+class WhatIsYourUtrSubscriptionController @Inject()(
   override val currentApp: Application,
   override val authConnector: AuthConnector,
   requestSessionData: RequestSessionData,
@@ -71,14 +70,12 @@ class HaveUtrSubscriptionController @Inject()(
     implicit hc: HeaderCarrier,
     request: Request[AnyContent]
   ): Future[Result] =
-    form.haveUtr match {
-      case Some(true) if orgType == CdsOrganisationType.Company => cacheNameIdDetails(form, journey)
-      case Some(true) =>
+    form.id match {
+      case Some(utr) if orgType == CdsOrganisationType.Company => cacheNameIdDetails(form, journey)
+      case Some(utr) =>
         subscriptionDetailsService.cacheCustomsId(Utr(form.id.getOrElse(noUtrException))).map { _ =>
           Redirect(AddressController.createForm(journey))
         }
-      case Some(false) =>
-        Future.successful(Redirect(subscriptionFlowManager.stepInformation(UtrSubscriptionFlowPage).nextPage.url))
       case _ => throw new IllegalStateException("No Data from the form")
     }
 

@@ -130,6 +130,8 @@ object MatchingForms {
 
   def yesNoAnswerForm(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm()
 
+  def yesNoUtrAnswerForm(invalidErrorMsgKey: String, formId: String = "have-utr")(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm(invalidErrorMsgKey, formId)
+
   def disclosePersonalDetailsYesNoAnswerForm()(implicit messages: Messages): Form[YesNo] =
     createYesNoAnswerForm("cds.subscription.organisation-disclose-personal-details-consent.error.yes-no-answer")
 
@@ -165,12 +167,9 @@ object MatchingForms {
   def  confirmIdentityYesNoAnswer()(implicit messages: Messages): Form[YesNo] =
     createYesNoAnswerForm("cds.subscription.nino.utr.invalid")
 
-
-  private def createYesNoAnswerForm(
-    invalidErrorMsgKey: String = messageKeyOptionInvalid
-  )(implicit messages: Messages): Form[YesNo] = Form(
+  private def createYesNoAnswerForm(invalidErrorMsgKey: String = messageKeyOptionInvalid, formId: String = "yes-no-answer")(implicit messages: Messages): Form[YesNo] = Form(
     mapping(
-      "yes-no-answer" -> optional(text.verifying(messages(invalidErrorMsgKey), oneOf(validYesNoAnswerOptions)))
+      formId -> optional(text.verifying(messages(invalidErrorMsgKey), oneOf(validYesNoAnswerOptions)))
         .verifying(messages(invalidErrorMsgKey), _.isDefined)
         .transform[Boolean](str => str.get.toBoolean, bool => Option(String.valueOf(bool)))
     )(YesNo.apply)(YesNo.unapply)
@@ -450,10 +449,16 @@ object MatchingForms {
       case _    => Valid
     })
 
-  val utrForm: Form[UtrMatchModel] = Form(
+  val haveUtrForm: Form[HaveUtrMatchModel] = Form(
     mapping(
       "have-utr" -> optional(boolean).verifying(validHaveUtr),
       "utr" -> mandatoryIfTrue("have-utr", text.verifying(validUtr))
+    )(HaveUtrMatchModel.apply)(HaveUtrMatchModel.unapply)
+  )
+
+  val utrForm: Form[UtrMatchModel] = Form(
+    mapping(
+      "utr" -> mandatory(text.verifying(validUtr))
     )(UtrMatchModel.apply)(UtrMatchModel.unapply)
   )
 

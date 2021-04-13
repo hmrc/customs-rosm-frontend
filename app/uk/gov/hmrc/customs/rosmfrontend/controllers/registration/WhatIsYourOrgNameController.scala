@@ -85,12 +85,12 @@ class WhatIsYourOrgNameController @Inject()(
       } else {
         if (UserLocation.isRow(requestSessionData)) {
           if (rowHaveUtrEnabled) {
-            Redirect(DoYouHaveAUtrNumberController.form(organisationType, journey, false))
+            Redirect(DoYouHaveAUtrNumberYesNoController.form(organisationType, journey))
           } else {
             Redirect(SixLineAddressController.showForm(false, organisationType, journey))
           }
         } else {
-          Redirect(DoYouHaveAUtrNumberController.form(organisationType, journey, false))
+          Redirect(DoYouHaveAUtrNumberYesNoController.form(organisationType, journey))
         }
       }
     }

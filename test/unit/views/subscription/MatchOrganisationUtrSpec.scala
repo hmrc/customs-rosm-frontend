@@ -30,7 +30,7 @@ import util.ViewSpec
 class MatchOrganisationUtrSpec extends ViewSpec {
   val form: Form[UtrMatchModel] = utrForm
   val formWithNoSelectionError: Form[UtrMatchModel] = utrForm.bind(Map.empty[String, String])
-  val formWithNoUtrEnteredError: Form[UtrMatchModel] = utrForm.bind(Map("have-utr" -> "true", "utr" -> ""))
+  val formWithNoUtrEnteredError: Form[UtrMatchModel] = utrForm.bind(Map("utr" -> ""))
   val isInReviewMode = false
   val previousPageUrl = "/"
   val nonSoleTraderType = "charity-public-body-not-for-profit"
@@ -39,31 +39,25 @@ class MatchOrganisationUtrSpec extends ViewSpec {
 
   private val view = app.injector.instanceOf[match_organisation_utr]
 
-  "Match UTR page in the non sole trader case" should {
+  "Match UTR Entry page in the non sole trader case" should {
     "display correct title" in {
-      doc.title must startWith("Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR) number?")
+      doc.title must startWith("What is your Corporation Tax Unique Taxpayer Reference?")
     }
     "have the correct h1 text" in {
       doc.body
         .getElementsByTag("h1")
-        .text() mustBe "Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR) number?"
+        .text() mustBe "What is your Corporation Tax Unique Taxpayer Reference? This is 10 numbers, for example 1234567890. It will be on tax returns and other letters about Corporation Tax. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
     }
     "have the correct class on the h1" in {
-      doc.body.getElementsByTag("h1").hasClass("heading-large") mustBe true
-    }
-    "have an input of type 'radio' for Yes I have a UTR" in {
-      doc.body.getElementById("have-utr-yes").attr("type") mustBe "radio"
-    }
-    "have an input of type 'radio' for No I don't have a UTR" in {
-      doc.body.getElementById("have-utr-no").attr("type") mustBe "radio"
+      doc.body.getElementsByTag("h1") contains("<span class=\"heading-large\">What is your Corporation Tax Unique Taxpayer Reference?</span>")
     }
     "have an input of type 'text' for UTR" in {
       doc.body.getElementById("utr").attr("type") mustBe "text"
     }
-    "display correct intro paragraph" in {
+    "display correct hint" in {
       doc.body
-        .getElementById("intro")
-        .text() mustBe "Your organisation will have a Corporation Tax UTR number if you pay corporation tax. It is on tax returns and other letters from HMRC."
+        .getElementById("utr-hint")
+        .text() mustBe "This is 10 numbers, for example 1234567890. It will be on tax returns and other letters about Corporation Tax. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
     }
     "display correct progressive disclosure heading" in {
       doc.body.getElementsByTag("summary").text() mustBe "Can't find your Corporation Tax UTR number?"
@@ -75,11 +69,11 @@ class MatchOrganisationUtrSpec extends ViewSpec {
     }
   }
 
-  "Match UTR page in the sole trader case" should {
+  "Match UTR Entry page in the sole trader case" should {
     "have the correct h1 text" in {
       docAsSoleTraderIndividual.body
         .getElementsByTag("h1")
-        .text mustBe "Do you have a Self Assessment Unique Taxpayer Reference (UTR) number issued in the UK?"
+        .text mustBe "What is your Self Assessment Unique Taxpayer Reference? This is 10 numbers, for example 1234567890. It will be on tax returns and other letters about Self Assessment. It may be called ‘reference’, ‘UTR’ or ‘official use’. You can find a lost UTR number."
     }
     "not show the link for corporation tax UTR number, for sole traders" in {
       docAsSoleTraderIndividual.body.getElementsByTag("summary").text mustBe ""
@@ -88,48 +82,43 @@ class MatchOrganisationUtrSpec extends ViewSpec {
     "not have any content for sole trader" in {
       docAsSoleTraderIndividual.body.getElementById("details-content-1") mustBe null
     }
-
-    "show correctly display the non sole trader field label" in {
-      docAsSoleTraderIndividual.body.getElementsByClass("form-label-bold").text.trim mustBe "Self Assessment UTR number"
-    }
-
   }
 
-  "Match UTR page without selecting any radio button in the non sole trader case" should {
+  "Match UTR Entry page without selecting any radio button in the non sole trader case" should {
     "display a field level error message" in {
       docWithNoSelectionError.body
-        .getElementById("have-utr-field")
+        .getElementById("utr-outer")
         .getElementsByClass("error-message")
-        .text mustBe "Tell us if you have a UTR number"
+        .text mustBe "This field is required"
     }
     "display a page level error message" in {
       docWithNoSelectionError.body
         .getElementsByClass("error-summary-list")
-        .text mustBe "Tell us if you have a UTR number"
+        .text mustBe "This field is required"
     }
     "display the correct problem message at the top of the page" in {
       docWithNoSelectionError.body
         .getElementById("errors")
-        .text mustBe "There is a problem. Tell us if you have a UTR number"
+        .text mustBe "There is a problem. This field is required"
     }
   }
 
-  "Match Organisation UTR page without selecting any radio button in the sole trader case" should {
+  "Match Organisation UTR Entry page without selecting any radio button in the sole trader case" should {
     "display a field level error message" in {
       docWithNoSelectionErrorAsSoleTrader.body
-        .getElementById("have-utr-field")
+        .getElementById("utr-outer")
         .getElementsByClass("error-message")
-        .text mustBe "Tell us if you have a UTR number"
+        .text mustBe "This field is required"
     }
     "display a page level error message" in {
       docWithNoSelectionErrorAsSoleTrader.body
         .getElementsByClass("error-summary-list")
-        .text mustBe "Tell us if you have a UTR number"
+        .text mustBe "This field is required"
     }
     "display the correct problem message at the top of the page" in {
       docWithNoSelectionErrorAsSoleTrader.body
         .getElementById("errors")
-        .text mustBe "There is a problem. Tell us if you have a UTR number"
+        .text mustBe "There is a problem. This field is required"
     }
   }
 
@@ -145,7 +134,7 @@ class MatchOrganisationUtrSpec extends ViewSpec {
     }
   }
 
-  "Match UTR page without filling in the UTR field as a sole trader" should {
+  "Match UTR Entry page without filling in the UTR field as a sole trader" should {
     "display a field level error message" in {
       docWithNoUtrEnteredErrorAsSoleTrader.body
         .getElementById("utr-outer")

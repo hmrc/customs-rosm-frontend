@@ -239,7 +239,7 @@ rowHaveUtrEnabled: Boolean
                         </dd>
                         @if(!isUserIdentifiedByRegService) {
                         <dd class="cya-answer">
-                            <a id="review-tbl__have-utr_change" href="@DoYouHaveAUtrNumberController.form(organisationType = orgType, journey, isInReviewMode = true)">
+                            <a id="review-tbl__have-utr_change" href="@WhatIsYourUtrNumberController.form(organisationType = orgType, journey, isInReviewMode = true)">
                                 @messages("cds.form.change") <span class="govuk-visually-hidden"> @messages("cds.matching.organisation-utr.label")</span>
                             </a>
                         </dd>
@@ -515,7 +515,7 @@ rowHaveUtrEnabled: Boolean
                 <div class="form-group">
                     @helper.form(CheckYourDetailsRegisterController.submitDetails(journey)) {
                     @CSRF.formField
-
+                    <br/>
                     <p><input class="button" type="submit" value=@messages("cds.form.send")></p>
                     }
                     @helpers.helpAndSupport()
