@@ -21,7 +21,7 @@ import play.api.i18n.Messages
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
-import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionController
+import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.WhatIsYourUtrSubscriptionController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain._
@@ -82,7 +82,7 @@ class HaveUtrSubscriptionYesNoController @Inject()(
     request: Request[AnyContent]
   ): Future[Result] =
     form.isYes match {
-      case true => Future.successful(Redirect(HaveUtrSubscriptionController.createForm(journey)))
+      case true => Future.successful(Redirect(WhatIsYourUtrSubscriptionController.createForm(journey)))
       case false => Future.successful(Redirect(subscriptionFlowManager.stepInformation(UtrSubscriptionFlowPage).nextPage.url))// Skip UTR entry page
       case _ => throw new IllegalStateException("No Data from the form")
     }

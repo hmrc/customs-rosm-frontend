@@ -66,7 +66,7 @@ class DoYouHaveAUtrNumberYesNoController @Inject()(
           formWithErrors => Future.successful(BadRequest(view(organisationType, formWithErrors, journey))),
           { formData =>
             formData.isYes match {
-              case true => Future.successful(Redirect(DoYouHaveAUtrNumberController.form(organisationType, journey, isInReviewMode)))
+              case true => Future.successful(Redirect(WhatIsYourUtrNumberController.form(organisationType, journey, isInReviewMode)))
               case false => noUtrDestination(organisationType, journey, isInReviewMode)
               case _ => throw new IllegalArgumentException("Have UTR should be Some(true) or Some(false) but was None")
             }

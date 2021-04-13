@@ -26,7 +26,7 @@ import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.connector.MatchingServiceConnector
-import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatsIsYourAUtrNumberController
+import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.WhatIsYourUtrNumberController
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.Individual
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.matching.{
@@ -58,7 +58,7 @@ class WhatIsYourUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
   private val mockSubscriptionDetailsService = mock[SubscriptionDetailsService]
   private val matchOrganisationUtrView = app.injector.instanceOf[match_organisation_utr]
 
-  private val controller = new WhatsIsYourAUtrNumberController(
+  private val controller = new WhatIsYourUtrNumberController(
     app,
     mockAuthConnector,
     mockMatchingService,

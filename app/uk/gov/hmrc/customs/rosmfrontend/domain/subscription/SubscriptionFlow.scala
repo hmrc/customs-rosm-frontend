@@ -345,7 +345,7 @@ case object ContactDetailsAddressSubscriptionFlowPageMigrate
 
 case object UtrSubscriptionFlowPage
     extends SubscriptionPage(
-      uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionController
+      uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.WhatIsYourUtrSubscriptionController
         .createForm(journey = Journey.Migrate)
         .url
     )

@@ -18,7 +18,7 @@
 @import views.html.helper._
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
 @import uk.gov.hmrc.customs.rosmfrontend.domain.UtrMatchModel
-@import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.DoYouHaveAUtrNumberController
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.WhatIsYourUtrNumberController
 
 @this(layout_di: layout)
 
@@ -79,7 +79,7 @@
 
         @helpers.errorSummary(matchOrgIdForm)
 
-            @helper.form(DoYouHaveAUtrNumberController.submit(organisationType, journey, isInReviewMode), 'id -> "matchOrganisationUtrForm") {
+            @helper.form(WhatIsYourUtrNumberController.submit(organisationType, journey, isInReviewMode), 'id -> "matchOrganisationUtrForm") {
             @CSRF.formField
             <div class="form-group">
                 @inputText(

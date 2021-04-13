@@ -16,7 +16,7 @@
 
 @import views.html.helper._
 @import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType
-@import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveUtrSubscriptionController
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.WhatIsYourUtrSubscriptionController
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
 @import uk.gov.hmrc.customs.rosmfrontend.domain.UtrMatchModel
 
@@ -52,7 +52,7 @@
 
         @helpers.errorSummary(matchOrgIdForm)
 
-        @helper.form(HaveUtrSubscriptionController.submit(journey), 'id -> "subscriptionUtrForm") {
+        @helper.form(WhatIsYourUtrSubscriptionController.submit(journey), 'id -> "subscriptionUtrForm") {
             @CSRF.formField
 
             @inputText("utr",

@@ -40,7 +40,7 @@ import uk.gov.hmrc.http.HeaderCarrier
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class WhatsIsYourAUtrNumberController @Inject()(
+class WhatIsYourUtrNumberController @Inject()(
   override val currentApp: Application,
   override val authConnector: AuthConnector,
   matchingService: MatchingService,
