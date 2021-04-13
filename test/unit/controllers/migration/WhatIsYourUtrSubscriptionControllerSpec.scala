@@ -22,10 +22,9 @@ import org.mockito.Mockito._
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionController
+import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.WhatIsYourUtrSubscriptionController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType._
-import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{SubscriptionFlowInfo, SubscriptionPage}
 import uk.gov.hmrc.customs.rosmfrontend.domain.{CustomsId, NameOrganisationMatchModel}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.RequestSessionData
@@ -50,7 +49,7 @@ class WhatIsYourUtrSubscriptionControllerSpec extends ControllerSpec {
 
   private val matchUtrSubscriptionView = app.injector.instanceOf[match_utr_subscription]
 
-  val controller = new HaveUtrSubscriptionController(
+  val controller = new WhatIsYourUtrSubscriptionController(
     app,
     mockAuthConnector,
     mockRequestSessionData,
