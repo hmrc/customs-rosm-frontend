@@ -515,7 +515,7 @@ rowHaveUtrEnabled: Boolean
                 <div class="form-group">
                     @helper.form(CheckYourDetailsRegisterController.submitDetails(journey)) {
                     @CSRF.formField
-
+                    <br/>
                     <p><input class="button" type="submit" value=@messages("cds.form.send")></p>
                     }
                     @helpers.helpAndSupport()
