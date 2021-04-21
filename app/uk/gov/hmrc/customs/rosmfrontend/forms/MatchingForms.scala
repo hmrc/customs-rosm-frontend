@@ -130,7 +130,7 @@ object MatchingForms {
 
   def yesNoAnswerForm(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm()
 
-  def yesNoUtrAnswerForm(invalidErrorMsgKey: String, formId: String = "have-utr")(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm(invalidErrorMsgKey, formId)
+  def yesNoCustomAnswerForm(invalidErrorMsgKey: String, formId: String)(implicit messages: Messages): Form[YesNo] = createYesNoAnswerForm(invalidErrorMsgKey, formId)
 
   def disclosePersonalDetailsYesNoAnswerForm()(implicit messages: Messages): Form[YesNo] =
     createYesNoAnswerForm("cds.subscription.organisation-disclose-personal-details-consent.error.yes-no-answer")
@@ -470,8 +470,9 @@ object MatchingForms {
 
   val rowIndividualsNinoForm: Form[NinoMatchModel] = Form(
     mapping(
-      "have-nino" -> optional(boolean).verifying(validHaveNino),
-      "nino" -> mandatoryIfTrue("have-nino", text.verifying(validNino))
+      "nino" -> mandatory(
+        text.verifying(validNino)
+      )
     )(NinoMatchModel.apply)(NinoMatchModel.unapply)
   )
 }

@@ -33,31 +33,23 @@ class HaveNinoSubscriptionSpec extends ViewSpec {
 
   private val standardForm: Form[NinoMatchModel] = rowIndividualsNinoForm
   private val noOptionSelectedForm = rowIndividualsNinoForm.bind(Map.empty[String, String])
-  private val incorrectNinoForm = rowIndividualsNinoForm.bind(Map("have-nino" -> "true", "nino" -> "012345789!@#$"))
+  private val incorrectNinoForm = rowIndividualsNinoForm.bind(Map("nino" -> "012345789!@#$"))
 
   private val view = app.injector.instanceOf[match_nino_subscription]
 
   "Fresh Subscription Have Nino Page" should {
     "display correct heading" in {
-      doc.body.getElementsByTag("h1").text must startWith("Do you have a National Insurance number issued in the UK?")
+      doc.body.getElementsByTag("h1").text must startWith("National Insurance number It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ123456C'")
     }
 
     "display correct title" in {
-      doc.title must startWith("Do you have a National Insurance number issued in the UK?")
-    }
-
-    "have 'yes' radio button" in {
-      doc.body.getElementById("have-nino-yes").attr("value") mustBe "true"
-    }
-
-    "have 'no' radio button" in {
-      doc.body.getElementById("have-nino-no").attr("value") mustBe "false"
+      doc.title must startWith("What is your National Insurance number?")
     }
 
     "have description with proper content" in {
       doc.body
-        .getElementById("description")
-        .text mustBe "You will have a National Insurance number if you have worked in the UK."
+        .getElementsByClass("form-hint")
+        .text mustBe "It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ123456C'"
     }
 
     "Have correct hint for nino field" in {
@@ -75,9 +67,6 @@ class HaveNinoSubscriptionSpec extends ViewSpec {
   "No option selected Subscription Have Nino Page" should {
     "have page level error with correct message" in {
       docWithNoOptionSelected.body.getElementById("form-error-heading").text mustBe "There is a problem."
-      docWithNoOptionSelected.body
-        .getElementsByAttributeValue("href", "#have-nino")
-        .text mustBe "Tell us if you have a National Insurance number"
     }
   }
 

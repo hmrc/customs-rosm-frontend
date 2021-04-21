@@ -163,7 +163,7 @@ object SubscriptionFlows {
       NameDobDetailsSubscriptionFlowPage,
       UtrSubscriptionFlowYesNoPage,
       UtrSubscriptionFlowPage,
-      NinoSubscriptionFlowPage,
+      NinoSubscriptionFlowYesNoPage,
       AddressDetailsSubscriptionFlowPage,
       ContactDetailsSubscriptionFlowPageMigrate,
       ContactDetailsIsThisRightAddressSubscriptionFlowPageMigrate,
@@ -349,6 +349,13 @@ case object UtrSubscriptionFlowPage
         .createForm(journey = Journey.Migrate)
         .url
     )
+
+case object NinoSubscriptionFlowYesNoPage
+  extends SubscriptionPage(
+    uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveNinoSubscriptionYesNoController
+      .createForm(journey = Journey.Migrate)
+      .url
+  )
 
 case object NinoSubscriptionFlowPage
     extends SubscriptionPage(

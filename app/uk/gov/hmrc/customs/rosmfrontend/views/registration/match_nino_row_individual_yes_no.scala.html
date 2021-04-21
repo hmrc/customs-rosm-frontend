@@ -1,0 +1,68 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import play.twirl.api.TwirlFeatureImports.defining
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.DoYouHaveNinoYesNoController
+@import uk.gov.hmrc.customs.rosmfrontend.domain.YesNo
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+@import uk.gov.hmrc.customs.rosmfrontend.views.html._
+@import views.html.helper._
+
+
+@this(layout_di: layout)
+@(yesNoForm: Form[YesNo], journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+
+@inputText(field: String, label: String, args: (Symbol, Any)*) = {
+    @defining(Seq('_label -> Html(messages(label))) ++ args) { args =>
+        @helpers.input(yesNoForm(field), args: _*)
+    }
+}
+
+@description = @{messages("cds.matching.nino.row.description")}
+
+@inputRadioGroup(field: String, options: Seq[(String, String)]) = {
+
+@helpers.inputRadioGroup(
+    yesNoForm(field),
+    options,
+    Map.empty,
+    '_divClass -> "createForm-group form-group inline",
+    '_legend -> messages("cds.matching.nino.row.header"),
+    '_isLegendH1 -> true,
+    '_hintText -> description,
+    '_fieldsetStyle -> "inline",
+    '_trueSuffix -> "yes",
+    '_falseSuffix -> "no"
+)
+}
+    
+@layout_di(messages("cds.matching.nino.row.title"), form = Some(yesNoForm)) {
+<div class="column-two-thirds">
+
+    @helpers.errorSummary(yesNoForm, focusOverrides = Map("have-nino" -> "have-nino-yes"))
+
+    @helper.form(DoYouHaveNinoYesNoController.submit(journey), 'id -> "matchRowIndividualsNinoForm") {
+    @CSRF.formField
+
+    @inputRadioGroup("have-nino",
+        Seq("true" -> messages("cds.yes"),
+            "false" -> messages("cds.no")))
+    <input class="button" type="submit" value="@messages("cds.navigation.continue")">
+
+    @helpers.helpAndSupport()
+    }
+</div>
+}

@@ -17,16 +17,13 @@
 package unit.controllers.registration
 
 import common.pages.matching.OrganisationUtrPage._
-import org.mockito.Mockito._
 import org.scalatest.BeforeAndAfterEach
 import org.scalatest.mockito.MockitoSugar
 import play.api.mvc.Result
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.customs.rosmfrontend.connector.MatchingServiceConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveAUtrNumberYesNoController
 import uk.gov.hmrc.customs.rosmfrontend.domain._
-import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.matching.{MatchingRequestHolder, MatchingResponse}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.registration.MatchingService
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetailsService
@@ -168,7 +165,7 @@ class DoYouHaveAUtrNumberYesNoControllerSpec extends ControllerSpec with Mockito
     "redirect to Nino page based on NO answer" in {
       submitForm(form = NoUtrRequest, CdsOrganisationType.ThirdCountrySoleTraderId) { result =>
         status(result) shouldBe SEE_OTHER
-        result.header.headers("Location") should endWith("register-for-cds/matching/row/nino")
+        result.header.headers("Location") should endWith("register-for-cds/matching/row/nino-yes-no")
       }
     }
   }

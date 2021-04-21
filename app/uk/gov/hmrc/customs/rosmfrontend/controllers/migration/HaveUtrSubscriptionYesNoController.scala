@@ -22,11 +22,10 @@ import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.WhatIsYourUtrSubscriptionController
-import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain._
-import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{UtrSubscriptionFlowPage, UtrSubscriptionFlowYesNoPage}
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.yesNoUtrAnswerForm
+import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.UtrSubscriptionFlowPage
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.yesNoCustomAnswerForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.RequestSessionData
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetailsService
@@ -52,7 +51,7 @@ class HaveUtrSubscriptionYesNoController @Inject()(
     implicit request => _: LoggedInUserWithEnrolments =>
       requestSessionData.userSelectedOrganisationType match {
         case Some(orgType) => Future.successful(Ok(
-          matchUtrSubscriptionYesNoView(yesNoUtrAnswerForm(errorMessageByAnswer(orgType)), orgType.id, journey)))
+          matchUtrSubscriptionYesNoView(yesNoCustomAnswerForm(errorMessageByAnswer(orgType), "have-utr"), orgType.id, journey)))
         case None => noOrgTypeSelected
       }
   }
@@ -61,7 +60,7 @@ class HaveUtrSubscriptionYesNoController @Inject()(
     implicit request => _: LoggedInUserWithEnrolments =>
       requestSessionData.userSelectedOrganisationType match {
         case Some(orgType) =>
-          yesNoUtrAnswerForm(errorMessageByAnswer(orgType)).bindFromRequest.fold(
+          yesNoCustomAnswerForm(errorMessageByAnswer(orgType), "have-utr").bindFromRequest.fold(
             formWithErrors =>
               Future.successful(BadRequest(matchUtrSubscriptionYesNoView(formWithErrors, orgType.id, journey))),
             formData => destinationsByAnswer(formData, journey, orgType)
@@ -81,10 +80,10 @@ class HaveUtrSubscriptionYesNoController @Inject()(
     implicit hc: HeaderCarrier,
     request: Request[AnyContent]
   ): Future[Result] =
-    form.isYes match {
-      case true => Future.successful(Redirect(WhatIsYourUtrSubscriptionController.createForm(journey)))
-      case false => Future.successful(Redirect(subscriptionFlowManager.stepInformation(UtrSubscriptionFlowPage).nextPage.url))// Skip UTR entry page
-      case _ => throw new IllegalStateException("No Data from the form")
+    if (form.isYes) {
+      Future.successful(Redirect(WhatIsYourUtrSubscriptionController.createForm(journey)))
+    } else {
+      Future.successful(Redirect(subscriptionFlowManager.stepInformation(UtrSubscriptionFlowPage).nextPage.url))
     }
 
   private lazy val noOrgTypeSelected = throw new IllegalStateException("No organisation type selected by user")

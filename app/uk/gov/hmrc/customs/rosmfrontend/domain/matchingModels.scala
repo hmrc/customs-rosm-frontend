@@ -241,7 +241,13 @@ object NameMatchModel {
   implicit val jsonFormat = Json.format[NameMatchModel]
 }
 
-case class NinoMatchModel(haveNino: Option[Boolean], nino: Option[String])
+case class HaveNinoMatchModel(haveNino: Option[Boolean], nino: Option[String])
+
+object HaveNinoMatchModel {
+  implicit val jsonFormat = Json.format[HaveNinoMatchModel]
+}
+
+case class NinoMatchModel(nino: Option[String])
 
 object NinoMatchModel {
   implicit val jsonFormat = Json.format[NinoMatchModel]

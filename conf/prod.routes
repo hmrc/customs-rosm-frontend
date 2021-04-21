@@ -47,6 +47,9 @@ POST        /customs/:journey/row-utr                                           
 GET         /customs/:journey/row-utr-yes-no                                       @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionYesNoController.createForm(journey: Journey.Value)
 POST        /customs/:journey/row-utr-yes-no                                       @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveUtrSubscriptionYesNoController.submit(journey: Journey.Value)
 
+GET         /customs/:journey/row-nino-yes-no                                      @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionYesNoController.createForm(journey: Journey.Value)
+POST        /customs/:journey/row-nino-yes-no                                      @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionYesNoController.submit(journey: Journey.Value)
+
 GET         /customs/:journey/row-nino                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionController.createForm(journey: Journey.Value)
 POST        /customs/:journey/row-nino                                             @uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionController.submit(journey: Journey.Value)
 
@@ -180,6 +183,10 @@ GET         /customs/:journey/matching/row-name-date-of-birth/:userType         
 POST        /customs/:journey/matching/row-name-date-of-birth/:userType            @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.RowIndividualNameDateOfBirthController.submit(isInReviewMode: Boolean = false, userType, journey: Journey.Value)
 GET         /customs/:journey/matching/row-name-date-of-birth/:userType/review     @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.RowIndividualNameDateOfBirthController.reviewForm(userType, journey: Journey.Value)
 POST        /customs/:journey/matching/row-name-date-of-birth/:userType/review     @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.RowIndividualNameDateOfBirthController.submit(isInReviewMode: Boolean = true, userType, journey: Journey.Value)
+
+GET         /customs/:journey/matching/row/nino-yes-no                             @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveNinoYesNoController.displayForm(journey: Journey.Value)
+POST        /customs/:journey/matching/row/nino-yes-no                             @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveNinoYesNoController.submit(journey: Journey.Value)
+
 GET         /customs/:journey/matching/row/nino                                    @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveNinoController.displayForm(journey: Journey.Value)
 POST        /customs/:journey/matching/row/nino                                    @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveNinoController.submit(journey: Journey.Value)
 

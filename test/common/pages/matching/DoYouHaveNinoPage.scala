@@ -24,7 +24,7 @@ trait DoYouHaveNinoPage extends WebPage {
   val fieldLevelErrorNino = "//*[@id='nino-outer']//span[@class='error-message']"
 
   override val url: String = Env.frontendHost + "/customs/register-for-cds/matching/row/nino"
-  override val title = "Do you have a National Insurance number"
+  override val title = "What is your National Insurance number"
 
   val yesRadioButton = "//*[@id='have-nino-yes']"
   val yesLabel = "//label[@for='have-nino-yes']"
@@ -42,4 +42,9 @@ object DoYouHaveNinoPage extends DoYouHaveNinoPage
 
 object SubscriptionNinoPage extends DoYouHaveNinoPage {
   override val url: String = Env.frontendHost + "/customs/subscribe-for-cds/row-nino"
+}
+
+object SubscriptionNinoYesNoPage extends DoYouHaveNinoPage {
+  override val url: String = Env.frontendHost + "/customs/subscribe-for-cds/row-nino-yes-no"
+  override val title = "Do you have a National Insurance number issued in the UK?"
 }
