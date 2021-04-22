@@ -77,6 +77,16 @@ class DoYouHaveNinoControllerSpec extends ControllerSpec with BeforeAndAfterEach
         page.getElementsText(fieldLevelErrorNino) shouldBe empty
       }
     }
+    "display nino field when user select yes" in {
+      displayForm() { result =>
+        status(result) shouldBe OK
+        val page = CdsPage(bodyOf(result))
+        page.getElementsText(ninoHint) shouldBe "It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ123456C'"
+        page.elementIsPresent(ninoInput) shouldBe true
+
+        page.getElementsText(fieldLevelErrorNino) shouldBe empty
+      }
+    }
   }
 
   "Submitting the form" should {

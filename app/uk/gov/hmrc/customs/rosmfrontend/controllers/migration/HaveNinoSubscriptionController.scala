@@ -59,11 +59,10 @@ class HaveNinoSubscriptionController @Inject()(
   private def destinationsByAnswer(form: NinoMatchModel,journey: Journey.Value)
                                   (implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[Result] =
     form.nino match {
-      case Some(_) =>
+      case Some(nino) =>
         subscriptionDetailsHolderService
-          .cacheCustomsId(Nino(form.nino.getOrElse(noNinoException)))
+          .cacheCustomsId(Nino(nino))
           .map(_ => Redirect(AddressController.createForm(journey)))
       case _           => throw new IllegalStateException("No Data from the form")
     }
-  private lazy val noNinoException = throw new IllegalStateException("User selected 'Yes' for Nino but no Nino found")
 }
