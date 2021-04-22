@@ -17,7 +17,6 @@
 package uk.gov.hmrc.customs.rosmfrontend.controllers
 
 import play.api.mvc.{AnyContent, Request}
-import uk.gov.hmrc.customs.rosmfrontend.domain.registration.JourneyType
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 
 trait JourneyTypeFromUrl {
@@ -25,7 +24,7 @@ trait JourneyTypeFromUrl {
     "(?<=/customs/)(.*?)(?=/)".r.findFirstIn(request.path).getOrElse("")
 
   def journeyFromUrl(implicit request: Request[AnyContent]): Journey.Value = journeyTypeFromUrl match {
-    case JourneyType.GetAnEori => Journey.GetYourEORI
-    case _                     => Journey.Migrate
+    case "register-for-cds" => Journey.GetYourEORI
+    case _                  => Journey.Migrate
   }
 }
