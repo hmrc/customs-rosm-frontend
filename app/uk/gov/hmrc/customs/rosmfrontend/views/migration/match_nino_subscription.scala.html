@@ -14,8 +14,10 @@
  * limitations under the License.
  *@
 
+@import play.twirl.api.TwirlFeatureImports.defining
 @import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.HaveNinoSubscriptionController
-@import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType
+@import uk.gov.hmrc.customs.rosmfrontend.domain.NinoMatchModel
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
 
 
@@ -25,36 +27,26 @@
 @import views.html.helper._
 
 @inputText(field: String, label: String, args: (Symbol, Any)*) = {
-    @defining(Seq('_label -> Html(messages(label))) ++ args) { args =>
+    @defining(Seq('_label -> Html(messages(label)), '_isLabelH1 -> true) ++ args) { args =>
         @helpers.input(matchNinoIdForm(field), args: _*)
     }
 }
 
-@description = @{messages("cds.matching.nino.row.description")}
-
-@layout_di(messages("cds.matching.nino.row.header"), form = Some(matchNinoIdForm)) {
+@layout_di(messages("subscription-journey.what-is-your-nino"), form = Some(matchNinoIdForm)) {
     <div class="column-two-thirds">
 
+        @helpers.errorSummary(matchNinoIdForm)
 
-    @helpers.errorSummary(matchNinoIdForm)
+        @helper.form(HaveNinoSubscriptionController.submit(journey), 'id -> "subscriptionNinoForm") {
+            @CSRF.formField
 
-    @helper.form(HaveNinoSubscriptionController.submit(journey), 'id -> "subscriptionNinoForm") {
-    @CSRF.formField
-    <div class="form-group">
-        @helpers.hideRevealToggle(
-        matchNinoIdForm("have-nino"),
-        isYesFirst = true,
-        legend = messages("cds.matching.nino.row.header"),
-        isLegendH1 = true,
-        otherHtmlInLegend = Html("<p id='description'>" + description + "</p>")
-        ) {
-        @inputText("nino", messages("cds.matching.nino.nino"),
-        '_hintText -> Html(messages("cds.matching.nino.nino.hint")))
+            @inputText("nino",
+                messages("cds.matching.nino.nino"),
+                '_hintText -> Html(messages("cds.matching.nino.nino.hint")))
+            <p><input class="button" type="submit" value="@messages("cds.navigation.continue")"></p>
         }
-    </div>
-        <p><input class="button" type="submit" value="@messages("cds.navigation.continue")"></p>
 
-    @helpers.helpAndSupport()
-    }
-</div>
+        @helpers.helpAndSupport()
+
+    </div>
 }

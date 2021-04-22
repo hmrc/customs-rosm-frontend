@@ -26,7 +26,7 @@ import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.DoYouHaveNinoController
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.Individual
-import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, NameDobMatchModel, Nino}
+import uk.gov.hmrc.customs.rosmfrontend.domain.{NameDobMatchModel, Nino}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.RequestSessionData
 import uk.gov.hmrc.customs.rosmfrontend.services.registration.MatchingService
@@ -51,7 +51,7 @@ class DoYouHaveNinoControllerSpec extends ControllerSpec with BeforeAndAfterEach
 
   private val matchNinoRowIndividualView = app.injector.instanceOf[match_nino_row_individual]
 
-  private val doYouHaveNinoController = new DoYouHaveNinoController(
+  private val doYouHaveNinoController = new DoYouHaveNinoController (
     app,
     mockAuthConnector,
     mockMatchingService,
@@ -77,28 +77,10 @@ class DoYouHaveNinoControllerSpec extends ControllerSpec with BeforeAndAfterEach
         page.getElementsText(fieldLevelErrorNino) shouldBe empty
       }
     }
-
-    "ensure the labels are correct" in {
-      displayForm() { result =>
-        status(result) shouldBe OK
-        val page = CdsPage(bodyOf(result))
-        page.getElementsText(yesLabel) shouldBe "Yes"
-        page.elementIsPresent(yesRadioButton) shouldBe true
-
-        page.getElementsText(noLabel) shouldBe "No"
-        page.elementIsPresent(noRadioButton) shouldBe true
-
-        page.getElementsText(fieldLevelErrorNino) shouldBe empty
-      }
-    }
-
     "display nino field when user select yes" in {
       displayForm() { result =>
         status(result) shouldBe OK
         val page = CdsPage(bodyOf(result))
-        page.elementIsPresent(yesRadioButton) shouldBe true
-
-        page.getElementsText(ninoLabelBold) should include("National Insurance number")
         page.getElementsText(ninoHint) shouldBe "It's on your National Insurance card, benefit letter, payslip or P60. For example, 'QQ123456C'"
         page.elementIsPresent(ninoInput) shouldBe true
 
@@ -108,7 +90,7 @@ class DoYouHaveNinoControllerSpec extends ControllerSpec with BeforeAndAfterEach
   }
 
   "Submitting the form" should {
-    "redirect to 'These are the details we have about you' page when Y is selected and given NINO is matched" in {
+    "redirect to 'These are the details we have about you' page when given NINO is matched" in {
       when(mockSubscriptionDetailsService.cachedNameDobDetails(any[HeaderCarrier])).thenReturn(
         Future.successful(Some(NameDobMatchModel("First name", None, "Last name", new LocalDate(2015, 10, 15))))
       )
@@ -123,17 +105,6 @@ class DoYouHaveNinoControllerSpec extends ControllerSpec with BeforeAndAfterEach
         verify(mockMatchingService).matchIndividualWithId(meq(validNino), meq(expectedIndividual), any())(
           any[HeaderCarrier]
         )
-      }
-    }
-
-    "redirect to 'Enter your address' page when N is selected" in {
-      when(mockRequestSessionData.userSelectedOrganisationType(any()))
-        .thenReturn(Some(CdsOrganisationType.ThirdCountrySoleTrader))
-
-      submitForm(noNinoSubmitData) { result =>
-        await(result)
-        status(result) shouldBe SEE_OTHER
-        result.header.headers("Location") should endWith("register-for-cds/matching/address/third-country-sole-trader")
       }
     }
 

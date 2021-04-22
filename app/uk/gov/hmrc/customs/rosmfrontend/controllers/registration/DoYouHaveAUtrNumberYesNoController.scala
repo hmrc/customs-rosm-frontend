@@ -27,7 +27,7 @@ import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes._
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.DetermineReviewPageController
 import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType.forId
 import uk.gov.hmrc.customs.rosmfrontend.domain._
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.yesNoUtrAnswerForm
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.{yesNoAnswerForm, yesNoCustomAnswerForm}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.registration.MatchingService
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetailsService
@@ -54,7 +54,7 @@ class DoYouHaveAUtrNumberYesNoController @Inject()(
     ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUserWithEnrolments =>
       {
         Future.successful(
-          Ok(matchOrganisationUtrView(yesNoUtrAnswerForm(errorMessageByAnswer(organisationType)), organisationType, OrganisationModeDM, journey, isInReviewMode))
+          Ok(matchOrganisationUtrView(yesNoCustomAnswerForm(errorMessageByAnswer(organisationType), "have-utr"), organisationType, OrganisationModeDM, journey, isInReviewMode))
         )
       }
     }
@@ -62,13 +62,13 @@ class DoYouHaveAUtrNumberYesNoController @Inject()(
   def submit(organisationType: String, journey: Journey.Value, isInReviewMode: Boolean = false): Action[AnyContent] =
     ggAuthorisedUserWithEnrolmentsAction { implicit request => loggedInUser: LoggedInUserWithEnrolments =>
       {
-        yesNoUtrAnswerForm(errorMessageByAnswer(organisationType)).bindFromRequest.fold(
+        yesNoCustomAnswerForm(errorMessageByAnswer(organisationType), "have-utr").bindFromRequest.fold(
           formWithErrors => Future.successful(BadRequest(view(organisationType, formWithErrors, journey))),
           { formData =>
-            formData.isYes match {
-              case true => Future.successful(Redirect(WhatIsYourUtrNumberController.form(organisationType, journey, isInReviewMode)))
-              case false => noUtrDestination(organisationType, journey, isInReviewMode)
-              case _ => throw new IllegalArgumentException("Have UTR should be Some(true) or Some(false) but was None")
+            if (formData.isYes) {
+              Future.successful(Redirect(WhatIsYourUtrNumberController.form(organisationType, journey, isInReviewMode)))
+            } else {
+              noUtrDestination(organisationType, journey, isInReviewMode)
             }
           }
         )
@@ -82,11 +82,7 @@ class DoYouHaveAUtrNumberYesNoController @Inject()(
     }
   }
 
-  private def noUtrDestination(
-    organisationType: String,
-    journey: Journey.Value,
-    isInReviewMode: Boolean
-  ): Future[Result] =
+  private def noUtrDestination(organisationType: String, journey: Journey.Value, isInReviewMode: Boolean): Future[Result] =
     organisationType match {
       case CdsOrganisationType.CharityPublicBodyNotForProfitId =>
         Future.successful(Redirect(VatRegisteredUkController.form()))
@@ -111,12 +107,9 @@ class DoYouHaveAUtrNumberYesNoController @Inject()(
     }
 
   private def noUtrThirdCountryIndividualsRedirect(journey: Journey.Value): Future[Result] =
-    Future.successful(Redirect(DoYouHaveNinoController.displayForm(journey)))
+    Future.successful(Redirect(DoYouHaveNinoYesNoController.displayForm(journey)))
 
-
-  private def view(organisationType: String, form: Form[YesNo], journey: Journey.Value)(
-    implicit request: Request[AnyContent]
-  ): HtmlFormat.Appendable =
+  private def view(organisationType: String, form: Form[YesNo], journey: Journey.Value)
+                  (implicit request: Request[AnyContent]): HtmlFormat.Appendable =
     matchOrganisationUtrView(form, organisationType, OrganisationModeDM, journey)
-
 }

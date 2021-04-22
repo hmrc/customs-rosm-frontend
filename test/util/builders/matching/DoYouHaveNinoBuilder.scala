@@ -16,8 +16,7 @@
 
 package util.builders.matching
 
-import uk.gov.hmrc.customs.rosmfrontend.domain.{Nino, NinoMatchModel}
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.rowIndividualsNinoForm
+import uk.gov.hmrc.customs.rosmfrontend.domain.Nino
 
 object DoYouHaveNinoBuilder {
 
@@ -25,11 +24,11 @@ object DoYouHaveNinoBuilder {
 
   val yesNinoSubmitData = Map("have-nino" -> "true", "nino" -> NinoFormBuilder.Nino)
 
+  val yesNoNinoEmptyData: Map[String, String] = Map[String, String]()
+
   val yesNinoNotProvidedSubmitData = Map("have-nino" -> "true", "nino" -> "")
 
   val yesNinoWrongFormatSubmitData = Map("have-nino" -> "true", "nino" -> "ABZ")
 
   val noNinoSubmitData = Map("have-nino" -> "false")
-
-  val mandatoryNinoFields: NinoMatchModel = rowIndividualsNinoForm.bind(yesNinoSubmitData).value.get
 }

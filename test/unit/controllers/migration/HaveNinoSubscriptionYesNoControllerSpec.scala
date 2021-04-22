@@ -16,20 +16,19 @@
 
 package unit.controllers.migration
 
-import common.pages.matching.SubscriptionNinoPage
+import common.pages.matching.SubscriptionNinoYesNoPage
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import org.scalatest.BeforeAndAfterEach
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
-import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionController
+import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.HaveNinoSubscriptionYesNoController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
-import uk.gov.hmrc.customs.rosmfrontend.domain.CustomsId
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{SubscriptionFlowInfo, SubscriptionPage}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetailsService
-import uk.gov.hmrc.customs.rosmfrontend.views.html.migration.match_nino_subscription
+import uk.gov.hmrc.customs.rosmfrontend.views.html.migration.match_nino_subscription_yes_no
 import uk.gov.hmrc.http.HeaderCarrier
 import unit.controllers.CdsPage
 import util.ControllerSpec
@@ -39,7 +38,7 @@ import util.builders.SessionBuilder
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class HaveNinoSubscriptionControllerSpec extends ControllerSpec with BeforeAndAfterEach {
+class HaveNinoSubscriptionYesNoControllerSpec extends ControllerSpec with BeforeAndAfterEach {
 
   private val mockAuthConnector = mock[AuthConnector]
   private val mockSubscriptionFlowManager = mock[SubscriptionFlowManager]
@@ -47,15 +46,16 @@ class HaveNinoSubscriptionControllerSpec extends ControllerSpec with BeforeAndAf
   private val mockSubscriptionFlowInfo = mock[SubscriptionFlowInfo]
   private val mockSubscriptionPage = mock[SubscriptionPage]
 
-  private val matchNinoSubscriptionView = app.injector.instanceOf[match_nino_subscription]
+  private val matchNinoSubscriptionView = app.injector.instanceOf[match_nino_subscription_yes_no]
 
-  private val ValidNinoRequest = Map("nino" -> "AB123456C")
+  private val ValidNinoNoRequest = Map("have-nino" -> "false")
+  private val ValidNinoYesRequest = Map("have-nino" -> "true")
 
-  private val nextPageFlowUrl = "/customs/subscribe-for-cds/address"
+  private val nextPageFlowUrl = "/customs/subscribe-for-cds/row-nino-yes-no"
 
   override protected def beforeEach: Unit = reset(mockSubscriptionDetailsService)
 
-  val controller = new HaveNinoSubscriptionController(
+  val controller = new HaveNinoSubscriptionYesNoController(
     app,
     mockAuthConnector,
     mockSubscriptionFlowManager,
@@ -64,39 +64,38 @@ class HaveNinoSubscriptionControllerSpec extends ControllerSpec with BeforeAndAf
     mockSubscriptionDetailsService
   )
 
-  "HaveNinoSubscriptionController createForm" should {
+  "HaveNinoSubscriptionYesNoController createForm" should {
     "return OK and display correct page" in {
       createForm(Journey.Migrate) { result =>
         status(result) shouldBe OK
         val page = CdsPage(bodyOf(result))
-        page.title should include("What is your National Insurance number")
+        page.title should include(SubscriptionNinoYesNoPage.title)
       }
     }
   }
 
-  "HaveNinoSubscriptionController submit" should {
+  "HaveNinoSubscriptionYesNoController submit" should {
     "return BadRequest when no option selected" in {
       submit(Journey.Migrate, Map.empty[String, String]) { result =>
         status(result) shouldBe BAD_REQUEST
       }
     }
-
-    "return BadRequest when invalidUtr provided" in {
-      val invalidNino = "01234567890123"
-      submit(Journey.Migrate, Map("nino" -> invalidNino)) { result =>
-        status(result) shouldBe BAD_REQUEST
-      }
-    }
-
-    "cache NINO and redirect to Address Page of the flow" in {
-      when(mockSubscriptionDetailsService.cacheCustomsId(any[CustomsId])(any[HeaderCarrier]))
-        .thenReturn(Future.successful(()))
+    "send to enter nino page when Y selected" in {
       mockSubscriptionFlow(nextPageFlowUrl)
-      submit(Journey.Migrate, ValidNinoRequest) { result =>
+      submit(Journey.Migrate, ValidNinoYesRequest) { result =>
+        status(result) shouldBe SEE_OTHER
+        result.header.headers(LOCATION) shouldBe "/customs/subscribe-for-cds/row-nino"
+      }
+      verifyNoInteractions(mockSubscriptionDetailsService)
+    }
+    "cache None for CustomsId and redirect to Address Page of the flow" in {
+      when(mockSubscriptionDetailsService.clearCachedCustomsId(any[HeaderCarrier])).thenReturn(Future.successful(()))
+      mockSubscriptionFlow(nextPageFlowUrl)
+      submit(Journey.Migrate, ValidNinoNoRequest) { result =>
         status(result) shouldBe SEE_OTHER
         result.header.headers(LOCATION) shouldBe "/customs/subscribe-for-cds/address"
       }
-      verify(mockSubscriptionDetailsService).cacheCustomsId(any[CustomsId])(any[HeaderCarrier])
+      verify(mockSubscriptionDetailsService).clearCachedCustomsId(any[HeaderCarrier])
     }
   }
 

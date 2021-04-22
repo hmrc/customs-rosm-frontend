@@ -22,7 +22,7 @@ import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
 import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, YesNo}
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.yesNoUtrAnswerForm
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.yesNoCustomAnswerForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.views.html.migration.match_utr_subscription_yes_no
 import util.ViewSpec
@@ -32,9 +32,9 @@ class HaveUtrSubscriptionYesNoSpec extends ViewSpec {
   implicit val request = withFakeCSRF(FakeRequest())
 
   private val invalidUtr = "0123456789"
-  private val standardForm: Form[YesNo] = yesNoUtrAnswerForm("Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?")
-  private val noOptionSelectedForm = yesNoUtrAnswerForm("Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?").bind(Map.empty[String, String])
-  private val incorrectUtrForm = yesNoUtrAnswerForm("Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?").bind(Map("utr" -> invalidUtr))
+  private val standardForm: Form[YesNo] = yesNoCustomAnswerForm("Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?", "have-utr")
+  private val noOptionSelectedForm = yesNoCustomAnswerForm("Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?", "have-utr").bind(Map.empty[String, String])
+  private val incorrectUtrForm = yesNoCustomAnswerForm("Tell us if you have a Self Assessment Unique Taxpayer Reference (UTR) issued in the UK?", "have-utr").bind(Map("utr" -> invalidUtr))
 
   private val view = app.injector.instanceOf[match_utr_subscription_yes_no]
 
