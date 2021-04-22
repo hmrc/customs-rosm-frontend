@@ -21,7 +21,6 @@ import javax.inject.Inject
 import play.api.mvc.Results.Redirect
 import play.api.mvc._
 import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
-import uk.gov.hmrc.customs.rosmfrontend.domain.registration.JourneyType
 
 import scala.concurrent.Future
 
@@ -30,7 +29,7 @@ class ShutterFilter @Inject()(appConfig: AppConfig)(implicit val mat: Materializ
   val isShuttered: Boolean = appConfig.isShuttered
   override def apply(next: RequestHeader => Future[Result])(rh: RequestHeader): Future[Result] = {
     val journey = journeyType(rh)
-    if (journey.contains(JourneyType.Subscribe) && isShuttered) {
+    if (journey.contains("subscribe-for-cds") && isShuttered) {
       Future.successful(Redirect("/customs/shutter"))
     } else next(rh)
   }
