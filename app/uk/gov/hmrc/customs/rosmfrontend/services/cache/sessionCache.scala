@@ -216,6 +216,9 @@ class SessionCache @Inject()(appConfig: AppConfig, mongo: ReactiveMongoComponent
   def subscriptionCreateOutcome(implicit hc: HeaderCarrier): Future[SubscriptionCreateOutcome] =
     getCached[SubscriptionCreateOutcome](sessionId, (cachedData, id) => cachedData.subscriptionCreateOutcome(id))
 
+  def mayBeSubscriptionCreateOutcome(implicit hc: HeaderCarrier): Future[Option[SubscriptionCreateOutcome]] =
+    getCached[Option[SubscriptionCreateOutcome]](sessionId, (cachedData, _) => cachedData.subscriptionCreateOutcome)
+
   def registrationInfo(implicit hc: HeaderCarrier): Future[RegistrationInfo] =
     getCached[RegistrationInfo](sessionId, (cachedData, id) => cachedData.registrationInfo(id))
 

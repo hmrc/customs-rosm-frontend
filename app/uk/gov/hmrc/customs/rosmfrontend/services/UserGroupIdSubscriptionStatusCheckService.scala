@@ -16,30 +16,31 @@
 
 package uk.gov.hmrc.customs.rosmfrontend.services
 
-import javax.inject.{Inject, Singleton}
 import play.api.mvc.{AnyContent, Request, Result}
 import uk.gov.hmrc.customs.rosmfrontend.connector.Save4LaterConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.auth.EnrolmentExtractor
-import uk.gov.hmrc.customs.rosmfrontend.domain.{CacheIds, Eori, GroupId, InternalId, LoggedInUserWithEnrolments}
+import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.CachedData
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription._
 import uk.gov.hmrc.http.HeaderCarrier
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
 class UserGroupIdSubscriptionStatusCheckService @Inject()(
-  subscriptionStatusService: SubscriptionStatusService,
-  enrolmentStoreProxyService: EnrolmentStoreProxyService,
-  save4LaterConnector: Save4LaterConnector
+    subscriptionStatusService: SubscriptionStatusService,
+    enrolmentStoreProxyService: EnrolmentStoreProxyService,
+    save4LaterConnector: Save4LaterConnector
 )(implicit ec: ExecutionContext)
     extends EnrolmentExtractor {
   private val idType = "SAFE"
 
   def checksToProceed(groupId: GroupId, internalId: InternalId)(
-    continue: => Future[Result]
+      continue: => Future[Result]
   )(groupIsEnrolled: => Future[Result])(userIsInProcess: => Future[Result])(
-    otherUserWithinGroupIsInProcess: => Future[Result]
+      existingApplicationInProcess: => Future[Result])(
+      otherUserWithinGroupIsInProcess: => Future[Result]
   )(implicit request: Request[AnyContent], hc: HeaderCarrier): Future[Result] =
     enrolmentStoreProxyService.isEnrolmentAssociatedToGroup(groupId).flatMap {
       case true => groupIsEnrolled //Block the user
@@ -55,6 +56,13 @@ class UserGroupIdSubscriptionStatusCheckService @Inject()(
                     save4LaterConnector
                       .delete(groupId.id)
                       .flatMap(_ => continue) // Delete and then proceed normal
+                  }
+                  case SubscriptionProcessing => {
+                    if (cacheIds.internalId == internalId) {
+                      existingApplicationInProcess
+                    } else {
+                      otherUserWithinGroupIsInProcess
+                    }
                   }
                   case _ => {
                     if (cacheIds.internalId == internalId) {
@@ -73,8 +81,10 @@ class UserGroupIdSubscriptionStatusCheckService @Inject()(
     }
 
   def userOrGroupHasAnEori(
-    groupId: GroupId
-  )(implicit request: Request[AnyContent], user: LoggedInUserWithEnrolments, hc: HeaderCarrier): Future[Option[Eori]] =
+      groupId: GroupId
+  )(implicit request: Request[AnyContent],
+    user: LoggedInUserWithEnrolments,
+    hc: HeaderCarrier): Future[Option[Eori]] =
     enrolmentStoreProxyService.groupIdEnrolments(groupId).map {
       existingEoriForUserOrGroup(user, _)
     }

@@ -542,6 +542,15 @@ cds.matching.organisation-type.radio.third-country-individual.label=Third countr
 cds.matching.organisation-type.page-error.organisation-type=Tell us what you want to apply as
 cds.matching.organisation-type.page-error.organisation-type-field.error.required=Tell us what you want to apply as
 
+# Subscription Status Outcomes Exiting User
+cds.existing.application.outcomes.steps.next=What happens next
+cds.existing.application.status.outcome.processing.heading.missing.orgname=An EORI number application has already been submitted
+cds.existing.application.status.outcome.processing.heading=The EORI application for {0} is being processed
+cds.existing.application.status.outcome.processing.heading-noname=The EORI application is being processed
+cds.existing.application.status.outcome.processing.title=The EORI application is being processed
+cds.existing.application.status.outcome.processing.we-are-processing=We are processing your EORI application. This can take up to 5 working days. You will need to sign back in to see the result of your registration.
+cds.existing.application.outcomes.in-processing.received=Application received by HMRC on {0}
+
 # Subscription Status Outcomes
 cds.subscription.status.outcome.processing.heading=The EORI application for {0} is being processed
 cds.subscription.status.outcome.processing.heading-noname=The EORI application is being processed
