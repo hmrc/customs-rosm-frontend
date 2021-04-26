@@ -57,7 +57,9 @@ class UserGroupIdSubscriptionStatusCheckServiceSpec
 
   private def continue: Future[Result] = Future.successful(Redirect("/continue"))
   private def groupIsEnrolled: Future[Result] = Future.successful(Redirect("/blocked/groupIsEnrolled"))
-  private def userIsInProcess: Future[Result] = Future.successful(Redirect("/blocked/userIsInProcess"))
+  private def userIsInProcess: Future[Result] = Future.successful(Redirect("/continue"))
+  private def existingApplicationInProgress: Future[Result] = Future.successful(Redirect("/blocked/existingApplicationInProgress"))
+
   private def otherUserWithinGroupIsInProcess: Future[Result] =
     Future.successful(Redirect("/blocked/otherUserWithinGroupIsInProcess"))
 
@@ -76,7 +78,7 @@ class UserGroupIdSubscriptionStatusCheckServiceSpec
     "block the user for the groupID if enrolment exists" in {
 
       val result: Result = service
-        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess } {
+        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess }{existingApplicationInProgress} {
           otherUserWithinGroupIsInProcess
         }
         .futureValue
@@ -96,12 +98,33 @@ class UserGroupIdSubscriptionStatusCheckServiceSpec
         .thenReturn(Future.successful(SubscriptionProcessing))
 
       val result: Result = service
-        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess } {
+        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess }{existingApplicationInProgress} {
           otherUserWithinGroupIsInProcess
         }
         .futureValue
 
-      result.header.headers(LOCATION) shouldBe "/blocked/userIsInProcess"
+      result.header.headers(LOCATION) shouldBe "/blocked/existingApplicationInProgress"
+    }
+
+    "allow the user for the groupID is cache any other subscription status " in {
+      when(
+        mockEnrolmentStoreProxyService
+          .isEnrolmentAssociatedToGroup(any[GroupId])(any[HeaderCarrier], any[ExecutionContext])
+      ).thenReturn(Future.successful(false))
+      when(
+        mockSave4LaterConnector
+          .get[CacheIds](any[String], any[String])(any[HeaderCarrier], any[Reads[CacheIds]], any[Writes[CacheIds]])
+      ).thenReturn(Future.successful(Some(cacheIds)))
+      when(mockSubscriptionStatusService.getStatus(any[String], any[String])(any[HeaderCarrier]))
+        .thenReturn(Future.successful(SubscriptionExists))
+
+      val result: Result = service
+        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess }{existingApplicationInProgress} {
+          otherUserWithinGroupIsInProcess
+        }
+        .futureValue
+
+      result.header.headers(LOCATION) shouldBe "/continue"
     }
 
     "block the user for the groupID is cache and subscription status is SubscriptionProcessing for some other user within the group" in {
@@ -117,7 +140,7 @@ class UserGroupIdSubscriptionStatusCheckServiceSpec
         .thenReturn(Future.successful(SubscriptionProcessing))
 
       val result: Result = service
-        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess } {
+        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess } {existingApplicationInProgress}{
           otherUserWithinGroupIsInProcess
         }
         .futureValue
@@ -139,7 +162,7 @@ class UserGroupIdSubscriptionStatusCheckServiceSpec
       when(mockSave4LaterConnector.delete(any[String])(any[HeaderCarrier])).thenReturn(Future.successful(()))
 
       val result: Result = service
-        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess } {
+        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess }{existingApplicationInProgress} {
           otherUserWithinGroupIsInProcess
         }
         .futureValue
@@ -161,7 +184,7 @@ class UserGroupIdSubscriptionStatusCheckServiceSpec
       when(mockSave4LaterConnector.delete(any[String])(any[HeaderCarrier])).thenReturn(Future.successful(()))
 
       val result: Result = service
-        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess } {
+        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess } {existingApplicationInProgress}{
           otherUserWithinGroupIsInProcess
         }
         .futureValue
@@ -180,7 +203,7 @@ class UserGroupIdSubscriptionStatusCheckServiceSpec
       ).thenReturn(Future.successful(None))
 
       val result: Result = service
-        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess } {
+        .checksToProceed(groupId, internalId) { continue } { groupIsEnrolled } { userIsInProcess } {existingApplicationInProgress}{
           otherUserWithinGroupIsInProcess
         }
         .futureValue

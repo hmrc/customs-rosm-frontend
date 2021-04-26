@@ -512,6 +512,20 @@ cds.matching.organisation-type.radio.third-country-sole-trader.label=Unig fasnac
 cds.matching.organisation-type.radio.third-country-individual.label=Unigolyn trydedd wlad
 cds.matching.organisation-type.page-error.organisation-type=Rhowch wybod i ni fel beth rydych am wneud cais
 cds.matching.organisation-type.page-error.organisation-type-field.error.required=Rhowch wybod i ni fel beth rydych am wneud cais
+
+# Subscription Status Outcomes Exiting User
+cds.existing.application.outcomes.steps.next=Yr hyn sy’n digwydd nesaf
+cds.existing.application.status.outcome.processing.heading.missing.orgname=Mae cais am rif EORI eisoes wedi’i gyflwyno
+cds.existing.application.status.outcome.processing.heading=Mae cais am rif EORI ar gyfer {0} eisoes wedi’i gyflwyno
+cds.existing.application.status.outcome.processing.heading-noname=The EORI application is being processed
+cds.existing.application.status.outcome.processing.title=The EORI application is being processed
+cds.existing.application.status.outcome.processing.we-are-processing=Bydd eich rhif EORI yn gysylltiedig â’r cyfrif Porth y Llywodraeth rydych wedi’i ddefnyddio i fewngofnodi. Un rhif EORI yn unig y gellir ei greu ar gyfrif Porth y Llywodraeth. Os oes angen i chi wneud cais am rif EORI arall, bydd angen i chi fewngofnodi gyda chyfrif gwahanol.
+cds.existing.application.outcomes.in-processing.received=Daeth y cais i law CThEM ar {0}
+cds.subscription.status.gg.h1=Eich rhif EORI a’ch cyfrif Porth y Llywodraeth
+cds.subscription.status.gg.p1=Mae’ch rhif EORI yn gysylltiedig â’r cyfrif Porth y Llywodraeth rydych wedi’i ddefnyddio ar gyfer y cais hwn, ac mae gennych fynediad at y Gwasanaeth Datgan Tollau.
+cds.subscription.status.gg.p2=Ni allwch wneud cais am rif EORI arall gan ddefnyddio’r cyfrif Porth y Llywodraeth hwn.
+
+
 cds.subscription.status.outcome.processing.heading=Mae’r cais am rif EORI ar gyfer {0} wrthi’n cael ei brosesu
 cds.subscription.status.outcome.processing.heading-noname=Mae’r cais am rif EORI wrthi’n cael ei brosesu
 cds.subscription.status.outcome.processing.title=Mae’r cais am rif EORI wrthi’n cael ei brosesu

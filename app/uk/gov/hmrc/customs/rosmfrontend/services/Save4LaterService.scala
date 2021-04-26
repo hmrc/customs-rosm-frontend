@@ -17,10 +17,11 @@
 package uk.gov.hmrc.customs.rosmfrontend.services
 
 import uk.gov.hmrc.customs.rosmfrontend.connector.Save4LaterConnector
-import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, InternalId, SafeId}
+import uk.gov.hmrc.customs.rosmfrontend.domain.{CdsOrganisationType, InternalId, SafeId, SubscriptionCreateOutcome}
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.email.EmailStatus
 import uk.gov.hmrc.customs.rosmfrontend.logging.CdsLogger
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.customs.rosmfrontend.domain.SubscriptionCreateOutcome._
 
 import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
@@ -31,6 +32,7 @@ class Save4LaterService @Inject()(save4LaterConnector: Save4LaterConnector)(impl
   private val safeIdKey = "safeId"
   private val orgTypeKey = "orgType"
   private val emailKey = "email"
+  private val SubscriptionOutcomeKey = "SubscriptionOutcome"
 
   def saveSafeId(internalId: InternalId, safeId: SafeId)(implicit hc: HeaderCarrier): Future[Unit] = {
     CdsLogger.info("saving SafeId to mongo")

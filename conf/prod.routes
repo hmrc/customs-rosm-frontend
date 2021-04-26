@@ -126,6 +126,7 @@ GET         /customs/register-for-cds/xi-eori-guidance                          
 GET         /customs/:journey/business-details-recovery                            @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.BusinessDetailsRecoveryController.form(journey: Journey.Value)
 GET         /customs/:journey/business-details-recovery/continue                   @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.BusinessDetailsRecoveryController.continue(journey: Journey.Value)
 
+GET         /customs/:journey/existing-application-in-progress                     @uk.gov.hmrc.customs.rosmfrontend.controllers.ExistingApplicationInProgressController.show(journey: Journey.Value)
 GET         /customs/:journey/enrolment-exists-against-groupId                     @uk.gov.hmrc.customs.rosmfrontend.controllers.EnrolmentExistsAgainstGroupIdController.show(journey: Journey.Value)
 GET         /customs/:journey/enrolment-pending-against-groupId                    @uk.gov.hmrc.customs.rosmfrontend.controllers.EnrolmentPendingAgainstGroupIdController.show(journey: Journey.Value)
 # Return

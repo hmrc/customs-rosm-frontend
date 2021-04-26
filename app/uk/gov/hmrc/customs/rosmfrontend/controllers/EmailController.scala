@@ -22,7 +22,7 @@ import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.email.routes.CheckYourEmailController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.email.routes.WhatIsYourEmailController.createForm
 import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.EoriExistsController
-import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.{EnrolmentExistsAgainstGroupIdController, EnrolmentPendingAgainstGroupIdController}
+import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.{EnrolmentExistsAgainstGroupIdController, EnrolmentPendingAgainstGroupIdController, ExistingApplicationInProgressController}
 import uk.gov.hmrc.customs.rosmfrontend.domain.{GroupId, InternalId, LoggedInUserWithEnrolments}
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.email.EmailStatus
 import uk.gov.hmrc.customs.rosmfrontend.logging.CdsLogger
@@ -56,6 +56,10 @@ class EmailController @Inject()(
   )(implicit request: Request[AnyContent], user: LoggedInUserWithEnrolments): Future[Result] =
     continue(journey)
 
+  private def existingApplicationInProcess(
+                               journey: Journey.Value
+                             )(implicit request: Request[AnyContent], user: LoggedInUserWithEnrolments): Future[Result] =
+    Future.successful(Redirect(ExistingApplicationInProgressController.show(journey)))
   private def otherUserWithinGroupIsInProcess(
     journey: Journey.Value
   )(implicit request: Request[AnyContent], user: LoggedInUserWithEnrolments): Future[Result] =
@@ -80,7 +84,8 @@ class EmailController @Inject()(
   def form(journey: Journey.Value): Action[AnyContent] =
     ggAuthorisedUserWithEnrolmentsAction { implicit request => implicit user: LoggedInUserWithEnrolments =>
       if (journey == Journey.GetYourEORI) {
-        userGroupIdSubscriptionStatusCheckService.userOrGroupHasAnEori(GroupId(user.groupId)).flatMap {
+        userGroupIdSubscriptionStatusCheckService.userOrGroupHasAnEori(GroupId(user.groupId))
+        .flatMap {
           case Some(eori) =>
             sessionCache.saveEori(eori).map { _ =>
               Redirect(EoriExistsController.eoriExist(journey))
@@ -91,7 +96,7 @@ class EmailController @Inject()(
                 continue(journey)
               } { groupIsEnrolled(journey) } {
                 userIsInProcess(journey)
-              } { otherUserWithinGroupIsInProcess(journey) }
+              }{existingApplicationInProcess(journey)} { otherUserWithinGroupIsInProcess(journey) }
           }
         }
       } else {
@@ -99,7 +104,7 @@ class EmailController @Inject()(
           continue(journey)
         } { groupIsEnrolled(journey) } {
           userIsInProcess(journey)
-        } { otherUserWithinGroupIsInProcess(journey) }
+        }{existingApplicationInProcess(journey)} { otherUserWithinGroupIsInProcess(journey) }
       }
 
     }
