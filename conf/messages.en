@@ -548,8 +548,12 @@ cds.existing.application.status.outcome.processing.heading.missing.orgname=An EO
 cds.existing.application.status.outcome.processing.heading=The EORI application for {0} is being processed
 cds.existing.application.status.outcome.processing.heading-noname=The EORI application is being processed
 cds.existing.application.status.outcome.processing.title=The EORI application is being processed
-cds.existing.application.status.outcome.processing.we-are-processing=We are processing your EORI application. This can take up to 5 working days. You will need to sign back in to see the result of your registration.
+cds.existing.application.status.outcome.processing.we-are-processing=Your EORI number will be linked to the Goverment Gateway account you are signed with. Only one EORI number can be created on a Goverment Gateway account. If you need to apply for another EORI number, you will need to sign with different Goverment Gateway account.
 cds.existing.application.outcomes.in-processing.received=Application received by HMRC on {0}
+cds.subscription.status.gg.h1=Your EORI number and Government Gateway
+cds.subscription.status.gg.p1=Your EORI number is linked to the Government Gateway account you have used for this application and you have access to the Customs Declaration Service.
+cds.subscription.status.gg.p2=You can't apply for another EORI number using this Government Gateway.
+
 
 # Subscription Status Outcomes
 cds.subscription.status.outcome.processing.heading=The EORI application for {0} is being processed
