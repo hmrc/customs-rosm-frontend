@@ -169,14 +169,18 @@ class ContactDetailsIsRightAddressController @Inject()(
     sessionCache.subscriptionDetails flatMap { sd =>
       sd.contactDetails match {
         case Some(contactDetails) =>
-          Future.successful(
-            AddressViewModel(
-              contactDetails.street.getOrElse(""),
-              contactDetails.city.getOrElse(""),
-              contactDetails.postcode,
-              contactDetails.countryCode.getOrElse("")
+          if (contactDetails.isAddressPopulated) {
+            Future.successful(
+              AddressViewModel(
+                contactDetails.street.getOrElse(""),
+                contactDetails.city.getOrElse(""),
+                contactDetails.postcode,
+                contactDetails.countryCode.getOrElse("")
+              )
             )
-          )
+          } else {
+            getAddress(journey)
+          }
         case _ =>
           getAddress(journey)
       }

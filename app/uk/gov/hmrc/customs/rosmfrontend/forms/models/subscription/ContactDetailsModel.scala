@@ -42,6 +42,10 @@ case class ContactDetailsModel(
     countryCode.getOrElse("")
   )
 
+  def isAddressPopulated: Boolean = {
+    street.exists(_.nonEmpty) && countryCode.exists(_.nonEmpty)
+  }
+
 }
 
 object ContactDetailsModel {
