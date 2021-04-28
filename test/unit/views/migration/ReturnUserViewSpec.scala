@@ -54,7 +54,7 @@ class ReturnUserViewSpec extends ViewSpec {
     "have the correct bullet points" in {
       doc.body
         .getElementsByTag("ul")
-        .text() mustBe "EORI number issued in the UK Unique Taxpayer Reference (UTR) National Insurance number Privacy policy Terms and conditions Accessibility Statement"
+        .text() must endWith("EORI number issued in the UK Unique Taxpayer Reference (UTR) National Insurance number Privacy policy Terms and conditions Accessibility Statement")
     }
   }
 }
