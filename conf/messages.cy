@@ -71,6 +71,11 @@ cds.enrolment-already-exists-against-groupid.step5=Dewiswch ''Gwasanaeth Datgan 
 cds.enrolment-already-exists-against-groupid.step6=Cadwch a gadael.
 cds.enrolment-already-pending-against-groupid-gye.paragraph=Mae’r Dynodydd Defnyddiwr (ID) ar gyfer Porth y Llywodraeth a ddefnyddioch wrth fewngofnodi yn rhan o dîm sydd eisoes wedi gwneud cais am rif EORI. Mae’r cais hwn wrthi’n cael ei brosesu.
 cds.enrolment-already-pending-against-groupid-migrate.paragraph=Mae’r Dynodydd Defnyddiwr (ID) ar gyfer Porth y Llywodraeth a ddefnyddioch wrth fewngofnodi yn rhan o dîm sydd eisoes wedi gwneud cais i gael mynediad at CDS. Mae’r cais hwn wrthi’n cael ei brosesu.
+
+language.toggle.hidden.english=Change language to English
+language.toggle.hidden.cymraeg=Newid yr iaith ir Gymraeg
+language.toggle.aria.label=Switcher iaith
+
 cds.country.AF=Afghanistan
 cds.country.AL=Albania
 cds.country.DZ=Algeria
