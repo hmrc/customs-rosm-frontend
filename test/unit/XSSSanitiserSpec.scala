@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package unit.util
+package unit
 
 import uk.gov.hmrc.customs.rosmfrontend.util.XSSSanitiser
 import util.UnitSpec
-
 class XSSSanitiserSpec extends UnitSpec {
 
   "XSS Sanitiser " should {

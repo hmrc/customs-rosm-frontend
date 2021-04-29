@@ -96,9 +96,10 @@ class AddressController @Inject()(
                         )
                     }
                   )
-              case Journey.GetYourEORI =>
-                updateRegistrationAddress(address.sanitise()).flatMap { _ =>
-                  showReviewPage(address, isInReviewMode, journey)
+              case  Journey.GetYourEORI =>
+                val addressView = address.sanitise()
+                updateRegistrationAddress(addressView).flatMap { _ =>
+                  showReviewPage(addressView, isInReviewMode, journey)
                 }
             }
           }

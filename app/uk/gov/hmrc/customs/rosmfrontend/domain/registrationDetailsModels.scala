@@ -21,6 +21,7 @@ import play.api.libs.json._
 import play.api.libs.json.JodaWrites._
 import play.api.libs.json.JodaReads._
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.Address
+import uk.gov.hmrc.customs.rosmfrontend.util.XSSSanitiser
 
 case class BusinessAddress(
   line_1: String,
@@ -32,6 +33,21 @@ case class BusinessAddress(
 )
 
 object BusinessAddress {
+  def apply(line_1: String,
+              line_2: String,
+              line_3: Option[String],
+              line_4: Option[String],
+              postcode: Option[String] = None,
+              country: String) = {
+   new BusinessAddress(
+      line_1 = XSSSanitiser.sanitise(line_1),
+      line_2 = XSSSanitiser.sanitise(line_2),
+      line_3 = line_3.map(XSSSanitiser.sanitise),
+      line_4 = line_4.map(XSSSanitiser.sanitise),
+      postcode = postcode,
+      country =country,
+    )
+  }
   implicit val formats = Json.format[BusinessAddress]
 }
 

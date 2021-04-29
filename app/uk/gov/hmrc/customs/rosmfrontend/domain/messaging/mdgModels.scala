@@ -20,6 +20,7 @@ import org.joda.time.format.ISODateTimeFormat
 import org.joda.time.{DateTime, LocalDate}
 import play.api.libs.json._
 import uk.gov.hmrc.customs.rosmfrontend.domain.{AddressValidator, CaseClassAuditHelper}
+import uk.gov.hmrc.customs.rosmfrontend.util.XSSSanitiser
 
 case class Header(originatingSystem: String, requestTimeStamp: String, correlationId: String)
 
@@ -57,11 +58,12 @@ object Address {
     postalCode: Option[String],
     countryCode: String
   ): Address =
+    
     new Address(
-      addressLine1,
-      addressLine2,
-      addressLine3,
-      addressLine4,
+      XSSSanitiser.sanitise(addressLine1),
+      addressLine2.map(XSSSanitiser.sanitise),
+      addressLine3.map(XSSSanitiser.sanitise),
+      addressLine4.map(XSSSanitiser.sanitise),
       postalCode.filter(_.nonEmpty),
       countryCode.toUpperCase()
     ) {}
