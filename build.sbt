@@ -25,11 +25,6 @@ majorVersion := 2
 
 PlayKeys.devSettings := Seq("play.server.http.port" -> "9830")
 
-resolvers += Resolver.bintrayRepo("hmrc", "releases")
-resolvers += "hmrc-releases" at "https://artefacts.tax.service.gov.uk/artifactory/hmrc-releases/"
-
-lazy val allResolvers = resolvers ++= Seq(Resolver.jcenterRepo)
-
 lazy val IntegrationTest = config("it") extend Test
 
 val testConfig = Seq(IntegrationTest, Test)
@@ -44,7 +39,6 @@ lazy val microservice = (project in file("."))
     integrationTestSettings,
     playSettings,
     playPublishingSettings,
-    allResolvers,
     scoverageSettings,
     twirlSettings,
     TwirlKeys.templateImports += "uk.gov.hmrc.customs.rosmfrontend.models._"
