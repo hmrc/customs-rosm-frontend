@@ -77,19 +77,12 @@
 
     @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsIsRightAddressController.submit(isInReviewMode, journey), 'id -> "isThisRightContactAddressForm") {
 
-    <fieldset class="form-group">
-
-        <dl class="">
-            <div id="address" class="govuk-!-margin-bottom-7">
-                     @contactAddress.street<br>
-                     @contactAddress.city<br>
-                     @contactAddress.postcode.getOrElse("")<br>
-                     @countryCodeToLabel(contactAddress.countryCode)<br>
-            </div>
-        </dl>
-
-    </fieldset>
-
+    <div id="address" class="form-group">
+             @contactAddress.street<br>
+             @contactAddress.city<br>
+             @contactAddress.postcode.getOrElse("")<br>
+             @countryCodeToLabel(contactAddress.countryCode)<br>
+    </div>
 
     @CSRF.formField
 
