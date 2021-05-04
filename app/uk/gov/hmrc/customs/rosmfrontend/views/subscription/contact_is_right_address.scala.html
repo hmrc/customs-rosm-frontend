@@ -61,34 +61,28 @@
     @helpers.inputRadioGroup(
     isThisRightContactAddressForm(field),
     options,
-    Map.empty)
+    Map.empty,
+    '_legend -> messages("cds.subscription.contact-details.is-this-address.title"),
+    '_isVisuallyHiddenLegend -> true
+    )
 }
 
 @layout_di(messages("cds.subscription.contact-details.is-this-address.title"), AllCountriesInCountryPicker, form = Some(isThisRightContactAddressForm)) {
 
 <div class="column-two-thirds">
+    @helpers.errorSummary(isThisRightContactAddressForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
 
     <h1 class="heading-xlarge">@messages("cds.subscription.contact-details.is-this-address.title")</h1>
 
-    @helpers.errorSummary(isThisRightContactAddressForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
 
     @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsIsRightAddressController.submit(isInReviewMode, journey), 'id -> "isThisRightContactAddressForm") {
 
-    <fieldset class="form-group">
-
-        <dl class="">
-            <div id="address" class="govuk-!-margin-bottom-7">
-                <ul>
-                    <li>@contactAddress.street</li>
-                    <li>@contactAddress.city</li>
-                    <li>@contactAddress.postcode.getOrElse("")</li>
-                    <li>@countryCodeToLabel(contactAddress.countryCode)</li>
-                </ul>
-            </div>
-        </dl>
-
-    </fieldset>
-
+    <div id="address" class="form-group">
+             @contactAddress.street<br>
+             @contactAddress.city<br>
+             @contactAddress.postcode.getOrElse("")<br>
+             @countryCodeToLabel(contactAddress.countryCode)<br>
+    </div>
 
     @CSRF.formField
 

@@ -25,6 +25,10 @@
 @isLegendH1 = @{
     elements.args.getOrElse('_isLegendH1, false).asInstanceOf[Boolean]
 }
+@isVisuallyHiddenLegend = @{
+elements.args.getOrElse('_isVisuallyHiddenLegend, false).asInstanceOf[Boolean]
+}
+
 @legend = @{
     elements.args.getOrElse('_legend, "").asInstanceOf[String]
 }
@@ -45,7 +49,7 @@
         }
     <fieldset id="@field.id-fieldset" @if(elements.hasErrors) { aria-describedby="@{elements.field.name}-error"} @fieldsetStyle >
 
-        <legend>
+        <legend @if(isVisuallyHiddenLegend){class="visually-hidden"}>
             @if(isLegendH1){
             <h1 class="heading-large">
                 @legend
