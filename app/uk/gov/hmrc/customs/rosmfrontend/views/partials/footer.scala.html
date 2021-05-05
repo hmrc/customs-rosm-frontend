@@ -52,3 +52,10 @@ if(request.path.contains("register-for-cds")) "https://www.tax.service.gov.uk/ac
 
 <script src="@assetsConfig_di.assetsPrefix/javascripts/application.min.js" type="text/javascript"></script>
 <script src="@routes.Assets.versioned("javascripts/custom.js")" type="text/javascript"></script>
+
+<script type="text/javascript">
+            var errorSummary = document.querySelector('.error-summary');
+            if (errorSummary) {
+                errorSummary.focus();
+            }
+</script>
