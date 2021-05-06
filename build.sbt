@@ -124,7 +124,7 @@ val compileDependencies = Seq(
   "uk.gov.hmrc" %% "emailaddress" % "3.5.0",
   "uk.gov.hmrc" %% "logback-json-logger" % "5.0.0",
   "com.typesafe.play" %% "play-json-joda" % "2.7.4",
-  "uk.gov.hmrc" %% "play-ui" % "8.21.0-play-27"
+  "uk.gov.hmrc" %% "play-ui" % "9.2.0-play-27"
 )
 
 val testDependencies = Seq(
