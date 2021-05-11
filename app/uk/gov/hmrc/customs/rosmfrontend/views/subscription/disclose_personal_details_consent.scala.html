@@ -64,14 +64,16 @@ journey: Journey.Value)(implicit request: Request[_], messages: Messages)
     '_divClass -> "createForm-group form-group",
     '_legend -> discloseHeading,
     '_isLegendH1 -> true,
-    '_hintText -> declaration)
+    '_hintText -> declaration,
+    '_legend -> discloseHeading,
+    '_isVisuallyHiddenLegend -> true)
 }
 
 @layout_di(discloseHeading, form = Some(disclosePersonalDetailsYesNoAnswerForm)) {
     <div class="column-two-thirds">
 
-
         @helpers.errorSummary(disclosePersonalDetailsYesNoAnswerForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
+        <h1 class="heading-large">@discloseHeading</h1>
 
         @helper.form(formAction, 'id -> "disclose-personal-details-createForm") {
 

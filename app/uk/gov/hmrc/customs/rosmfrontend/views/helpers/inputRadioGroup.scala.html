@@ -49,6 +49,10 @@ elements.args.getOrElse('_isVisuallyHiddenLegend, false).asInstanceOf[Boolean]
         }
     <fieldset id="@field.id-fieldset" @if(elements.hasErrors) { aria-describedby="@{elements.field.name}-error"} @fieldsetStyle >
 
+        @if(elements.args.get('_hintText).isDefined) {
+        <p class="form-hint">@elements.args.get('_hintText)</p>
+        }
+
         <legend @if(isVisuallyHiddenLegend){class="visually-hidden"}>
             @if(isLegendH1){
             <h1 class="heading-large">
@@ -59,10 +63,6 @@ elements.args.getOrElse('_isVisuallyHiddenLegend, false).asInstanceOf[Boolean]
             <span class="heading-medium">
                 @legend
             </span>}
-
-            @if(elements.args.get('_hintText).isDefined) {
-                <p class="form-hint">@elements.args.get('_hintText)</p>
-            }
         </legend>
 
         @if(elements.hasErrors) {
