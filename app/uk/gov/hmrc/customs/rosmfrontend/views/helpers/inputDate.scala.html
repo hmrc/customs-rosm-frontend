@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers.{Input}
+@import uk.gov.hmrc.play.views.html.helpers.Input
 @import views.html.helper._
 
 @this(input_di: Input)
@@ -23,7 +23,7 @@
 @elements = @{ FieldElements(formItem(fieldName).id, formItem(fieldName), null, args.toMap, messages) }
 
 @legend = @{
-elements.args.getOrElse('_legend, "").asInstanceOf[String]
+elements.args.getOrElse('_legend, "XXXXXXXXXXXXXXXXX").asInstanceOf[String]
 }
 
 @isLegendH1 = @{

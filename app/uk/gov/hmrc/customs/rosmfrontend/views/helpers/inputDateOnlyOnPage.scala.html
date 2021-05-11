@@ -1,0 +1,94 @@
+@*
+ * Copyright 2021 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *@
+
+@import uk.gov.hmrc.play.views.html.helpers.Input
+@import views.html.helper._
+
+@this(input_di: Input)
+@(formItem:Form[_], fieldName: String, args: (Symbol,Any)*)(implicit messages: Messages)
+
+@elements = @{ FieldElements(formItem(fieldName).id, formItem(fieldName), null, args.toMap, messages) }
+
+@legend = @{
+elements.args.getOrElse('_legend, "").asInstanceOf[String]
+}
+
+@isLegendH1 = @{
+elements.args.getOrElse('_isLegendH1, false).asInstanceOf[Boolean]
+}
+
+@inputClass = @{
+    if(elements.hasErrors) {"form-control form-control-error"}
+    else "form-control"
+}
+
+@dayLabel = @{fieldName + ".day"}
+@monthLabel = @{fieldName + ".month"}
+@yearLabel = @{fieldName + ".year"}
+
+<div class="form-group @if(!isLegendH1 && elements.hasErrors){form-group-error}">
+    <fieldset class="date-form-group form-date" id="@fieldName-fieldset" aria-describedby="@fieldName-hint @if(elements.hasErrors){error-message}">
+    <legend id="@elements.field.name-field" class="form-label-bold visually-hidden">
+
+        @if(isLegendH1){
+            @if(elements.args.get('_hintLabel).isDefined) {
+                <h1 class="heading-large" id="page-heading">
+                @elements.args.get('_hintLabel)
+                </h1>
+            } else {
+                <h1 class="heading-large">
+                    @elements.label
+                </h1>
+            }
+        }
+
+        @if(legend.nonEmpty){
+            @legend
+        }
+
+        @if(isLegendH1 && elements.hasErrors) {
+        <div class="form-group-error">
+        }
+
+        @if(isLegendH1 && elements.hasErrors) {
+        </div>
+        }
+    </legend>
+        <span id="@fieldName-label-text" class="form-label-bold">@elements.label</span>
+        @if(elements.args.get('_hintText).isDefined) {
+        <span id="@fieldName-hint" class="form-hint">@elements.args.get('_hintText)</span>
+        }
+        @if(elements.hasErrors) {
+        @elements.errors.map { error =>
+            <span class="error-message"><span class="visually-hidden">@messages("cds.error.visually.hidden")</span> @(error)</span>
+            }
+        }
+
+
+        <label for="@dayLabel" class="form-group form-group-year">
+            <span>@messages("date.fields.day")</span>
+            <input type="text" pattern="[0-9]*" autocomplete="@dayLabel" inputmode="numeric" class="@inputClass" name="@dayLabel" id="@dayLabel" value="">
+        </label>
+        <label for="@monthLabel" class="form-group form-group-year">
+            <span>@messages("date.fields.month")</span>
+            <input type="text" pattern="[0-9]*" autocomplete="@monthLabel" inputmode="numeric" class="@inputClass" name="@monthLabel" id="@monthLabel" value="">
+        </label>
+        <label for="@yearLabel" class="form-group form-group-year">
+            <span>@messages("date.fields.year")</span>
+            <input type="text" pattern="[0-9]*" autocomplete="@yearLabel" inputmode="numeric" class="@inputClass" name="@yearLabel" id="@yearLabel" value="">
+        </label>
+    </fieldset>
+</div>
