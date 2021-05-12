@@ -42,6 +42,7 @@ class HaveUtrSubscriptionYesNoSpec extends ViewSpec {
     "display correct heading" in {
       companyDoc.body
         .getElementsByTag("h1")
+        .first()
         .text mustBe "Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR)?"
     }
 
@@ -56,6 +57,7 @@ class HaveUtrSubscriptionYesNoSpec extends ViewSpec {
     "display correct heading" in {
       individualDoc.body
         .getElementsByTag("h1")
+        .first()
         .text mustBe "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
     }
 

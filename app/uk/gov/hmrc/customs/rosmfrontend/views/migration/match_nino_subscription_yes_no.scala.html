@@ -36,6 +36,7 @@
         '_legend -> messages("cds.matching.nino.row.header"),
         '_isLegendH1 -> true,
         '_hintText -> description,
+        '_isVisuallyHiddenLegend -> true,
         '_fieldsetStyle -> "inline",
         '_trueSuffix -> "yes",
         '_falseSuffix -> "no"
@@ -48,6 +49,7 @@
     <div class="column-two-thirds">
 
         @helpers.errorSummary(yesNoForm, focusOverrides = Map("have-nino" -> "have-nino-yes"))
+        <h1 class="heading-large">@messages("cds.matching.nino.row.header")</h1>
 
         @helper.form(HaveNinoSubscriptionYesNoController.submit(journey), 'id -> "subscriptionNinoForm") {
             @CSRF.formField
