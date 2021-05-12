@@ -37,11 +37,11 @@ class VatGroupSpec extends ViewSpec {
   "The 'Is the organisation you are registering part of a VAT group?' Page" should {
 
     "display correct heading" in {
-      doc.body().getElementsByTag("h1").text() mustBe "Is your organisation part of a VAT group in the UK?"
+      doc.body().getElementsByTag("h1").first()text() mustBe "Is your organisation part of a VAT group in the UK?"
     }
 
     "include the heading in the title" in {
-      doc.title() must startWith(doc.body().getElementsByTag("h1").text())
+      doc.title() must startWith(doc.body().getElementsByTag("h1").first().text())
     }
 
     "have the correct class on the h1" in {
