@@ -51,6 +51,7 @@
         Map.empty,
         '_divClass -> "createForm-group form-group inline",
         '_legend -> headerAndTitle,
+        '_isVisuallyHiddenLegend -> true,
         '_isLegendH1 -> true,
         '_hintText -> intro,
         '_fieldsetStyle -> "inline",
@@ -64,7 +65,8 @@
     <div class="column-two-thirds">
 
         @helpers.errorSummary(yesNoForm, focusOverrides = Map("have-utr" -> "have-utr-yes"))
-
+        <h1 class="heading-large">@headerAndTitle</h1>
+        
         @helper.form(formAction, 'id -> "subscriptionUtrForm") {
             @CSRF.formField
 

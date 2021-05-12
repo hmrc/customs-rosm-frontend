@@ -41,6 +41,7 @@
     Map.empty,
     '_divClass -> "createForm-group form-group inline",
     '_legend -> messages("cds.matching.nino.row.header"),
+    '_isVisuallyHiddenLegend -> true,
     '_isLegendH1 -> true,
     '_hintText -> description,
     '_fieldsetStyle -> "inline",
@@ -53,6 +54,7 @@
 <div class="column-two-thirds">
 
     @helpers.errorSummary(yesNoForm, focusOverrides = Map("have-nino" -> "have-nino-yes"))
+    <h1 class="heading-large">@messages("cds.matching.nino.row.header")</h1>
 
     @helper.form(DoYouHaveNinoYesNoController.submit(journey), 'id -> "matchRowIndividualsNinoForm") {
     @CSRF.formField

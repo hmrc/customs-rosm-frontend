@@ -46,6 +46,7 @@ class MatchOrganisationUtrYesNoSpec extends ViewSpec {
     "have the correct h1 text" in {
       doc.body
         .getElementsByTag("h1")
+        .first()
         .text() mustBe "Does your organisation have a Corporation Tax Unique Taxpayer Reference (UTR) number?"
     }
     "have the correct class on the h1" in {
@@ -68,6 +69,7 @@ class MatchOrganisationUtrYesNoSpec extends ViewSpec {
     "have the correct h1 text" in {
       docAsSoleTraderIndividual.body
         .getElementsByTag("h1")
+        .first()
         .text mustBe "Do you have a Self Assessment Unique Taxpayer Reference issued in the UK?"
     }
     "not show the link for corporation tax UTR number, for sole traders" in {

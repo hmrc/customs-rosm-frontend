@@ -68,7 +68,7 @@ case class CdsPage(html: String) {
 
   def title(): String = page.title()
 
-  def h1(): String = page.getElementsByTag("h1").text()
+  def h1(): String = page.getElementsByTag("h1").first().text()
 
   def formAction(formId: String): String = {
     val element = Option(page.getElementById(formId))
