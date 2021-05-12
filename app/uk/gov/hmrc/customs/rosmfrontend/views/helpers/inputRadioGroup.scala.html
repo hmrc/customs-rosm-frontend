@@ -42,16 +42,15 @@ elements.args.getOrElse('_isVisuallyHiddenLegend, false).asInstanceOf[Boolean]
     elements.args.getOrElse(Symbol.apply(s"_${value}Suffix"), value.toLowerCase.replace(" ", "_"))
 }
 
+@if(elements.args.get('_hintText).isDefined) {
+<p class="form-hint">@elements.args.get('_hintText)</p>
+}
 
 <div id="@field.id-field" class="form-group">
     @if(elements.hasErrors) {
         <div class="form-group-error">
         }
     <fieldset id="@field.id-fieldset" @if(elements.hasErrors) { aria-describedby="@{elements.field.name}-error"} @fieldsetStyle >
-
-        @if(elements.args.get('_hintText).isDefined) {
-        <p class="form-hint">@elements.args.get('_hintText)</p>
-        }
 
         <legend @if(isVisuallyHiddenLegend){class="visually-hidden"}>
             @if(isLegendH1){

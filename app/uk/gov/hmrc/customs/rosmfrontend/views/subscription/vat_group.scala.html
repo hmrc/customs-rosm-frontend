@@ -33,6 +33,7 @@
     Map.empty,
     '_divClass -> "createForm-group form-group inline",
     '_legend -> messages("cds.subscription.vat-group.title-and-heading"),
+    '_isVisuallyHiddenLegend -> true,
     '_isLegendH1 -> true,
     '_hintText -> messages("cds.subscription.vat-group.intro-text"))
 }
@@ -40,8 +41,9 @@
 @layout_di(messages("cds.subscription.vat-group.title-and-heading"), form = Some(vatGroupYesNoAnswerForm)) {
     <div class="column-two-thirds">
 
-
         @helpers.errorSummary(vatGroupYesNoAnswerForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
+
+        <h1 class="heading-large">@messages("cds.subscription.vat-group.title-and-heading")</h1>
 
         @helper.form(formAction, 'id -> "vat-group-createForm") {
 
