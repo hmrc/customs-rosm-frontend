@@ -189,7 +189,7 @@ rowHaveUtrEnabled: Boolean
                             </a>
                         </dd>
                         } else {
-                        <dd></dd>
+                        <span></span>
                         }
                     </div>
                     }
@@ -207,7 +207,7 @@ rowHaveUtrEnabled: Boolean
                             </a>
                         </dd>
                         } else {
-                        <dd></dd>
+                        <span></span>
                         }
                     </div>
                     }
@@ -225,7 +225,7 @@ rowHaveUtrEnabled: Boolean
                             </a>
                         </dd>
                         } else {
-                        <dd></dd>
+                        <span></span>
                         }
                     </div>
 
@@ -244,7 +244,7 @@ rowHaveUtrEnabled: Boolean
                             </a>
                         </dd>
                         } else {
-                        <dd></dd>
+                        <span></span>
                         }
                     </div>
                     }
@@ -257,7 +257,7 @@ rowHaveUtrEnabled: Boolean
                         <dd class="cya-answer" id="review-tbl__utr">
                             @x.id
                         </dd>
-                        <dd></dd>
+                        <span></span>
                     </div>
                     }
 
@@ -271,7 +271,7 @@ rowHaveUtrEnabled: Boolean
                             @address.postcode.map(_.appendBr)
                             @transformCountryCodeToOptionalLabel(Some(address.countryCode))
                         </dd>
-                        <dd></dd>
+                        <span></span>
                     </div>
                     }.getOrElse {
                     <div class="cds-cya-change-row">
@@ -284,7 +284,7 @@ rowHaveUtrEnabled: Boolean
                             @registration.address.postalCode.map(_.appendBr)
                             @transformCountryCodeToOptionalLabel(Some(registration.address.countryCode))
                         </dd>
-                        <dd></dd>
+                        <span></span>
                     </div>
                     }
                     } else {
@@ -327,7 +327,7 @@ rowHaveUtrEnabled: Boolean
                         <dd class="cya-answer" id="review-tbl__emailAddress">
                             @cd.emailAddress.appendBr
                         </dd>
-                        <dd class="cya-answer"/>
+                        <span class="cya-answer"></span>
                     </div>
                     <div class="cds-cya-change-row">
                         <dt class="cya-question" id="review-tbl__fullname_heading">@messages("cds.subscription.contact-details.name.review.label")</dt>
@@ -428,7 +428,7 @@ rowHaveUtrEnabled: Boolean
                             }
                             }
                         </dd>
-                        <dd></dd>
+                        <span></span>
                     </div>
                     }
 
@@ -445,7 +445,7 @@ rowHaveUtrEnabled: Boolean
                             }
                             }
                         </dd>
-                        <dd></dd>
+                        <span></span>
                     </div>
                     }
 
