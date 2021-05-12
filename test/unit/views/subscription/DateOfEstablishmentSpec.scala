@@ -46,7 +46,7 @@ class DateOfEstablishmentSpec extends ViewSpec {
       doc.body.getElementsByTag("h1").hasClass("heading-large") mustBe true
     }
     "have the correct text in the label" in {
-      doc.body.getElementsByTag("legend").text() mustBe "When was the organisation established? For example, 31 3 1980"
+      doc.body.getElementsByTag("legend").text() mustBe "When was the organisation established?"
     }
     "have the correct text in the intro paragraph" in {
       doc.body
@@ -68,7 +68,7 @@ class DateOfEstablishmentSpec extends ViewSpec {
     "have the correct text in the label" in {
       docRestOfWorld.body
         .getElementsByTag("legend")
-        .text() mustBe "When was the organisation established? For example, 31 3 1980"
+        .text() mustBe "When was the organisation established?"
     }
   }
 

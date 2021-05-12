@@ -56,8 +56,9 @@
             @inputText("first-name", firstNameLabel)
             @inputText("last-name", lastNameLabel)
             @inputDate_di(subscriptionNameDobForm, "date-of-birth",
-                '_label -> Html(messages("cds.matching.individual.what-is-your-date-of-birth")),
-                '_hintText -> Html(messages("cds.date-of-birth.hint"))
+                '_label -> messages("cds.matching.individual.what-is-your-date-of-birth"),
+                '_hintText -> messages("cds.date-of-birth.hint"),
+                '_legend -> messages("cds.matching.individual.what-is-your-date-of-birth")
             )
 
             <input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>

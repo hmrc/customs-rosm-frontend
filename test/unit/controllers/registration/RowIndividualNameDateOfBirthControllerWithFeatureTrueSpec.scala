@@ -297,7 +297,7 @@ class RowIndividualNameDateOfBirthControllerWithFeatureTrueSpec
           assertInvalidField(
             formData(individualNameAndDateOfBirth).filterKeys(!webPage.dateOfBirthFields.contains(_)),
             webPage
-          )(DateOfBirth, fieldLevelErrorDateOfBirth, "Enter your date of birth")
+          )(DateOfBirth, fieldLevelErrorDateOfBirth, "Enter your date of birth", "Error: ")
       }
 
       "not be empty" in testControllerWithModel(validFormModelGens) {
@@ -307,7 +307,8 @@ class RowIndividualNameDateOfBirthControllerWithFeatureTrueSpec
           assertInvalidField(formData(individualNameAndDateOfBirth) ++ emptyDateFields, webPage)(
             DateOfBirth,
             fieldLevelErrorDateOfBirth,
-            "Enter your date of birth"
+            "Enter your date of birth",
+            "Error: "
           )
       }
 
@@ -317,7 +318,8 @@ class RowIndividualNameDateOfBirthControllerWithFeatureTrueSpec
           assertInvalidField(formData(individualNameAndDateOfBirth) + (dateOfBirthDayField -> "32"), webPage)(
             DateOfBirth,
             fieldLevelErrorDateOfBirth,
-            "Enter a date of birth in the right format"
+            "Enter a date of birth in the right format",
+            "Error: "
           )
       }
 
@@ -330,7 +332,7 @@ class RowIndividualNameDateOfBirthControllerWithFeatureTrueSpec
             dateOfBirthMonthField -> tomorrow.getMonthOfYear.toString,
             dateOfBirthYearField -> tomorrow.getYear.toString),
             webPage
-          )(DateOfBirth, fieldLevelErrorDateOfBirth, FutureDate)
+          )(DateOfBirth, fieldLevelErrorDateOfBirth, FutureDate, "Error: ")
       }
 
       "reject letters entered instead of numbers" in testControllerWithModel(validFormModelGens) {
@@ -340,7 +342,8 @@ class RowIndividualNameDateOfBirthControllerWithFeatureTrueSpec
           assertInvalidField(formData(individualNameAndDateOfBirth) ++ lettersDateFields, webPage)(
             DateOfBirth,
             fieldLevelErrorDateOfBirth,
-            "Enter a date of birth in the right format"
+            "Enter a date of birth in the right format",
+            "Error: "
           )
       }
     }

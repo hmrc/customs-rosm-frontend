@@ -149,7 +149,7 @@ class NameDobControllerSpec extends ControllerSpec with BeforeAndAfterEach with 
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your date of birth"
-        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe "Enter your date of birth"
+        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe "Error: Enter your date of birth"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -159,7 +159,7 @@ class NameDobControllerSpec extends ControllerSpec with BeforeAndAfterEach with 
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a date of birth in the right format"
-        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe "Enter a date of birth in the right format"
+        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe "Error: Enter a date of birth in the right format"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -175,7 +175,7 @@ class NameDobControllerSpec extends ControllerSpec with BeforeAndAfterEach with 
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe FutureDate
-        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe FutureDate
+        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe "Error: You must specify a date that is not in the future"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -188,7 +188,7 @@ class NameDobControllerSpec extends ControllerSpec with BeforeAndAfterEach with 
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a date of birth in the right format"
-        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe "Enter a date of birth in the right format"
+        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe "Error: Enter a date of birth in the right format"
         page.getElementsText("title") should startWith("Error: ")
       }
     }

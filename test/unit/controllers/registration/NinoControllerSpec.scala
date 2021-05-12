@@ -130,7 +130,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(NinoMatchPage.pageLevelErrorSummaryListXPath) shouldBe "Enter your date of birth"
-        page.getElementsText(NinoMatchPage.fieldLevelErrorDateOfBirth) shouldBe "Enter your date of birth"
+        page.getElementsText(NinoMatchPage.fieldLevelErrorDateOfBirth) shouldBe "Error: Enter your date of birth"
       }
     }
 
@@ -139,7 +139,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(NinoMatchPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a date of birth in the right format"
-        page.getElementsText(NinoMatchPage.fieldLevelErrorDateOfBirth) shouldBe "Enter a date of birth in the right format"
+        page.getElementsText(NinoMatchPage.fieldLevelErrorDateOfBirth) shouldBe "Error: Enter a date of birth in the right format"
       }
     }
 
@@ -153,7 +153,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "You must specify a date that is not in the future"
-        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe "You must specify a date that is not in the future"
+        page.getElementsText(fieldLevelErrorDateOfBirth) shouldBe "Error: You must specify a date that is not in the future"
         page.getElementsText("title") should startWith("Error: ")
       }
     }

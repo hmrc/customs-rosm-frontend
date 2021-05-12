@@ -84,7 +84,7 @@ class DateOfEstablishmentControllerSpec
   val existingSubscriptionDetailsHolder = SubscriptionDetails()
 
   private val DateOfEstablishmentMissingPageLevelError = "Enter your date of establishment"
-  private val DateOfEstablishmentMissingError = "Enter your date of establishment"
+  private val DateOfEstablishmentMissingError = "Error: Enter your date of establishment"
   private val DateOfEstablishmentInvalidError = "Please enter a valid date of establishment"
   private val DateOfEstablishmentInFutureError = "You cannot enter a date of establishment in the future"
 
@@ -257,7 +257,7 @@ class DateOfEstablishmentControllerSpec
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(SubscriptionDateOfEstablishmentPage.pageLevelErrorSummaryListXPath) shouldBe DateOfEstablishmentInvalidError
-          page.getElementsText(SubscriptionDateOfEstablishmentPage.dateOfEstablishmentErrorXpath) shouldBe DateOfEstablishmentInvalidError
+          page.getElementsText(SubscriptionDateOfEstablishmentPage.dateOfEstablishmentErrorXpath) shouldBe "Error: " + DateOfEstablishmentInvalidError
         }
       }
 
@@ -271,7 +271,7 @@ class DateOfEstablishmentControllerSpec
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(SubscriptionDateOfEstablishmentPage.pageLevelErrorSummaryListXPath) shouldBe DateOfEstablishmentInFutureError
-          page.getElementsText(SubscriptionDateOfEstablishmentPage.dateOfEstablishmentErrorXpath) shouldBe DateOfEstablishmentInFutureError
+          page.getElementsText(SubscriptionDateOfEstablishmentPage.dateOfEstablishmentErrorXpath) shouldBe "Error: " + DateOfEstablishmentInFutureError
         }
       }
     }

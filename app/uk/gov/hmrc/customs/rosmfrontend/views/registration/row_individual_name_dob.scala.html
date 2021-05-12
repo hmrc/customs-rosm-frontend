@@ -41,8 +41,9 @@
             @inputText("middle-name", messages("cds.matching.individual.middle-name.optional"))
             @inputText("family-name", messages("cds.matching.individual.family-name"))
             @inputDate_di(individualNameAndDateOfBirthForm, "date-of-birth",
-                '_label -> Html(messages("cds.matching.individual.what-is-your-date-of-birth")),
-                '_hintText -> Html(messages("cds.date-of-birth.hint"))
+                '_label -> messages("cds.matching.individual.what-is-your-date-of-birth"),
+                '_hintText -> messages("cds.date-of-birth.hint"),
+                '_legend -> messages("cds.matching.individual.what-is-your-date-of-birth")
                 )
             <p><input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'></p>
         }        

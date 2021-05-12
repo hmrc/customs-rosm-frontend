@@ -16,12 +16,12 @@
 
 @import org.joda.time.LocalDate
 @import uk.gov.hmrc.customs.rosmfrontend.domain._
-@import uk.gov.hmrc.customs.rosmfrontend.views.html.helpers.inputDateOnlyOnPage
+@import uk.gov.hmrc.customs.rosmfrontend.views.html.helpers.inputDate
 @import views.html.helper._
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
 
 
-@this(inputDate_di: inputDateOnlyOnPage, layout_di: layout)
+@this(inputDate_di: inputDate, layout_di: layout)
 @(dateForm: Form[LocalDate], isInReviewMode: Boolean, orgType: EtmpOrganisationType, isRestOfWorldJourney: Boolean, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
 
 

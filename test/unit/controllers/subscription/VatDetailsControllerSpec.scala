@@ -184,7 +184,7 @@ class VatDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your effective VAT date, for example '31 3 1980'"
-        page.getElementsText(vatEffectiveDateFieldLevelError) shouldBe "Enter your effective VAT date, for example '31 3 1980'"
+        page.getElementsText(vatEffectiveDateFieldLevelError) shouldBe "Error: Enter your effective VAT date, for example '31 3 1980'"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -199,7 +199,7 @@ class VatDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Please enter a valid date, for example '31 3 1980'"
-        page.getElementsText(vatEffectiveDateFieldLevelError) shouldBe "Please enter a valid date, for example '31 3 1980'"
+        page.getElementsText(vatEffectiveDateFieldLevelError) shouldBe "Error: Please enter a valid date, for example '31 3 1980'"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -215,7 +215,7 @@ class VatDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "You must specify a date that is not in the future"
-        page.getElementsText(vatEffectiveDateFieldLevelError) shouldBe "You must specify a date that is not in the future"
+        page.getElementsText(vatEffectiveDateFieldLevelError) shouldBe "Error: You must specify a date that is not in the future"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
