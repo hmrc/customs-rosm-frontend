@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers.{Input}
+@import uk.gov.hmrc.play.views.html.helpers.Input
 @import views.html.helper._
 
 @this(input_di: Input)
@@ -23,77 +23,70 @@
 @elements = @{ FieldElements(formItem(fieldName).id, formItem(fieldName), null, args.toMap, messages) }
 
 @legend = @{
-elements.args.getOrElse('_legend, "").asInstanceOf[String]
+    elements.args.getOrElse('_legend, "").asInstanceOf[String]
 }
 
 @isLegendH1 = @{
-elements.args.getOrElse('_isLegendH1, false).asInstanceOf[Boolean]
+    elements.args.getOrElse('_isLegendH1, false).asInstanceOf[Boolean]
 }
 
 @inputClass = @{
     if(elements.hasErrors) {"form-control form-control-error"}
     else "form-control"
 }
+
+@dayLabel = @{fieldName + ".day"}
+@monthLabel = @{fieldName + ".month"}
+@yearLabel = @{fieldName + ".year"}
+
 <div class="form-group @if(!isLegendH1 && elements.hasErrors){form-group-error}">
-    <fieldset class="date-form-group form-date" id="@fieldName-fieldset" aria-describedby="@fieldName-hint">
-    <legend id="@elements.field.name-field" class="form-label-bold visually-hidden">
-        @if(isLegendH1){
-        <h1 class="heading-large">
-            @elements.label
-        </h1>
-        }
+    <fieldset class="date-form-group form-date" id="@fieldName-fieldset" aria-describedby="@fieldName-hint @if(elements.hasErrors){error-message}">
+        <legend id="@elements.field.name-field" class="form-label-bold visually-hidden">
 
-        @if(isLegendH1 && elements.hasErrors) {
-        <div class="form-group-error">
-        }
-
-
-        @if(elements.args.get('_hintLabel).isDefined) {
-             <span class="form-hint">@elements.args.get('_hintLabel)</span>
-        } else {
-            <span class="form-hint">@elements.label</span>
+            @if(isLegendH1){
+                @if(elements.args.get('_hintLabel).isDefined) {
+                    <h1 class="heading-large" id="page-heading">
+                    @elements.args.get('_hintLabel)
+                    </h1>
+                } else {
+                    <h1 class="heading-large">
+                    @elements.label
+                    </h1>
+                }
             }
 
-        @if(elements.args.get('_hintText).isDefined) {
-            <span class="form-hint">@elements.args.get('_hintText)</span>
-        }
+            @if(legend.nonEmpty){
+                @legend
+            }
 
+            @if(isLegendH1 && elements.hasErrors) {
+                <div class="form-group-error">
+                }
 
-        @if(isLegendH1 && elements.hasErrors) {
-        </div>
-        }
-    </legend>
+            @if(isLegendH1 && elements.hasErrors) {
+            </div>
+            }
+        </legend>
         <span id="@fieldName-label-text" class="form-label-bold">@elements.label</span>
         @if(elements.args.get('_hintText).isDefined) {
-        <span id="@fieldName-hint" class="form-hint">@elements.args.get('_hintText)</span>
+            <span id="@fieldName-hint" class="form-hint">@elements.args.get('_hintText)</span>
         }
         @if(elements.hasErrors) {
-        @elements.errors.map { error =>
-        <span class="visually-hidden">@messages("cds.error.visually.hidden")</span>
-        <span class="error-message">@(error)</span>}
+            @elements.errors.map { error =>
+                <span class="error-message"><span class="visually-hidden">@messages("cds.error.visually.hidden")</span> @(error)</span>
+            }
         }
-
-        @input_di(
-            formItem(s"$fieldName.day"),
-            '_label -> messages("date.fields.day"),
-            '_labelClass -> "form-group form-group-day",
-            '_inputClass -> inputClass,
-            '_emptyValueText -> " "
-        )
-        @input_di(
-            formItem(s"$fieldName.month"),
-            '_label -> messages("date.fields.month"),
-            '_labelClass -> "form-group form-group-month",
-            '_inputClass -> inputClass,
-            '_emptyValueText -> " "
-        )
-        @input_di(
-            formItem(s"$fieldName.year"),
-            '_label -> messages("date.fields.year"),
-            '_labelClass -> "form-group form-group-year",
-            '_inputClass -> inputClass,
-            '_emptyValueText -> " "
-        )
-
+        <label for="@dayLabel" class="form-group form-group-year">
+            <span>@messages("date.fields.day")</span>
+            <input type="text" pattern="[0-9]*" autocomplete="@dayLabel" inputmode="numeric" class="@inputClass" name="@dayLabel" id="@dayLabel" value="@formItem(s"$dayLabel").value.getOrElse("")">
+        </label>
+        <label for="@monthLabel" class="form-group form-group-year">
+            <span>@messages("date.fields.month")</span>
+            <input type="text" pattern="[0-9]*" autocomplete="@monthLabel" inputmode="numeric" class="@inputClass" name="@monthLabel" id="@monthLabel" value="@formItem(s"$monthLabel").value.getOrElse("")">
+        </label>
+        <label for="@yearLabel" class="form-group form-group-year">
+            <span>@messages("date.fields.year")</span>
+            <input type="text" pattern="[0-9]*" autocomplete="@yearLabel" inputmode="numeric" class="@inputClass" name="@yearLabel" id="@yearLabel" value="@formItem(s"$yearLabel").value.getOrElse("")">
+        </label>
     </fieldset>
 </div>

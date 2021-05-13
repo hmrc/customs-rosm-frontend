@@ -50,8 +50,9 @@
             @inputText("last-name", messages("cds.matching.individual.last-name"))
             <div class="form-group">
             @inputDate_di(businessDetailsForm, "date-of-birth",
-                '_label -> Html(messages("cds.matching.individual.date-of-birth")),
-                '_hintText -> Html(messages("cds.date-of-birth.hint"))
+                '_label -> messages("cds.matching.individual.date-of-birth"),
+                '_hintText -> messages("cds.date-of-birth.hint"),
+                '_legend -> messages("cds.matching.individual.date-of-birth")
             )
             </div>
 

@@ -189,7 +189,7 @@ trait ControllerSpec extends UnitSpec with GuiceOneAppPerSuite with MockitoSugar
     def assertInvalidField(
       formValues: Map[String, String],
       webPage: WebPage
-    )(problemField: String, fieldLevelErrorXPath: String, errorMessage: String): Result =
+    )(problemField: String, fieldLevelErrorXPath: String, errorMessage: String, errorPrefix: String = ""): Result =
       submitForm(formValues) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
@@ -197,7 +197,7 @@ trait ControllerSpec extends UnitSpec with GuiceOneAppPerSuite with MockitoSugar
         withClue(s"Not found in the page: field level error block for '$problemField' with xpath $fieldLevelErrorXPath") {
           page.elementIsPresent(fieldLevelErrorXPath) shouldBe true
         }
-        page.getElementsText(fieldLevelErrorXPath) shouldBe errorMessage
+        page.getElementsText(fieldLevelErrorXPath) shouldBe errorPrefix + errorMessage
         result
       }
 

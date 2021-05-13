@@ -41,8 +41,9 @@
     @inputText("last-name", messages("cds.matching.nino.last-name"))
     <div class="form-group">
         @inputDate_di(ninoForm, "date-of-birth",
-        '_label -> Html(messages("cds.matching.nino.date-of-birth")),
-        '_hintText -> Html(messages("cds.date-of-birth.hint"))
+            '_label -> messages("cds.matching.nino.date-of-birth"),
+            '_hintText -> messages("cds.date-of-birth.hint"),
+            '_legend -> messages("cds.matching.nino.date-of-birth")
         )
     </div>
     @inputText("nino", messages("cds.matching.nino.nino"),

@@ -48,8 +48,10 @@
             @helpers.inputText(vatForm)("postcode", "cds.subscription.vat-details.postcode")
             @helpers.inputText(vatForm)("vat-number", "cds.subscription.vat-details.vat-number", '_hintText -> hintText)
             <div class="form-group">
-                @inputDate_di(vatForm, "vat-effective-date", '_label -> messages("cds.subscription.vat-details.vat-effective-date"),
-                '_hintText -> messages("cds.subscription.vat-details.vat-effective-date.hint"))
+                @inputDate_di(vatForm, "vat-effective-date",
+                    '_label -> messages("cds.subscription.vat-details.vat-effective-date"),
+                    '_hintText -> messages("cds.subscription.vat-details.vat-effective-date.hint"),
+                    '_legend -> messages("cds.subscription.vat-details.vat-effective-date"))
 
             </div>
 

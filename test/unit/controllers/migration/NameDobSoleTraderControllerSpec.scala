@@ -299,7 +299,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
       submitFormInCreateMode(createFormAllFieldsNameDobMap - dobDayFieldName) { result =>
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a date of birth in the right format"
-        page.getElementsText(dobFieldLevelErrorXPath) shouldBe "Enter a date of birth in the right format"
+        page.getElementsText(dobFieldLevelErrorXPath) shouldBe "Error: Enter a date of birth in the right format"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -309,7 +309,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
       submitFormInCreateMode(createFormAllFieldsNameDobMap - dobMonthFieldName) { result =>
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a date of birth in the right format"
-        page.getElementsText(dobFieldLevelErrorXPath) shouldBe "Enter a date of birth in the right format"
+        page.getElementsText(dobFieldLevelErrorXPath) shouldBe "Error: Enter a date of birth in the right format"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -319,7 +319,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
       submitFormInCreateMode(createFormAllFieldsNameDobMap - dobYearFieldName) { result =>
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a date of birth in the right format"
-        page.getElementsText(dobFieldLevelErrorXPath) shouldBe "Enter a date of birth in the right format"
+        page.getElementsText(dobFieldLevelErrorXPath) shouldBe "Error: Enter a date of birth in the right format"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -329,7 +329,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
       submitFormInCreateMode(createFormAllFieldsNameDobInFutureMap) { result =>
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "You must specify a date that is not in the future"
-        page.getElementsText(dobFieldLevelErrorXPath) shouldBe "You must specify a date that is not in the future"
+        page.getElementsText(dobFieldLevelErrorXPath) shouldBe "Error: You must specify a date that is not in the future"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
