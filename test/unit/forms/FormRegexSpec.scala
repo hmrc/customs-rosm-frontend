@@ -35,7 +35,11 @@ class FormRegexSpec extends UnitSpec {
       val utr = "12 34 56 78 91"
       utr.matches(utrRegex.regex) shouldBe true
     }
-
+    "match  utr format with spaces 6" in {
+      val utrRegex = MatchingForms.utrRegex
+      val utr = "77 77 77 77 77"
+      utr.matches(utrRegex.regex) shouldBe true
+    }
     "match  utr format start with k" in {
       val utrRegex = MatchingForms.utrRegex
       val utr = "k12 34 56 78 91"

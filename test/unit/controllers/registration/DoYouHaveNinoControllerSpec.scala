@@ -155,8 +155,8 @@ class DoYouHaveNinoControllerSpec extends ControllerSpec with BeforeAndAfterEach
         submitForm(yesNinoWrongFormatSubmitData) { result =>
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
-          page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The National Insurance number must be 9 characters"
-          page.getElementText(fieldLevelErrorNino) shouldBe "The National Insurance number must be 9 characters"
+          page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a National Insurance number in the right format"
+          page.getElementText(fieldLevelErrorNino) shouldBe "Enter a National Insurance number in the right format"
         }
       }
     }

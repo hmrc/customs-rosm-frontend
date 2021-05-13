@@ -237,7 +237,7 @@ class WhatIsYourIdentifierControllerSpec extends ControllerSpec with BeforeAndAf
         await(result)
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "The National Insurance number must be 9 characters"
+        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a National Insurance number in the right format"
       }
     }
 

@@ -44,6 +44,10 @@
 elements.args.getOrElse('_inputMode, "text").asInstanceOf[String]
 }
 
+@patternMode = @{
+  elements.args.getOrElse('_pattern, "*").asInstanceOf[String]
+}
+
 @appendClass = @{
  elements.args.getOrElse('_appendClass, "").asInstanceOf[String]
 }
@@ -93,6 +97,7 @@ elements.args.getOrElse('_inputMode, "text").asInstanceOf[String]
             class="form-control @appendClass @if(allErrors.nonEmpty) {form-control-error}"
             spellcheck="false"
             inputmode="@inputMode"
+            pattern="@patternMode"
             value="@elements.field.value" />
     </div>
 

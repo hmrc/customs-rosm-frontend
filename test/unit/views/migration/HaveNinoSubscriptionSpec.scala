@@ -75,11 +75,11 @@ class HaveNinoSubscriptionSpec extends ViewSpec {
       docWithIncorrectNino.body.getElementById("form-error-heading").text mustBe "There is a problem."
       docWithIncorrectNino.body
         .getElementsByAttributeValue("href", "#nino")
-        .text mustBe "The National Insurance number must be 9 characters"
+        .text mustBe "Enter a National Insurance number in the right format"
     }
     "inform field level that number must be 9 characters when input is too long" in {
       docWithIncorrectNino.body.getElementsByClass("error-message").text must include(
-        "The National Insurance number must be 9 characters"
+        "Enter a National Insurance number in the right format"
       )
     }
   }

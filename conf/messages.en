@@ -456,9 +456,6 @@ cds.subscription.enter-eori-number.label=What is your EORI number?
 cds.subscription.enter-eori-number.hint=The number starts with GB and is then followed by 12 digits, For example, GB345834921000.
 cds.matching-error.eori=Enter an EORI number in the right format
 cds.matching-error.eori.isEmpty=Enter your EORI number
-cds.matching-error.eori.wrong-length=The EORI number must be 14 characters
-cds.matching-error.eori.wrong-length.too-short=The EORI number must be more than 13 characters
-cds.matching-error.eori.wrong-length.too-long=The EORI number must be 17 characters or less
 cds.matching-error.eori.not-gb=Enter an EORI number that starts with GB
 cds.what-is-your-eori.page-error.eori-number=Enter your EORI number
 
