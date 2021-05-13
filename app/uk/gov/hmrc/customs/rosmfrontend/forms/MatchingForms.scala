@@ -27,7 +27,7 @@ import uk.gov.hmrc.customs.rosmfrontend.forms.FormUtils.{mandatoryDateTodayOrBef
 import uk.gov.hmrc.customs.rosmfrontend.forms.FormValidation._
 import uk.gov.hmrc.domain.{Nino => nino}
 import uk.gov.voa.play.form.ConditionalMappings._
-
+import uk.gov.hmrc.customs.customs._
 import scala.util.matching.Regex
 
 object MatchingForms {
@@ -224,7 +224,7 @@ object MatchingForms {
     Constraint({
       case s if s.isEmpty                => Invalid(ValidationError("cds.matching-error.business-details.utr.isEmpty"))
       case s if !s.matches(utrRegex.regex) => Invalid(ValidationError("cds.matching-error.utr.invalid"))
-      case s if !validUtrFormat(Some(s)) => Invalid(ValidationError("cds.matching-error.utr.invalid"))
+      case s if !validUtrFormat(Some(s.sanitise())) => Invalid(ValidationError("cds.matching-error.utr.invalid"))
       case _                             => Valid
     })
   }
@@ -325,7 +325,7 @@ object MatchingForms {
     Constraint({
       case s if s.isEmpty                    => Invalid(ValidationError("cds.subscription.nino.error.empty"))
       case s if !s.matches(ninoRegex.regex)   => Invalid(ValidationError("cds.matching.nino.invalid"))
-      case s if !nino.isValid(s.toUpperCase) => Invalid(ValidationError("cds.matching.nino.invalid"))
+      case s if !nino.isValid(s.sanitise().toUpperCase) => Invalid(ValidationError("cds.matching.nino.invalid"))
       case _                                 => Valid
     })
 
