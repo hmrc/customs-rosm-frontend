@@ -21,16 +21,26 @@ import play.api.libs.json._
 import play.api.libs.json.JodaWrites._
 import play.api.libs.json.JodaReads._
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.IndividualName
+import play.api.libs.json.{Format, Json}
+
+import scala.language.implicitConversions
 
 sealed trait CustomsId {
   def id: String
 }
 
-case class Utr(override val id: String) extends CustomsId
+case class Utr(override val id: String) extends CustomsId {
+  def sanitise(): Utr = this.copy(id = id.replaceAll(" ", ""))
+}
 
-case class Eori(override val id: String) extends CustomsId
+case class Eori(override val id: String) extends CustomsId{
+  def sanitise(): Eori = this.copy(id = id.replaceAll(" ", ""))
 
-case class Nino(override val id: String) extends CustomsId
+}
+
+case class Nino(override val id: String) extends CustomsId{
+  def sanitise(): Nino = this.copy(id = id.replaceAll(" ", ""))
+}
 
 case class SafeId(override val id: String) extends CustomsId
 
@@ -127,7 +137,9 @@ trait NameOrganisationMatch {
   def name: String
 }
 
-case class NameIdOrganisationMatchModel(name: String, id: String) extends NameIdOrganisationMatch
+case class NameIdOrganisationMatchModel(name: String, id: String) extends NameIdOrganisationMatch {
+  def normalize(): NameIdOrganisationMatchModel =this.copy(id = id.replaceAll(" ", ""))
+}
 
 object NameIdOrganisationMatchModel {
   implicit val jsonFormat = Json.format[NameIdOrganisationMatchModel]
@@ -139,8 +151,6 @@ object NameOrganisationMatchModel {
   implicit val jsonFormat = Json.format[NameOrganisationMatchModel]
 }
 
-case class EuNameIdOrganisationMatchModel(name: String, id: String, dateEstablished: LocalDate)
-    extends NameIdOrganisationMatch
 
 case class EuIndividualMatch(
   firstName: String,
@@ -155,7 +165,9 @@ case class YesNo(isYes: Boolean) {
 }
 
 
-case class NinoMatch(firstName: String, lastName: String, dateOfBirth: LocalDate, nino: String)
+case class NinoMatch(firstName: String, lastName: String, dateOfBirth: LocalDate, nino: String) {
+  def normalize(): NinoMatch =this.copy(nino = nino.replaceAll(" ", ""))
+}
 
 trait NameDobMatch {
   def firstName: String
@@ -221,7 +233,9 @@ object IdMatchModel {
 }
 
 case class HaveUtrMatchModel(haveUtr: Option[Boolean], id: Option[String])
-case class UtrMatchModel(id: Option[String])
+case class UtrMatchModel(id: Option[String]) {
+  def normalize(): UtrMatchModel =this.copy(id = id.map(_.replaceAll(" ", "")))
+}
 
 object HaveUtrMatchModel {
   implicit val jsonFormat = Json.format[HaveUtrMatchModel]
@@ -241,13 +255,9 @@ object NameMatchModel {
   implicit val jsonFormat = Json.format[NameMatchModel]
 }
 
-case class HaveNinoMatchModel(haveNino: Option[Boolean], nino: Option[String])
-
-object HaveNinoMatchModel {
-  implicit val jsonFormat = Json.format[HaveNinoMatchModel]
+case class NinoMatchModel(nino: Option[String]){
+  def normalize(): NinoMatchModel =this.copy(nino = nino.map(_.replaceAll(" ", "")))
 }
-
-case class NinoMatchModel(nino: Option[String])
 
 object NinoMatchModel {
   implicit val jsonFormat = Json.format[NinoMatchModel]

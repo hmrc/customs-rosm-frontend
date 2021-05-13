@@ -52,7 +52,7 @@ class HaveNinoSubscriptionController @Inject()(
     implicit request => _: LoggedInUserWithEnrolments =>
       rowIndividualsNinoForm.bindFromRequest.fold(
         formWithErrors => Future.successful(BadRequest(matchNinoSubscriptionView(formWithErrors, journey))),
-        formData => destinationsByAnswer(formData, journey)
+        formData => destinationsByAnswer(formData.normalize(), journey)
       )
   }
 

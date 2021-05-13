@@ -250,8 +250,8 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
           submitForm(form = ValidNameUtrRequest + ("utr" -> "123456789"), organisationType) { result =>
             status(result) shouldBe BAD_REQUEST
             val page = CdsPage(bodyOf(result))
-            page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe UtrWrongLengthError
-            page.getElementsText(fieldLevelErrorUtr) shouldBe UtrWrongLengthError
+            page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe UtrInvalidError
+            page.getElementsText(fieldLevelErrorUtr) shouldBe UtrInvalidError
             page.getElementsText("title") should startWith("Error: ")
           }
         }
@@ -329,7 +329,7 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
         )
       ).thenReturn(Future.successful(true))
 
-      val utr = "516081700kK"
+      val utr = "516081700K"
       submitForm(Map("name" -> "My company name", "utr" -> utr)) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
@@ -351,8 +351,8 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
       submitForm(Map("name" -> "My company name", "utr" -> utr)) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe UtrWrongLengthError
-        page.getElementsText(fieldLevelErrorUtr) shouldBe UtrWrongLengthError
+        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe UtrInvalidError
+        page.getElementsText(fieldLevelErrorUtr) shouldBe UtrInvalidError
         page.getElementsText("title") should startWith("Error: ")
       }
     }

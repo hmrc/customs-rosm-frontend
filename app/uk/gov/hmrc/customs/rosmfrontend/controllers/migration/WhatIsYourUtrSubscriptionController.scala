@@ -60,7 +60,7 @@ class WhatIsYourUtrSubscriptionController @Inject()(
           utrForm.bindFromRequest.fold(
             formWithErrors =>
               Future.successful(BadRequest(matchUtrSubscriptionView(formWithErrors, orgType.id, journey))),
-            formData => destinationsByAnswer(formData, journey, orgType)
+            formData => destinationsByAnswer(formData.normalize(), journey, orgType)
           )
         case None => noOrgTypeSelected
       }

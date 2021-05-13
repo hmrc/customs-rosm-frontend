@@ -110,7 +110,7 @@ class NameIDOrgController @Inject()(
             }
           },
           formData => {
-            storeNameUtrDetails(formData, isInReviewMode, journey)
+            storeNameUtrDetails(formData.normalize(), isInReviewMode, journey)
           }
         )
     }

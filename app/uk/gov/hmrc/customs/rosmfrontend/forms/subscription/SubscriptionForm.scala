@@ -29,9 +29,14 @@ import uk.gov.hmrc.emailaddress.EmailAddress
 import uk.gov.voa.play.form.ConditionalMappings.{isEqual, isNotEqual, mandatoryIf}
 import uk.gov.voa.play.form.MandatoryOptionalMapping
 
+import scala.util.matching.Regex
+
 object SubscriptionForm {
 
   private val validConfirmIndividualTypes = Set(CdsOrganisationType.SoleTraderId, CdsOrganisationType.IndividualId)
+
+  val eoriRegex: Regex = "(?i)GB(\\s*\\d\\s*){11,15}$".r
+  val sicCodeRegex: Regex = "^(\\s*\\d\\s*){4,5}$".r
 
   private val confirmIndividualTypeError = "cds.confirm-individual-type.error.individual-type"
   val confirmIndividualTypeForm: Form[CdsOrganisationType] = Form(
@@ -164,9 +169,7 @@ object SubscriptionForm {
   private def validSicCode: Constraint[String] =
     Constraint("constraints.sic")({
       case s if s.trim.isEmpty       => Invalid(ValidationError("cds.subscription.sic.error.empty"))
-      case s if !s.matches("[0-9]*") => Invalid(ValidationError("cds.subscription.sic.error.wrong-format"))
-      case s if s.length < 4         => Invalid(ValidationError("cds.subscription.sic.error.too-short"))
-      case s if s.length > 5         => Invalid(ValidationError("cds.subscription.sic.error.too-long"))
+      case s if !s.matches(sicCodeRegex.regex) => Invalid(ValidationError("cds.subscription.sic.error.wrong-format"))
       case _                         => Valid
     })
 
@@ -182,10 +185,7 @@ object SubscriptionForm {
   def validEori: Constraint[String] =
     Constraint({
       case e if e.trim.isEmpty                 => Invalid(ValidationError("cds.matching-error.eori.isEmpty"))
-      case e if e.length < 14                  => Invalid(ValidationError("cds.matching-error.eori.wrong-length.too-short"))
-      case e if e.length > 17                  => Invalid(ValidationError("cds.matching-error.eori.wrong-length.too-long"))
-      case e if !e.startsWith("GB")            => Invalid(ValidationError("cds.matching-error.eori.not-gb"))
-      case e if !e.matches("^GB[0-9]{11,15}$") => Invalid(ValidationError("cds.matching-error.eori"))
+       case e if !e.matches(eoriRegex.regex) => Invalid(ValidationError("cds.matching-error.eori"))
       case _                                   => Valid
     })
 

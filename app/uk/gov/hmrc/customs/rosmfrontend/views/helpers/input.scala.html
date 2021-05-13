@@ -40,6 +40,10 @@
     elements.args.getOrElse('_isLabelH1, false).asInstanceOf[Boolean]
 }
 
+@inputMode = @{
+elements.args.getOrElse('_inputMode, "text").asInstanceOf[String]
+}
+
 @appendClass = @{
  elements.args.getOrElse('_appendClass, "").asInstanceOf[String]
 }
@@ -87,6 +91,8 @@
             name="@elements.field.name"
             id="@elements.field.name"
             class="form-control @appendClass @if(allErrors.nonEmpty) {form-control-error}"
+            spellcheck="false"
+            inputmode="@inputMode"
             value="@elements.field.value" />
     </div>
 

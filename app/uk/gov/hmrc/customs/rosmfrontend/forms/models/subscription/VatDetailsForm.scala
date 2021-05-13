@@ -47,7 +47,7 @@ object VatDetailsForm {
   def validVatNumber: Constraint[String] =
     Constraint({
       case s if s.trim.isEmpty => Invalid(ValidationError("cds.subscription.vat-uk.required.error"))
-      case s if !s.matches("(?i)GB(\\s*\\d\\s*){9}$|^(\\s*\\d\\s*){9}$") =>
+        case s if !s.matches("(?i)GB(\\s*\\d\\s*){9}$|^(\\s*\\d\\s*){9}$") =>
         Invalid(ValidationError("cds.subscription.vat-uk.length.error"))
       case _ => Valid
     })

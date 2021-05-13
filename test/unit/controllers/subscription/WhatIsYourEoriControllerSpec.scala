@@ -304,14 +304,7 @@ class WhatIsYourEoriControllerSpec
       }
     }
 
-    "have a maximum of 17 characters" in {
-      submitFormInCreateMode(Map("eori-number" -> "GB3456789012345678")) { result =>
-        status(result) shouldBe BAD_REQUEST
-        val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe "The EORI number must be 17 characters or less"
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.eoriNumberFieldLevelErrorXpath) shouldBe "The EORI number must be 17 characters or less"
-      }
-    }
+
 
     "be of the correct format" in {
       submitFormInCreateMode(Map("eori-number" -> "GBX45678901234")) { result =>
@@ -327,17 +320,8 @@ class WhatIsYourEoriControllerSpec
       submitFormInCreateMode(Map("eori-number" -> "FR145678901234")) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe enterAGbEori
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.eoriNumberFieldLevelErrorXpath) shouldBe enterAGbEori
-
-      }
-    }
-    "should reject lowercase gb in EORI number" in {
-      submitFormInCreateMode(Map("eori-number" -> "gb145678901234")) { result =>
-        status(result) shouldBe BAD_REQUEST
-        val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe enterAGbEori
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.eoriNumberFieldLevelErrorXpath) shouldBe enterAGbEori
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe enterAValidEori
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.eoriNumberFieldLevelErrorXpath) shouldBe enterAValidEori
 
       }
     }

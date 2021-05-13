@@ -62,13 +62,6 @@ class WhatIsYourEoriSpec extends ViewSpec {
       doc.body.getElementById("eori-number").attr("type") mustBe "text"
     }
 
-    "display a field level error message when the Eori is invalid" in {
-      docWithInvalidError
-        .body()
-        .getElementById("eori-number-outer")
-        .getElementsByClass("error-message")
-        .text mustBe "Enter an EORI number that starts with GB"
-    }
 
     "display a field level error message when the Eori is invalid and starts with GB" in {
       docWithInvalidGbEoriError.body
@@ -77,17 +70,12 @@ class WhatIsYourEoriSpec extends ViewSpec {
         .text mustBe "Enter an EORI number in the right format"
     }
 
-    "display a field level error message when the Eori is too short" in {
-      docWithTooShortError.body
-        .getElementById("eori-number-outer")
-        .getElementsByClass("error-message")
-        .text mustBe "The EORI number must be more than 13 characters"
-    }
+
     "display a field level error message when the Eori is too long" in {
       docWithTooLongError.body
         .getElementById("eori-number-outer")
         .getElementsByClass("error-message")
-        .text mustBe "The EORI number must be 17 characters or less"
+        .text mustBe "Enter an EORI number in the right format"
     }
     "display a field level error message when the Eori field is empty" in {
       docWithEmptyFieldError.body
