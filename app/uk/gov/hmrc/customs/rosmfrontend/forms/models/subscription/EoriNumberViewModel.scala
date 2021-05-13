@@ -16,4 +16,6 @@
 
 package uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription
 
-case class EoriNumberViewModel(eoriNumber: String)
+case class EoriNumberViewModel(eoriNumber: String) {
+  def normalize(): EoriNumberViewModel =this.copy(eoriNumber = eoriNumber.replaceAll(" ", "").toUpperCase())
+}

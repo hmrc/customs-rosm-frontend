@@ -251,7 +251,7 @@ class WhatIsYourIdentifierControllerSpec extends ControllerSpec with BeforeAndAf
         await(result)
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "The Unique Taxpayer Reference must be 10 numbers"
+        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a valid Unique Taxpayer Reference"
       }
     }
 

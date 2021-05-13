@@ -86,7 +86,7 @@ cdsOrgType.contains(CdsOrganisationType.ThirdCountryOrganisation)
         @CSRF.formField
 
         <p id="description">@Html(messages(descriptionForOrgType))</p>
-        @inputText("sic", "cds.subscription.sic.label")
+        @inputText("sic", "cds.subscription.sic.label",'_inputMode -> "numeric")
 
         <input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>
 

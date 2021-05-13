@@ -68,7 +68,7 @@ class WhatIsYourUtrNumberController @Inject()(
           formWithErrors => Future.successful(BadRequest(view(organisationType, formWithErrors, journey))),
           formData =>
             destinationsByAnswer(
-              formData,
+              formData.normalize(),
               organisationType,
               journey,
               isInReviewMode,

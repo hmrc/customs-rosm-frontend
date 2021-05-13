@@ -95,7 +95,7 @@ class SicCodeController @Inject()(
           }
         },
         formData => {
-          submitNewDetails(formData, isInReviewMode, journey)
+          submitNewDetails(formData.normalize(), isInReviewMode, journey)
         }
       )
     }

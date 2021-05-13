@@ -25,13 +25,9 @@ import play.api.mvc.{Action, _}
 import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
-import uk.gov.hmrc.customs.rosmfrontend.domain._
+import uk.gov.hmrc.customs.rosmfrontend.domain.{NameIdOrganisationMatchModel, _}
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.matching.Organisation
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.{
-  nameUtrCompanyForm,
-  nameUtrOrganisationForm,
-  nameUtrPartnershipForm
-}
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.{nameUtrCompanyForm, nameUtrOrganisationForm, nameUtrPartnershipForm}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.registration.MatchingService
 import uk.gov.hmrc.customs.rosmfrontend.views.html.registration.match_name_id_organisation
@@ -78,7 +74,7 @@ class NameIdOrganisationController @Inject()(
     def createCustomsId(utr: String): Utr = Utr(utr)
   }
 
-  private val OrganisationTypeConfigurations: Map[String, Configuration[_ <: NameIdOrganisationMatch]] = Map(
+  private val OrganisationTypeConfigurations: Map[String, Configuration[NameIdOrganisationMatchModel]] = Map(
     CdsOrganisationType.CompanyId -> UtrConfiguration("Corporate Body", displayMode = RegisteredCompanyDM),
     CdsOrganisationType.PartnershipId -> UtrConfiguration("Partnership", displayMode = PartnershipDM),
     CdsOrganisationType.LimitedLiabilityPartnershipId -> UtrConfiguration("LLP", displayMode = PartnershipDM),
@@ -106,9 +102,9 @@ class NameIdOrganisationController @Inject()(
       }
     }
 
-  private def bind[M <: NameIdOrganisationMatch](
+  private def bind(
     organisationType: String,
-    conf: Configuration[M],
+    conf: Configuration[NameIdOrganisationMatchModel],
     journey: Journey.Value,
     internalId: InternalId
   )(implicit request: Request[AnyContent]): Future[Result] =
@@ -118,7 +114,8 @@ class NameIdOrganisationController @Inject()(
           Future.successful(BadRequest(view(organisationType, conf, formWithErrors, journey)))
         },
         formData => {
-          matchBusiness(conf.createCustomsId(formData.id), formData.name, None, conf.matchingServiceType, internalId).map {
+          val normalisedFormData = formData.asInstanceOf[NameIdOrganisationMatchModel].normalize()
+          matchBusiness(conf.createCustomsId(normalisedFormData.id), formData.name, None, conf.matchingServiceType, internalId).map {
             case true =>
               journey match {
                 case Journey.Migrate =>
@@ -131,7 +128,7 @@ class NameIdOrganisationController @Inject()(
                       .form(journey)
                   )
               }
-            case false => matchNotFoundBadRequest(organisationType, conf, formData, journey)
+            case false => matchNotFoundBadRequest(organisationType, conf, normalisedFormData, journey)
           }
         }
       )
@@ -147,10 +144,10 @@ class NameIdOrganisationController @Inject()(
   )(implicit request: Request[AnyContent], hc: HeaderCarrier): Future[Boolean] =
     matchingService.matchBusiness(id, Organisation(name, matchingServiceType), dateEstablished, internalId)
 
-  private def matchNotFoundBadRequest[M <: NameIdOrganisationMatch](
+  private def matchNotFoundBadRequest(
     organisationType: String,
-    conf: Configuration[M],
-    formData: M,
+    conf: Configuration[NameIdOrganisationMatchModel],
+    formData: NameIdOrganisationMatchModel,
     journey: Journey.Value
   )(implicit request: Request[AnyContent]): Result = {
     val errorMsg = Messages("cds.matching-error.not-found")

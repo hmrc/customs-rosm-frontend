@@ -362,8 +362,8 @@ class SicCodeControllerSpec
       submitFormInCreateMode(Map("sic" -> "123"), userSelectedOrgType = Company) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe "The SIC code must be more than 3 digits"
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "The SIC code must be more than 3 digits"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a SIC code in the right format"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Enter a SIC code in the right format"
       }
     }
 
@@ -371,8 +371,8 @@ class SicCodeControllerSpec
       submitFormInCreateMode(Map("sic" -> "123456"), userSelectedOrgType = Company) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe "The SIC code must be 5 digits or less"
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "The SIC code must be 5 digits or less"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a SIC code in the right format"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Enter a SIC code in the right format"
       }
     }
 

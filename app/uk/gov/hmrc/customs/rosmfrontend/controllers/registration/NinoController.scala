@@ -56,9 +56,10 @@ class NinoController @Inject()(
             Future.successful(BadRequest(matchNinoView(invalidForm, organisationType, journey)))
           },
           form => {
+            val normalisedForm =  form.normalize()
             matchingService.matchIndividualWithNino(
-              form.nino,
-              Individual.withLocalDate(form.firstName, form.lastName, form.dateOfBirth),
+              normalisedForm.nino,
+              Individual.withLocalDate(normalisedForm.firstName, normalisedForm.lastName, normalisedForm.dateOfBirth),
               InternalId(loggedInUser.internalId)
             ) map {
 

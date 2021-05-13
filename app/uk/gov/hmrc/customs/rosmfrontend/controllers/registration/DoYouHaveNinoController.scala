@@ -59,11 +59,13 @@ class DoYouHaveNinoController @Inject()(
       {
         rowIndividualsNinoForm.bindFromRequest.fold(
           formWithErrors => Future.successful(BadRequest(matchNinoRowIndividualView(formWithErrors, journey))),
-          formData =>
-            formData.nino match {
+          formData => {
+            val normalisedForm = formData.normalize()
+            normalisedForm.nino match {
               case Some(nino) =>
-                matchIndividual(Nino(nino), journey, formData, InternalId(loggedInUser.internalId))
+                matchIndividual(Nino(nino), journey, normalisedForm, InternalId(loggedInUser.internalId))
               case _ => throw new IllegalArgumentException("Have NINO should be Some(true) or Some(false) but was None")
+            }
           }
         )
       }

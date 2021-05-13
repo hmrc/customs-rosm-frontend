@@ -16,4 +16,7 @@
 
 package uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription
 
-case class SicCodeViewModel(sicCode: String)
+case class SicCodeViewModel(sicCode: String) {
+  def normalize(): SicCodeViewModel =this.copy(sicCode = sicCode.replaceAll(" ", ""))
+}
+

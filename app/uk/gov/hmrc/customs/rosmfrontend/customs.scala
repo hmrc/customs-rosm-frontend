@@ -29,5 +29,7 @@ package object customs {
       }
 
     def notBlank: Boolean = s.trim.nonEmpty
+
+    def sanitise(): String = s.replaceAll(" ", "")
   }
 }
