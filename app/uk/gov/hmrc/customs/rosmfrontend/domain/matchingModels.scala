@@ -30,16 +30,16 @@ sealed trait CustomsId {
 }
 
 case class Utr(override val id: String) extends CustomsId {
-  def sanitise(): Utr = this.copy(id = id.replaceAll(" ", ""))
+  def normalize(): Utr = this.copy(id = id.replaceAll(" ", ""))
 }
 
 case class Eori(override val id: String) extends CustomsId{
-  def sanitise(): Eori = this.copy(id = id.replaceAll(" ", ""))
+  def normalize(): Eori = this.copy(id = id.replaceAll(" ", ""))
 
 }
 
 case class Nino(override val id: String) extends CustomsId{
-  def sanitise(): Nino = this.copy(id = id.replaceAll(" ", ""))
+  def normalize(): Nino = this.copy(id = id.replaceAll(" ", ""))
 }
 
 case class SafeId(override val id: String) extends CustomsId

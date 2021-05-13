@@ -95,7 +95,7 @@ class WhatIsYourIdentifierController @Inject()(
                                        journey,
                                        organisationType)
                     )),
-                nino => matchOnId(nino.sanitise(), internalId, organisationType, journey)
+                nino => matchOnId(nino.normalize(), internalId, organisationType, journey)
               )
             }
             case Some(false) =>
@@ -108,7 +108,7 @@ class WhatIsYourIdentifierController @Inject()(
                                       journey,
                                       organisationType)
                     )),
-                utr => matchOnId(utr.sanitise(), internalId, organisationType, journey)
+                utr => matchOnId(utr.normalize(), internalId, organisationType, journey)
               )
             case _ =>
               Future.successful(
