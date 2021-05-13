@@ -324,7 +324,6 @@ object MatchingForms {
   private def validNino: Constraint[String] =
     Constraint({
       case s if s.isEmpty                    => Invalid(ValidationError("cds.subscription.nino.error.empty"))
-      case s if s.length != 9                => Invalid(ValidationError("cds.subscription.nino.error.wrong-length"))
       case s if !s.matches(ninoRegex.regex)   => Invalid(ValidationError("cds.matching.nino.invalid"))
       case s if !nino.isValid(s.toUpperCase) => Invalid(ValidationError("cds.matching.nino.invalid"))
       case _                                 => Valid
