@@ -40,7 +40,7 @@
     <div class="column-two-thirds">
 
     
-        @helpers.errorSummary(shortNameForm)
+        @helpers.errorSummary(shortNameForm, focusOverrides = Map("use-short-name" -> "use-short-name-yes"))
 
         @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.BusinessShortNameController.submit(isInReviewMode, journey), 'id -> "shortNameForm") {
 
