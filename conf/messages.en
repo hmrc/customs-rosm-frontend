@@ -1411,7 +1411,7 @@ cds.subscription.outcomes.success.xi.date.info=From 1 January 2021, you will nee
 cds.subscription.outcomes.success.xi.info.bullet1=move goods between Northern Ireland and non-EU countries
 cds.subscription.outcomes.success.xi.info.bullet2=make a declaration in Northern Ireland
 cds.subscription.outcomes.success.xi.info.bullet3=get a customs decision in Northern Ireland
-cds.subscription.outcomes.success.xi.info.href=<a href="/customs/register-for-cds/xi-eori-guidance" target="_blank" rel="noopener noreferrer">Apply for an EORI number that starts with XI.</a>
+cds.subscription.outcomes.success.xi.info.href=<a href="/customs/register-for-cds/xi-eori-guidance" target="_blank" rel="noopener noreferrer">Apply for an EORI number that starts with XI (opens in a new tab).</a>
 cds.subscription.outcomes.success.xi.info2=If you have an EORI number issued by an EU country, you do not need to obtain an EORI starting with XI.
 # XI Eori
 

@@ -1291,7 +1291,7 @@ cds.subscription.outcomes.success.xi.date.info=O 1 Ionawr 2021 ymlaen, bydd ange
 cds.subscription.outcomes.success.xi.info.bullet1=symud nwyddau rhwng Gogledd Iwerddon a gwledydd nad ydynt yn rhan o’r UE
 cds.subscription.outcomes.success.xi.info.bullet2=gwneud datganiad yng Ngogledd Iwerddon
 cds.subscription.outcomes.success.xi.info.bullet3=cael penderfyniad tollau yng Ngogledd Iwerddon
-cds.subscription.outcomes.success.xi.info.href=<a href="/customs/register-for-cds/xi-eori-guidance" target="_blank" rel="noopener noreferrer">Gwnewch gais am rif EORI sy’n dechrau gyda XI.</a>
+cds.subscription.outcomes.success.xi.info.href=<a href="/customs/register-for-cds/xi-eori-guidance" target="_blank" rel="noopener noreferrer">Gwnewch gais am rif EORI sy’n dechrau gyda XI (yn agor tab newydd).</a>
 cds.subscription.outcomes.success.xi.info2=Os oes gennych rif EORI a gyhoeddwyd gan wlad yn yr UE, nid oes angen i chi gael EORI sy’n dechrau gyda XI.
 # XI Eori
 
