@@ -37,11 +37,11 @@ class CheckYourDetailsSpec extends ViewSpec {
     ("name", "headingId", "changeLinkId"),
     ("eori", "review-tbl__eori-number_heading", "review-tbl__eori-number_change"),
     ("utr", "review-tbl__utr_heading", "review-tbl__utr_change"),
-    ("nameAndAddress", "review-tbl__name-and-address_heading", "review-tbl__name-and-address_change"),
-    ("contactName", "review-tbl__contact-details_fullname_heading", "review-tbl__contact-details_fullname_change"),
-    ("contactFaxNo", "review-tbl__contact-details_fax_heading", "review-tbl__contact-details_fax_change"),
-    ("contactTelephone", "review-tbl__contact-details_telephone_heading", "review-tbl__contact-details_telephone_change"),
-    ("contactAddress", "review-tbl__contact-details_address_heading", "review-tbl__contact-details_address_change")
+    ("nameAndAddress", "review-tbl__address_heading", "review-tbl__name-and-address_change"),
+    ("contactName", "review-tbl__fullname_heading", "review-tbl__fullname_change"),
+    ("contactFaxNo", "review-tbl__faxnumber_heading", "review-tbl__faxnumber_change"),
+    ("contactTelephone", "review-tbl__telephone_heading", "review-tbl__telephone_change"),
+    ("contactAddress", "review-tbl__contact_address_heading", "review-tbl__contact_address_change")
   )
 
   private val organisationType = Some(CdsOrganisationType.Company)
@@ -90,11 +90,11 @@ class CheckYourDetailsSpec extends ViewSpec {
       val page = doc(customsId = None)
       page.title must startWith("Check your answers")
       page.getElementById("review-tbl__utr_heading").text mustBe "Corporation Tax UTR number"
-      page.getElementById("review-tbl__name-and-address_heading").text mustBe "Company address"
-      page.getElementById("review-tbl__contact-details_fullname_heading").text mustBe "Contact name"
-      page.getElementById("review-tbl__contact-details_fax_heading").text mustBe "Fax number"
-      page.getElementById("review-tbl__contact-details_telephone_heading").text mustBe "Telephone number"
-      page.getElementById("review-tbl__contact-details_address_heading").text mustBe "Contact address"
+      page.getElementById("review-tbl__address_heading").text mustBe "Company address"
+      page.getElementById("review-tbl__fullname_heading").text mustBe "Contact name"
+      page.getElementById("review-tbl__faxnumber_heading").text mustBe "Fax number"
+      page.getElementById("review-tbl__telephone_heading").text mustBe "Telephone number"
+      page.getElementById("review-tbl__contact_address_heading").text mustBe "Contact address"
     }
 
     "display the review page for 'SoleTrader' with 'Nino'" in {
@@ -114,8 +114,8 @@ class CheckYourDetailsSpec extends ViewSpec {
       page.body
         .getElementById("review-tbl__eori-number_change")
         .attr("href") mustBe "/customs/subscribe-for-cds/matching/what-is-your-eori/review"
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Address"
-      page.body.getElementById("review-tbl__name-and-address").text mustBe strim("""
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Address"
+      page.body.getElementById("review-tbl__address").text mustBe strim("""
           |Street
           |City
           |Postcode
@@ -147,8 +147,8 @@ class CheckYourDetailsSpec extends ViewSpec {
         .getElementById("review-tbl__eori-number_change")
         .attr("href") mustBe "/customs/subscribe-for-cds/matching/what-is-your-eori/review"
 
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Address"
-      page.body.getElementById("review-tbl__name-and-address").text mustBe strim("""
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Address"
+      page.body.getElementById("review-tbl__address").text mustBe strim("""
           |Street
           |City
           |Postcode
@@ -163,7 +163,7 @@ class CheckYourDetailsSpec extends ViewSpec {
 
     "not display the address country code in the UK case" in {
       val page = doc(isIndividualSubscriptionFlow = false, customsId = utr)
-      page.getElementById("review-tbl__name-and-address").text mustBe strim("""|Street
+      page.getElementById("review-tbl__address").text mustBe strim("""|Street
            |City
            |Postcode
            |United Kingdom
@@ -184,18 +184,18 @@ class CheckYourDetailsSpec extends ViewSpec {
       page.body
         .getElementById("review-tbl__eori-number_change")
         .attr("href") mustBe "/customs/subscribe-for-cds/matching/what-is-your-eori/review"
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Address"
-      page.body.getElementById("review-tbl__name-and-address").text mustBe strim("""
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Address"
+      page.body.getElementById("review-tbl__address").text mustBe strim("""
           |Street
           |City
           |Postcode
           |United Kingdom
         """)
-      page.getElementById("review-tbl__contact-details_fullname_heading").text mustBe "Contact name"
-      page.getElementById("review-tbl__contact-details_fax_heading").text mustBe "Fax number"
-      page.getElementById("review-tbl__contact-details_telephone_heading").text mustBe "Telephone number"
-      page.getElementById("review-tbl__contact-details_address_heading").text mustBe "Contact address"
-      page.body().getElementById("review-tbl__contact-details_address").text mustBe strim("""
+      page.getElementById("review-tbl__address_heading").text mustBe "Address"
+      page.getElementById("review-tbl__faxnumber_heading").text mustBe "Fax number"
+      page.getElementById("review-tbl__telephone_heading").text mustBe "Telephone number"
+      page.getElementById("review-tbl__contact_address_heading").text mustBe "Contact address"
+      page.body().getElementById("review-tbl__contact_address").text mustBe strim("""
           |Street
           |City
           |POSTCODE
@@ -227,18 +227,18 @@ class CheckYourDetailsSpec extends ViewSpec {
         .getElementById("review-tbl__eori-number_change")
         .attr("href") mustBe "/customs/subscribe-for-cds/matching/what-is-your-eori/review"
 
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Address"
-      page.body.getElementById("review-tbl__name-and-address").text mustBe strim("""
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Address"
+      page.body.getElementById("review-tbl__address").text mustBe strim("""
           |Street
           |City
           |Postcode
           |United Kingdom
         """)
-      page.getElementById("review-tbl__contact-details_fullname_heading").text mustBe "Contact name"
-      page.getElementById("review-tbl__contact-details_fax_heading").text mustBe "Fax number"
-      page.getElementById("review-tbl__contact-details_telephone_heading").text mustBe "Telephone number"
-      page.getElementById("review-tbl__contact-details_address_heading").text mustBe "Contact address"
-      page.body().getElementById("review-tbl__contact-details_address").text mustBe strim("""
+      page.getElementById("review-tbl__full-name_heading").text mustBe "Full name"
+      page.getElementById("review-tbl__faxnumber_heading").text mustBe "Fax number"
+      page.getElementById("review-tbl__telephone_heading").text mustBe "Telephone number"
+      page.getElementById("review-tbl__contact_address_heading").text mustBe "Contact address"
+      page.body().getElementById("review-tbl__contact_address").text mustBe strim("""
           |Street
           |City
           |POSTCODE
@@ -253,32 +253,32 @@ class CheckYourDetailsSpec extends ViewSpec {
 
     "display address label for the following Company organisation types" in {
       val page = doc(orgType = Some(CdsOrganisationType.Company))
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Company address"
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Company address"
     }
 
     "display address label for the following Partnership organisation types" in {
       val page = doc(orgType = Some(CdsOrganisationType.Partnership))
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Partnership address"
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Partnership address"
     }
 
     "display address label for the following LimitedLiabilityPartnership organisation types" in {
       val page = doc(orgType = Some(CdsOrganisationType.LimitedLiabilityPartnership))
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Partnership address"
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Partnership address"
     }
 
     "display address label for the following CharityPublicBodyNotForProfit organisation types" in {
       val page = doc(orgType = Some(CdsOrganisationType.CharityPublicBodyNotForProfit))
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Organisation address"
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Organisation address"
     }
 
     "display address label for the following EUOrganisation organisation types" in {
       val page = doc(orgType = Some(CdsOrganisationType.EUOrganisation))
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Organisation address"
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Organisation address"
     }
 
     "display address label for the following ThirdCountryOrganisation organisation types" in {
       val page = doc(orgType = Some(CdsOrganisationType.ThirdCountryOrganisation))
-      page.body.getElementById("review-tbl__name-and-address_heading").text mustBe "Organisation address"
+      page.body.getElementById("review-tbl__address_heading").text mustBe "Organisation address"
     }
 
     "not display change link for the following for utr if isThirdCountrySubscription " in {
