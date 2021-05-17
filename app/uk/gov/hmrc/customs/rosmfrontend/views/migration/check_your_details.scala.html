@@ -147,215 +147,228 @@
             <header>
                 <h1 class="heading-large">@messages("cds.form.check-answers")</h1>
             </header>
+            <dl id="review-tbl" class="govuk-check-your-answers cya-questions-long form-group">
 
-            <table id="review-tbl" class="form-group">
-                <tr>
-                    <th id="review-tbl__email_heading" class="bold">@messages("subscription.enter-email.label")</th>
-                    <td id="review-tbl__email" colspan="2">
+                <div class="cds-cya-change-row" id="email">
+                    <dt class="cya-question" id="review-tbl__email_heading">@messages("subscription.enter-email.label")</dt>
+                    <dd class="cya-answer" id="review-tbl__email">
                         @email
-                    </td>
-                </tr>
-                <tr>
-                    <th id="review-tbl__eori-number_heading" class="bold">@messages("cds.subscription.enter-eori-number.eori-number.label")</th>
-                    <td id="review-tbl__eori-number">
-                    @eoriNumber
-                    </td>
-                    <td>
+                    </dd>
+                    <span class="cya-answer"></span>
+                </div>
+                <div class="cds-cya-change-row" id="eori">
+                    <dt class="cya-question" id="review-tbl__eori-number_heading">@messages("cds.subscription.enter-eori-number.eori-number.label")</dt>
+                    <dd class="cya-answer" id="review-tbl__eori-number">
+                        @eoriNumber
+                    </dd>
+                    <dd class="cya-answer">
                         @if(existingEoriNumber.isEmpty) {
-                            <a id="review-tbl__eori-number_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.WhatIsYourEoriController.reviewForm(journey)">
-                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.subscription.enter-eori-number.eori-number.label")</span>
-                            </a>
+                        <a id="review-tbl__eori-number_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.WhatIsYourEoriController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.subscription.enter-eori-number.eori-number.label")</span>
+                        </a>
+                        } else {
+                        <span></span>
                         }
-                    </td>
-                </tr>
-                @nameOrganisationDetails.map { d =>
-                    @if(isThirdCountrySubscription) {
-                        <tr>
-                            <th id="review-tbl__org-name_heading" class="bold">@nameLabel</th>
-                            <td id="review-tbl__org-name">
-                            @d.name
-                            </td>
-                            <td>
-                                <a id="review-tbl__org_name_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameOrgController.reviewForm(journey)">
-                                    @messages("cds.form.change") <span class="visually-hidden"> @nameLabel</span>
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                }
-                @nameDobDetails.map { nd =>
-                    <tr>
-                        <th id="review-tbl__full-name_heading" class="bold">@messages("subscription.check-your-details.full-name.label")</th>
-                        <td id="review-tbl__full-name">
-                            @nd.firstName @nd.lastName
-                        </td>
-                        <td>
-                            <a id="review-tbl__full-name_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.reviewForm(journey)">
-                                @messages("cds.form.change") <span class="visually-hidden"> @messages("subscription.check-your-details.full-name.label")</span>
-                            </a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th id="review-tbl__date-of-birth_heading" class="bold">@messages("subscription.check-your-details.date-of-birth.label")</th>
-                        <td id="review-tbl__date-of-birth">
-                        @formatDate(nd.dateOfBirth)
-                        </td>
-                        <td>
-                            <a id="review-tbl__date-of-birth_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.reviewForm(journey)">
-                                @messages("cds.form.change") <span class="visually-hidden"> @messages("subscription.check-your-details.date-of-birth.label")</span>
-                            </a>
-                        </td>
-                    </tr>
-                }
-
-                @nino.map { n =>
-                    <tr>
-                        <th id="review-tbl__nino_heading" class="bold">@messages("cds.nino.label")</th>
-                        <td id="review-tbl__nino">
-                        @n.id
-                        </td>
-                        <td>
-                            @if(!isThirdCountrySubscription){
-                            <a id="review-tbl__nino_change" href="@ConfirmYourIdentityController.reviewForm(journey)">
-                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.nino.label")</span>
-
-                            </a>
-                            }
-                        </td>
-                    </tr>
-                }
-
-                @utr.map { u =>
-                    <tr>
-                        <th id="review-tbl__utr_heading" class="bold">@messages("cds.utr.label")</th>
-                        <td id="review-tbl__utr">
-                        @u.id
-                        </td>
-                        <td>
-                            @if(!isThirdCountrySubscription){
-                            <a id="review-tbl__utr_change" href="@ConfirmYourIdentityController.reviewForm(journey)">
-                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.utr.label")</span>
-                            </a>
-                            }
-                        </td>
-                    </tr>
-                }
-
-                @nameIdOrganisationDetails.map { n =>
-                @if(!isThirdCountrySubscription){
-                <tr>
-                        <th id="review-tbl__orgname_heading" class="bold">@nameLabel</th>
-                        <td id="review-tbl__orgname">
-                            @n.name
-                        </td>
-                        <td>
+                    </dd>
+                </div>
+                @nameOrganisationDetails.map { orgDetails =>
+                 @if(isThirdCountrySubscription) {
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__org-name_heading">@nameLabel</dt>
+                        <dd class="cya-answer" id="review-tbl__org-name">
+                            @orgDetails.name
+                        </dd>
+                        <dd class="cya-answer">
                             <a id="review-tbl__orgname_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameIDOrgController.reviewForm(journey)">
                                 @messages("cds.form.change") <span class="govuk-visually-hidden"> @nameLabel</span>
                             </a>
-                        </td>
-                    </tr>
-                }
-                <tr>
-                        <th id="review-tbl__utr_heading" class="bold">@utrLabel</th>
-                        <td id="review-tbl__utr" @if(isThirdCountrySubscription){ colspan="2"}>
-                            @n.id
-                        </td>
-                    @if(!isThirdCountrySubscription){
-                    <td>
-                            <a id="review-tbl__utr_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameIDOrgController.reviewForm(journey)">
-                                @messages("cds.form.change") <span class="visually-hidden"> @utrLabel</span>
-                            </a>
-                        </td>
+                        </dd>
+                    </div>
                     }
-                </tr>
                 }
 
-                @addressDetails.map { ad =>
-                    <tr>
-                        <th id="review-tbl__name-and-address_heading" class="bold">@businessDetailsLabel</th>
-                        <td id="review-tbl__name-and-address">
-                            @ad.street.appendBr
-                            @ad.city.appendBr
-                            @ad.postcode.map(_.appendBr)
-                            @transformCountryCodeToOptionalLabel(Some(ad.countryCode))
-                        </td>
-                        <td>
-                            <a id="review-tbl__name-and-address_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController.reviewForm(journey)">
-                                @messages("cds.form.change") <span class="visually-hidden"> @businessDetailsLabel</span>
+                @nameDobDetails.map { nd =>
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__full-name_heading">@messages("subscription.check-your-details.full-name.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__full-name">
+                            @nd.firstName @nd.lastName
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__full-name_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("subscription.check-your-details.full-name.label")</span>
                             </a>
-                        </td>
-                    </tr>
+                        </dd>
+                    </div>
+
+                    <div class="cds-cya-change-row">
+                        <dt class="cya-question" id="review-tbl__date-of-birth_heading">@messages("subscription.check-your-details.date-of-birth.label")</dt>
+                        <dd class="cya-answer" id="review-tbl__date-of-birth">
+                            @formatDate(nd.dateOfBirth)
+                        </dd>
+                        <dd class="cya-answer">
+                            <a id="review-tbl__date-of-birth_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.reviewForm(journey)">
+                                @messages("cds.form.change") <span class="visually-hidden"> @messages("subscription.check-your-details.date-of-birth.label")</span>
+                            </a>
+                        </dd>
+                    </div>
+                }
+
+                @nino.map { n =>
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__nino_heading">@messages("cds.nino.label")</dt>
+                    <dd class="cya-answer" id="review-tbl__nino">
+                        @n.id
+                    </dd>
+                    <dd class="cya-answer">
+                        @if(!isThirdCountrySubscription){
+                        <a id="review-tbl__nino_change" href="@ConfirmYourIdentityController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.nino.label")</span>
+
+                        </a>
+                        }
+                    </dd>
+                </div>
+
+                }
+
+                @utr.map { u =>
+
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__utr_heading">@messages("cds.utr.label")</dt>
+                    <dd class="cya-answer" id="review-tbl__utr">
+                        @u.id
+                    </dd>
+                    <dd class="cya-answer">
+                        @if(!isThirdCountrySubscription){
+                        <a id="review-tbl__utr_change" href="@ConfirmYourIdentityController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.utr.label")</span>
+                        </a>
+                        }
+                    </dd>
+                </div>
+                }
+
+                @nameIdOrganisationDetails.map { n =>
+
+
+                @if(!isThirdCountrySubscription){
+
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__orgname_heading">@nameLabel</dt>
+                    <dd class="cya-answer" id="review-tbl__orgname">
+                        @n.name
+                    </dd>
+                    <dd class="cya-answer">
+                        <a id="review-tbl__orgname_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameIDOrgController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="govuk-visually-hidden"> @nameLabel</span>
+                        </a>
+                    </dd>
+                </div>
+
+                }
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__utr_heading">@utrLabel</dt>
+                    <dd class="cya-answer" id="review-tbl__utr">
+                        @n.id
+                    </dd>
+                    <dd class="cya-answer">
+                        @if(!isThirdCountrySubscription){
+                        <a id="review-tbl__utr_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameIDOrgController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @utrLabel</span>
+                        </a>
+                        }
+                    </dd>
+                </div>
+
+                }
+
+                @addressDetails.map { address =>
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__address_heading">@businessDetailsLabel</dt>
+                    <dd class="cya-answer" id="review-tbl__address">
+                        @address.street.appendBr
+                        @address.city.appendBr
+                        @address.postcode.map(_.appendBr)
+                        @transformCountryCodeToOptionalLabel(Some(address.countryCode))
+                    </dd>
+                    <dd class="cya-answer">
+                        <a id="review-tbl__name-and-address_change" href="@uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @businessDetailsLabel</span>
+                        </a>
+                    </dd>
+                </div>
                 }
 
                 @contactDetails.map { cd =>
-                <tr>
-                    <th id="review-tbl__contact-details_fullname_heading" class="bold">@messages("cds.subscription.contact-details.name.review.label")</th>
-                    <td id="review-tbl__contact-details_fullname">
-                        @cd.fullName <br/>
-                    </td>
-                    <td>
-                        <a id="review-tbl__contact-details_fullname_change" href="@ContactDetailsController.reviewForm(journey)">
-                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.subscription.contact-details.name.review.label")</span>
-                        </a>
-                    </td>
-                </tr>
-                <tr>
-                    <th id="review-tbl__contact-details_telephone_heading" class="bold">@messages("cds.subscription.contact-details.telephone.review.label")</th>
-                    <td id="review-tbl__contact-details_telephone">
-                        @cd.telephone.appendBr
-                    </td>
-                    <td>
-                        <a id="review-tbl__contact-details_telephone_change" href="@ContactDetailsController.reviewForm(journey)">
-                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.subscription.contact-details.telephone.review.label")</span>
-                        </a>
-                    </td>
-                </tr>
-                @cd.fax.map {fax =>
-                    <tr>
-                        <th id="review-tbl__contact-details_fax_heading" class="bold">@messages("cds.subscription.contact-details.fax.review.label")</th>
-                        <td id="review-tbl__contact-details_fax">
-                            @fax.appendBr
-                        </td>
-                        <td>
-                            <a id="review-tbl__contact-details_fax_change" href="@ContactDetailsController.reviewForm(journey)">
-                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.subscription.contact-details.fax.review.label")</span>
-                            </a>
-                        </td>
-                    </tr>
-                }
 
-                <tr>
-                    <th id="review-tbl__contact-details_address_heading" class="bold">@messages("cds.subscription.contact-details.address.review.label")</th>
-                    <td id="review-tbl__contact-details_address">
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__fullname_heading">@messages("cds.subscription.contact-details.name.review.label")</dt>
+                    <dd class="cya-answer" id="review-tbl__fullname">
+                        @cd.fullName.appendBr
+                    </dd>
+                    <dd class="cya-answer">
+                        <a id="review-tbl__fullname_change" href="@ContactDetailsController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                        </a>
+                    </dd>
+                </div>
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__telephone_heading">@messages("cds.subscription.contact-details.telephone.review.label")</dt>
+                    <dd class="cya-answer" id="review-tbl__telephone">
+                        @cd.telephone.appendBr
+                    </dd>
+                    <dd class="cya-answer">
+                        <a id="review-tbl__telephone_change" href="@ContactDetailsController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                        </a>
+                    </dd>
+                </div>
+                @cd.fax.map { fax =>
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__faxnumber_heading">@messages("cds.subscription.contact-details.fax.review.label")</dt>
+                    <dd class="cya-answer" id="review-tbl__faxnumber">
+                        @fax.appendBr
+                    </dd>
+                    <dd class="cya-answer">
+                        <a id="review-tbl__faxnumber_change" href="@ContactDetailsController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
+                        </a>
+                    </dd>
+                </div>
+                }
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__contact_address_heading">@messages("cds.subscription.contact-details.address.review.label")</dt>
+                    <dd class="cya-answer" id="review-tbl__contact_address">
                         @cd.street.map(_.appendBr)
                         @cd.city.map(_.appendBr)
                         @cd.postcode.map(_.appendBr)
                         @transformCountryCodeToOptionalLabel(cd.countryCode).map(_.appendBr)
-                    </td>
-                    <td>
-                        <a id="review-tbl__contact-details_address_change" href="@ContactDetailsIsRightAddressController.reviewForm(journey)">
-                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.subscription.contact-details.address.review.label")</span>
+                    </dd>
+                    <dd class="cya-answer">
+                        <a id="review-tbl__contact_address_change" href="@ContactDetailsIsRightAddressController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.form.customs-contact")</span>
                         </a>
-                    </td>
-                </tr>
+                    </dd>
+                </div>
 
                 }
                 @dateEstablished.map { de =>
-                    <tr id="review-tbl__doe">
-                        <th class="bold">
-                            @messages("cds.date-established.label")
-                        </th>
-                        <td>@formatDate(de)</td>
-                        <td>
-                            <a href="@uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.DateOfEstablishmentController.reviewForm(journey)">
-                                @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.date-established.label")</span>
-                            </a>
-                        </td>
-                    </tr>
+
+                <div class="cds-cya-change-row">
+                    <dt class="cya-question" id="review-tbl__doe_heading">@messages("cds.date-established.label")</dt>
+                    <dd class="cya-answer" id="review-tbl__doe">
+                        @formatDate(de)
+                    </dd>
+                    <dd class="cya-answer">
+                        <a href="@uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.DateOfEstablishmentController.reviewForm(journey)">
+                            @messages("cds.form.change") <span class="visually-hidden"> @messages("cds.date-established.label")</span>
+                        </a>
+                    </dd>
+                </div>
                 }
 
-            </table>
+            </dl>
+
             <p>@messages("cds.form.disclaimer")</p>
 
             <div class="form-group">
