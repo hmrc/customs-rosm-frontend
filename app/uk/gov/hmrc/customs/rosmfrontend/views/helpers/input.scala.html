@@ -52,6 +52,10 @@ elements.args.getOrElse('_inputMode, "text").asInstanceOf[String]
  elements.args.getOrElse('_appendClass, "").asInstanceOf[String]
 }
 
+@autocomplete = @{
+    elements.args.getOrElse('autocomplete, "").asInstanceOf[String]
+}
+
 <div id="@elements.field.name-outer" class="form-group @if(!isLabelH1 && allErrors.nonEmpty) {form-group-error}">
     @if(isLabelH1) {
     <h1>
@@ -98,6 +102,7 @@ elements.args.getOrElse('_inputMode, "text").asInstanceOf[String]
             spellcheck="false"
             inputmode="@inputMode"
             pattern="@patternMode"
+            @if(elements.args.contains('autocomplete)) { autocomplete="@elements.args.get('autocomplete)" }
             value="@elements.field.value" />
     </div>
 

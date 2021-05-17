@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.domain.NameDobMatchModel
 import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms._
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
@@ -34,6 +35,7 @@ class EnterYourDetailsSpec extends ViewSpec {
   implicit val request = withFakeCSRF(FakeRequest())
 
   private val view = app.injector.instanceOf[enter_your_details]
+  private val appConfig = app.injector.instanceOf[AppConfig]
 
   "Subscription Enter Your Details Page" should {
     "display correct title" in {
@@ -55,9 +57,12 @@ class EnterYourDetailsSpec extends ViewSpec {
         .getElementsByClass("form-label-bold")
         .text() mustBe "Given name"
     }
-    "have an input of type 'text' for given name" in {
+    "have correct attributes for input for first name" in {
       doc.body().getElementById("first-name").attr("type") mustBe "text"
+      doc.body().getElementById("first-name").attr("spellcheck") mustBe "false"
+      doc.body().getElementById("first-name").attr("autocomplete") mustBe "first-name"
     }
+
     "have a correct label for Last name for UK" in {
       doc.body().getElementById("last-name-outer").getElementsByClass("form-label-bold").text() mustBe "Last name"
     }
@@ -68,8 +73,10 @@ class EnterYourDetailsSpec extends ViewSpec {
         .getElementsByClass("form-label-bold")
         .text() mustBe "Family name"
     }
-    "have an input of type 'text' for family name" in {
+    "have correct attributes for input for last name" in {
       doc.body().getElementById("last-name").attr("type") mustBe "text"
+      doc.body().getElementById("last-name").attr("spellcheck") mustBe "false"
+      doc.body().getElementById("last-name").attr("autocomplete") mustBe "last-name"
     }
     "have an input of type 'text' for day of birth" in {
       doc.body().getElementById("date-of-birth.day").attr("type") mustBe "text"
@@ -83,12 +90,12 @@ class EnterYourDetailsSpec extends ViewSpec {
   }
 
   lazy val doc: Document = {
-    val result = view(form, isInReviewMode, Journey.Migrate, Some("uk"))
+    val result = view(form, isInReviewMode, Journey.Migrate, Some("uk"), appConfig)
     Jsoup.parse(contentAsString(result))
   }
 
   lazy val docRestOfWorld: Document = {
-    val result = view(form, isInReviewMode, Journey.Migrate, selectedUserLocationWithIslands = Some("third-country"))
+    val result = view(form, isInReviewMode, Journey.Migrate, selectedUserLocationWithIslands = Some("third-country"), appConfig)
     Jsoup.parse(contentAsString(result))
   }
 }

@@ -27,6 +27,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks._
 import org.scalatest.prop.TableFor2
 import org.scalatest.prop.Tables.Table
 import play.api.mvc.{AnyContent, Request, Result}
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.NameDobSoleTraderController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain._
@@ -61,6 +62,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
   private val mockRegistrationDetails = mock[RegistrationDetails](RETURNS_DEEP_STUBS)
   private val mockCdsFrontendDataCache = mock[SessionCache]
   private val enterYourDetails = app.injector.instanceOf[enter_your_details]
+  private val mockConfig = mock[AppConfig]
 
   private val controller = new NameDobSoleTraderController(
     app,
@@ -71,7 +73,8 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
     mockSubscriptionFlowManager,
     mcc,
     enterYourDetails,
-    mockSubscriptionDetailsHolderService
+    mockSubscriptionDetailsHolderService,
+    mockConfig
   )
 
   private val emulatedFailure = new UnsupportedOperationException("Emulation of service call failure")
@@ -91,7 +94,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
       .thenReturn(Future.successful(NameDobSoleTraderPage.filledValues))
 
     when(mockRequestSessionData.userSelectedOrganisationType(any())).thenReturn(Some(CdsOrganisationType.SoleTrader))
-
+    when(mockConfig.autoCompleteEnabled).thenReturn(true)
     registerSaveNameDobDetailsMockSuccess()
     mockFunctionWithRegistrationDetails(mockRegistrationDetails)
 
