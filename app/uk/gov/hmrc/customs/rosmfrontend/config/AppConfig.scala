@@ -33,6 +33,7 @@ class AppConfig @Inject()(
   lazy val allowlistReferrers: Seq[String] =
     config.get[String]("allowlist-referrers").split(',').map(_.trim).filter(_.nonEmpty)
   lazy val isShuttered: Boolean = config.get[Boolean]("shutter-get-access-cds")
+  lazy val autoCompleteEnabled: Boolean = config.get[Boolean]("autocomplete-enabled")
 
   lazy val contactBaseUrl = servicesConfig.baseUrl("contact-frontend")
 

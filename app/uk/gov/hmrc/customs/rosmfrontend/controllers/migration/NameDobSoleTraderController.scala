@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.Application
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain._
@@ -43,7 +44,8 @@ class NameDobSoleTraderController @Inject()(
   subscriptionFlowManager: SubscriptionFlowManager,
   mcc: MessagesControllerComponents,
   enterYourDetails: enter_your_details,
-  subscriptionDetailsHolderService: SubscriptionDetailsService
+  subscriptionDetailsHolderService: SubscriptionDetailsService,
+  appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
@@ -80,7 +82,8 @@ class NameDobSoleTraderController @Inject()(
                 formWithErrors,
                 isInReviewMode,
                 journey,
-                requestSessionData.selectedUserLocationWithIslands
+                requestSessionData.selectedUserLocationWithIslands,
+                appConfig
               )
             )
           }
@@ -102,7 +105,7 @@ class NameDobSoleTraderController @Inject()(
     }
 
     cdsFrontendDataCache.registrationDetails map { _ =>
-      Ok(enterYourDetails(form, isInReviewMode, journey, requestSessionData.selectedUserLocationWithIslands))
+      Ok(enterYourDetails(form, isInReviewMode, journey, requestSessionData.selectedUserLocationWithIslands, appConfig))
     }
   }
 

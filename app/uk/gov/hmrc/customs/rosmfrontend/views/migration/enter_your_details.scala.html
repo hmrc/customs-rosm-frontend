@@ -16,11 +16,15 @@
 
 @import uk.gov.hmrc.customs.rosmfrontend.domain.NameDobMatch
 @import uk.gov.hmrc.customs.rosmfrontend.views.html.helpers.inputDate
+@import uk.gov.hmrc.customs.rosmfrontend.domain.NameDobMatchModel
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
+@import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
+@import play.twirl.api.TwirlFeatureImports.defining
 
 
 @this(inputDate_di: inputDate, layout_di: layout)
-@(subscriptionNameDobForm: Form[NameDobMatchModel],isInReviewMode: Boolean, journey: Journey.Value, selectedUserLocationWithIslands: Option[String])(implicit request: Request[_], messages: Messages)
+@(subscriptionNameDobForm: Form[NameDobMatchModel],isInReviewMode: Boolean, journey: Journey.Value, selectedUserLocationWithIslands: Option[String], appConfig: AppConfig)(implicit request: Request[_], messages: Messages)
 
 @import views.html.helper._
 
@@ -53,8 +57,14 @@
         @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.submit(isInReviewMode, journey), 'id -> "subscriptionNameDobForm") {
         @CSRF.formField
 
-            @inputText("first-name", firstNameLabel)
-            @inputText("last-name", lastNameLabel)
+            @if(appConfig.autoCompleteEnabled) {
+                @inputText("first-name", firstNameLabel, 'autocomplete -> "first-name", 'spellcheck -> "false")
+                @inputText("last-name", lastNameLabel, 'spellcheck -> "false", 'autocomplete -> "last-name")
+            } else {
+                @inputText("first-name", firstNameLabel, 'spellcheck -> "false")
+                @inputText("last-name", lastNameLabel, 'spellcheck -> "false")
+            }
+
             @inputDate_di(subscriptionNameDobForm, "date-of-birth",
                 '_label -> messages("cds.matching.individual.what-is-your-date-of-birth"),
                 '_hintText -> messages("cds.date-of-birth.hint"),

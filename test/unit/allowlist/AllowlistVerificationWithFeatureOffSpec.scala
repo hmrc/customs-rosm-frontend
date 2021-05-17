@@ -25,6 +25,7 @@ import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.Application
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.Helpers._
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.NameDobSoleTraderController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.NameDobDetailsSubscriptionFlowPage
@@ -62,6 +63,7 @@ class AllowlistVerificationWithFeatureOffSpec
   private val mockRegistrationDetails = mock[RegistrationDetails](RETURNS_DEEP_STUBS)
   private val mockCdsFrontendDataCache = mock[SessionCache]
   private val enterYourDetails = app.injector.instanceOf[enter_your_details]
+  private val mockConfig = mock[AppConfig]
 
   private val controller = new NameDobSoleTraderController(
     app,
@@ -72,7 +74,8 @@ class AllowlistVerificationWithFeatureOffSpec
     mockSubscriptionFlowManager,
     mcc,
     enterYourDetails,
-    mockSubscriptionDetailsHolderService
+    mockSubscriptionDetailsHolderService,
+    mockConfig
   )
 
   override def beforeEach: Unit = {
@@ -90,6 +93,7 @@ class AllowlistVerificationWithFeatureOffSpec
       .thenReturn(Future.successful(()))
     when(mockCdsFrontendDataCache.registrationDetails(any[HeaderCarrier])).thenReturn(mockRegistrationDetails)
     setupMockSubscriptionFlowManager(NameDobDetailsSubscriptionFlowPage)
+    when(mockConfig.autoCompleteEnabled).thenReturn(true)
   }
 
   "Allowlist verification" should {
