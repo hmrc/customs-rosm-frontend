@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.Application
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.{CdsController, FeatureFlags}
 import uk.gov.hmrc.customs.rosmfrontend.domain.{InternalId, LoggedInUserWithEnrolments}
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.email.EmailForm.emailForm
@@ -37,7 +38,8 @@ class WhatIsYourEmailController @Inject()(
   override val authConnector: AuthConnector,
   mcc: MessagesControllerComponents,
   whatIsYourEmailView: what_is_your_email,
-  save4LaterService: Save4LaterService
+  save4LaterService: Save4LaterService,
+  appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) with FeatureFlags {
 
@@ -48,7 +50,7 @@ class WhatIsYourEmailController @Inject()(
     lazy val form = email.map(EmailViewModel).fold(emailForm) {
       emailForm.fill
     }
-    Future.successful(Ok(whatIsYourEmailView(emailForm = form, journey = journey)))
+    Future.successful(Ok(whatIsYourEmailView(emailForm = form, journey = journey, appConfig = appConfig)))
   }
 
   def createForm(journey: Journey.Value): Action[AnyContent] =
@@ -61,7 +63,7 @@ class WhatIsYourEmailController @Inject()(
   def submit(isInReviewMode: Boolean, journey: Journey.Value): Action[AnyContent] =
     ggAuthorisedUserWithEnrolmentsAction { implicit request => userWithEnrolments: LoggedInUserWithEnrolments =>
       emailForm.bindFromRequest.fold(formWithErrors => {
-        Future.successful(BadRequest(whatIsYourEmailView(emailForm = formWithErrors, journey = journey)))
+        Future.successful(BadRequest(whatIsYourEmailView(emailForm = formWithErrors, journey = journey, appConfig = appConfig)))
       }, formData => {
         submitNewDetails(InternalId(userWithEnrolments.internalId), formData, journey)
       })
