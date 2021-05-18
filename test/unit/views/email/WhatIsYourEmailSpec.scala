@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.email.{EmailForm, EmailViewModel}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.views.html.email.what_is_your_email
@@ -33,6 +34,7 @@ class WhatIsYourEmailSpec extends ViewSpec {
   implicit val request = withFakeCSRF(FakeRequest())
 
   val view = app.injector.instanceOf[what_is_your_email]
+  private val appConfig = app.injector.instanceOf[AppConfig]
 
   "What Is Your Email Address page for CDS access" should {
     "display correct title" in {
@@ -48,8 +50,10 @@ class WhatIsYourEmailSpec extends ViewSpec {
       MigrateDoc.body().getElementById("list-content").text() mustBe
         "the result of your application to get access to CDS updates on changes to CDS declarations and services financial notifications, including new statements and direct debit advance notices exports notifications"
     }
-    "have an input of type 'text'" in {
-      MigrateDoc.body().getElementById("email").attr("type") mustBe "text"
+    "have correct input attributes" in {
+      MigrateDoc.body().getElementById("email").attr("type") mustBe "email"
+      MigrateDoc.body().getElementById("email").attr("spellcheck") mustBe "false"
+      MigrateDoc.body().getElementById("email").attr("autocomplete") mustBe "email"
     }
   }
   "What Is Your Email Address page with errors" should {
@@ -70,17 +74,17 @@ class WhatIsYourEmailSpec extends ViewSpec {
   }
 
   lazy val MigrateDoc: Document = {
-    val result = view(form, Journey.Migrate)
+    val result = view(form, Journey.Migrate, appConfig)
     Jsoup.parse(contentAsString(result))
   }
 
   lazy val GYEDoc: Document = {
-    val result = view(form, Journey.GetYourEORI)
+    val result = view(form, Journey.GetYourEORI, appConfig)
     Jsoup.parse(contentAsString(result))
   }
 
   lazy val docWithErrors: Document = {
-    val result = view(formWithError, Journey.Migrate)
+    val result = view(formWithError, Journey.Migrate, appConfig)
     Jsoup.parse(contentAsString(result))
   }
 }

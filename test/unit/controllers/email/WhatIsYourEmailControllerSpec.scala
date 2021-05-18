@@ -23,6 +23,7 @@ import play.api.libs.json.Json
 import play.api.mvc.Result
 import play.api.test.Helpers._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.email.WhatIsYourEmailController
 import uk.gov.hmrc.customs.rosmfrontend.domain.InternalId
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.email.EmailStatus
@@ -45,10 +46,12 @@ class WhatIsYourEmailControllerSpec extends ControllerSpec with BeforeAndAfterEa
 
   private val mockSave4LaterService = mock[Save4LaterService]
 
+  private val mockConfig = mock[AppConfig]
+
   private val whatIsYourEmailView = app.injector.instanceOf[what_is_your_email]
 
   private val controller =
-    new WhatIsYourEmailController(app, mockAuthConnector, mcc, whatIsYourEmailView, mockSave4LaterService)
+    new WhatIsYourEmailController(app, mockAuthConnector, mcc, whatIsYourEmailView, mockSave4LaterService, mockConfig)
   val email = "test@example.com"
   val emailStatus = EmailStatus(email)
 
@@ -61,6 +64,8 @@ class WhatIsYourEmailControllerSpec extends ControllerSpec with BeforeAndAfterEa
   val unpopulatedEmailFieldsMap = Map("email" -> "")
 
   override def beforeEach: Unit = {
+    when(mockConfig.autoCompleteEnabled).thenReturn(true)
+
     when(mockSave4LaterService.fetchEmail(any[InternalId])(any[HeaderCarrier]))
       .thenReturn(Future.successful(Some(emailStatus)))
 
