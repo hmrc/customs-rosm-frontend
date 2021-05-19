@@ -62,7 +62,7 @@
 
     @helpers.errorSummary(emailForm)
 
-    @helper.form(WhatIsYourEmailController.submit(journey),'id -> "emailForm") {
+    @helper.form(WhatIsYourEmailController.submit(journey),'id -> "emailForm", 'novalidate -> "novalidate") {
 
         @CSRF.formField
 

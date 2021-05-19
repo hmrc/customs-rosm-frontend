@@ -101,7 +101,7 @@ elements.args.getOrElse('_inputMode, "text").asInstanceOf[String]
             class="form-control @appendClass @if(allErrors.nonEmpty) {form-control-error}"
             spellcheck="false"
             inputmode="@inputMode"
-            pattern="@patternMode"
+            @if(!patternMode.equals("*")){pattern="@patternMode"}
             @if(elements.args.contains('autocomplete)) { autocomplete="@elements.args.get('autocomplete)" }
             value="@elements.field.value" />
     </div>
