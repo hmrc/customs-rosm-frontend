@@ -26,22 +26,14 @@ import org.scalatest.prop.TableFor3
 import org.scalatest.prop.Tables.Table
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes._
-import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.{
-  ContactDetailsController,
-  SubscriptionFlowManager
-}
+import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.{ContactDetailsController, SubscriptionFlowManager}
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription._
-import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{
-  AddressViewModel,
-  ContactDetailsModel
-}
+import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{AddressViewModel, ContactDetailsModel}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
-import uk.gov.hmrc.customs.rosmfrontend.services.cache.{
-  RequestSessionData,
-  SessionCache
-}
+import uk.gov.hmrc.customs.rosmfrontend.services.cache.{RequestSessionData, SessionCache}
 import uk.gov.hmrc.customs.rosmfrontend.services.countries.{Countries, Country}
 import uk.gov.hmrc.customs.rosmfrontend.services.mapping.RegistrationDetailsCreator
 import uk.gov.hmrc.customs.rosmfrontend.services.organisation.OrgTypeLookup
@@ -90,6 +82,7 @@ class ContactDetailsControllerSpec
   private val mockCountries = mock[Countries]
   private val mockOrgTypeLookup = mock[OrgTypeLookup]
   private val contactDetailsView = app.injector.instanceOf[contact_details]
+  private val mockAppConfig = mock[AppConfig]
 
   private val controller = new ContactDetailsController(
     app,
@@ -102,7 +95,8 @@ class ContactDetailsControllerSpec
     mockRegistrationDetailsService,
     mcc,
     contactDetailsView,
-    mockRegistrationDetailsCreator
+    mockRegistrationDetailsCreator,
+    mockAppConfig
   )
 
   private val aFewCountries =
@@ -135,6 +129,7 @@ class ContactDetailsControllerSpec
       mockRequestSessionData.userSelectedOrganisationType(
         any[Request[AnyContent]]))
       .thenReturn(Some(CdsOrganisationType("company")))
+    when(mockAppConfig.autoCompleteEnabled).thenReturn(true)
   }
 
   val orgTypeFlows: TableFor3[SubscriptionFlow, String, EtmpOrganisationType] =

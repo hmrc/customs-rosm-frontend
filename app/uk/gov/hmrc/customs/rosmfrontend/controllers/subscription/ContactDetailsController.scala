@@ -19,40 +19,20 @@ package uk.gov.hmrc.customs.rosmfrontend.controllers.subscription
 import play.api.Application
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.email.routes.CheckYourEmailController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes._
-import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{
-  ContactDetailsAddressSubscriptionFlowPageMigrate,
-  ContactDetailsSubscriptionFlowPageGetEori,
-  ContactDetailsSubscriptionFlowPageMigrate
-}
-import uk.gov.hmrc.customs.rosmfrontend.domain.{
-  EtmpOrganisationType,
-  LoggedInUserWithEnrolments,
-  NA
-}
-import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactPersonViewModel.{
-  fromContactDetailsModel,
-  toContactDetailsModel
-}
-import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{
-  AddressViewModel,
-  ContactDetailsModel,
-  ContactPersonViewModel
-}
+import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{ContactDetailsAddressSubscriptionFlowPageMigrate, ContactDetailsSubscriptionFlowPageGetEori, ContactDetailsSubscriptionFlowPageMigrate}
+import uk.gov.hmrc.customs.rosmfrontend.domain.{EtmpOrganisationType, LoggedInUserWithEnrolments, NA}
+import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactPersonViewModel.{fromContactDetailsModel, toContactDetailsModel}
+import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{AddressViewModel, ContactDetailsModel, ContactPersonViewModel}
 import uk.gov.hmrc.customs.rosmfrontend.forms.subscription.ContactDetailsForm._
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
-import uk.gov.hmrc.customs.rosmfrontend.services.cache.{
-  RequestSessionData,
-  SessionCache
-}
+import uk.gov.hmrc.customs.rosmfrontend.services.cache.{RequestSessionData, SessionCache}
 import uk.gov.hmrc.customs.rosmfrontend.services.mapping.RegistrationDetailsCreator
 import uk.gov.hmrc.customs.rosmfrontend.services.registration.RegistrationDetailsService
-import uk.gov.hmrc.customs.rosmfrontend.services.subscription.{
-  SubscriptionBusinessService,
-  SubscriptionDetailsService
-}
+import uk.gov.hmrc.customs.rosmfrontend.services.subscription.{SubscriptionBusinessService, SubscriptionDetailsService}
 import uk.gov.hmrc.customs.rosmfrontend.views.html.subscription.contact_details
 import uk.gov.hmrc.http.HeaderCarrier
 
@@ -71,7 +51,8 @@ class ContactDetailsController @Inject()(
     registrationDetailsService: RegistrationDetailsService,
     mcc: MessagesControllerComponents,
     contactDetailsView: contact_details,
-    regDetailsCreator: RegistrationDetailsCreator
+    regDetailsCreator: RegistrationDetailsCreator,
+    appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
@@ -149,9 +130,10 @@ class ContactDetailsController @Inject()(
               createContactDetails(journey).map { contactDetails =>
                 BadRequest(
                   contactDetailsView(formWithErrors,
-                                     Some(email),
-                                     isInReviewMode,
-                                     journey)
+                    Some(email),
+                    isInReviewMode,
+                    journey,
+                    appConfig)
                 )
               }
             },
@@ -213,7 +195,7 @@ class ContactDetailsController @Inject()(
     }
 
     Future.successful(
-      Ok(contactDetailsView(form, email, isInReviewMode, journey)))
+      Ok(contactDetailsView(form, email, isInReviewMode, journey, appConfig)))
 
   }
 
