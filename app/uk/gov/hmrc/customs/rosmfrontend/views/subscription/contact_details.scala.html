@@ -35,7 +35,7 @@
 
     @helpers.errorSummary(contactForm)
 
-    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsController.submit(isInReviewMode, journey), 'id -> "contactDetailsForm", 'novalidate -> "novalidate") {
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsController.submit(isInReviewMode, journey), 'id -> "contactDetailsForm", 'novalidate -> "novalidate", 'novalidate -> "novalidate") {
 
         @CSRF.formField
 

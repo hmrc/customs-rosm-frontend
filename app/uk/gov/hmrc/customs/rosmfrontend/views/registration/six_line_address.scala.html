@@ -46,7 +46,7 @@
 
         <h1 class="heading-large">@messages(headerLabel)</h1>
 
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.SixLineAddressController.submit(isInReviewMode, cdsOrgType, journey), 'id -> s"$cdsOrgType-form") {
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.SixLineAddressController.submit(isInReviewMode, cdsOrgType, journey), 'id -> s"$cdsOrgType-form", 'novalidate -> "novalidate") {
         @CSRF.formField
 
             @inputTextBoundToForm("line-1", messages("cds.matching.organisation-address.line-1"))

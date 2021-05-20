@@ -46,7 +46,7 @@
 
         <h1 class="heading-large" id="page-heading">@messages(headerAndTitle)</h1>
 
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.DateOfEstablishmentController.submit(isInReviewMode, journey), 'id -> "date-of-birth-form") {
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.DateOfEstablishmentController.submit(isInReviewMode, journey), 'id -> "date-of-birth-form", 'novalidate -> "novalidate") {
 
         @CSRF.formField
 

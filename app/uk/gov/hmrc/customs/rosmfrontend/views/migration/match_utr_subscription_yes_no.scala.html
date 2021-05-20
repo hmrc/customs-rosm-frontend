@@ -67,7 +67,7 @@
         @helpers.errorSummary(yesNoForm, focusOverrides = Map("have-utr" -> "have-utr-yes"))
         <h1 class="heading-large">@headerAndTitle</h1>
         
-        @helper.form(formAction, 'id -> "subscriptionUtrForm") {
+        @helper.form(formAction, 'id -> "subscriptionUtrForm", 'novalidate -> "novalidate") {
             @CSRF.formField
 
             @inputRadioGroup("have-utr",

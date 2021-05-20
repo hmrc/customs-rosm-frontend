@@ -38,7 +38,7 @@
     @helpers.errorSummary(nameOrganisationForm)
 
     <div class="form-group">
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameOrgController.submit(isInReviewMode, journey), 'id -> "nameUtrOrganisationForm") {
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameOrgController.submit(isInReviewMode, journey), 'id -> "nameUtrOrganisationForm", 'novalidate -> "novalidate") {
 
         @CSRF.formField
 

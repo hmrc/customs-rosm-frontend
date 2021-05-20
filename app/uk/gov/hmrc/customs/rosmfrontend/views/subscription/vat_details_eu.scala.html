@@ -56,7 +56,7 @@
         <h1 class="heading-large">@messages("cds.subscription.vat-enter-eu")</h1>
 
         @helper.form(submit,
-        'id -> "subscriptionAmendVatEUDetailsForm") {
+        'id -> "subscriptionAmendVatEUDetailsForm", 'novalidate -> "novalidate") {
 
             @CSRF.formField
 

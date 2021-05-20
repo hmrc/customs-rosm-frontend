@@ -40,7 +40,7 @@
 
     @helpers.errorSummary(ninoForm)
 
-    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.WhatIsYourIdentifierController.submit(organisationType, journey),'id -> "ninoForm") {
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.WhatIsYourIdentifierController.submit(organisationType, journey),'id -> "ninoForm", 'novalidate -> "novalidate") {
         @CSRF.formField
 
         @inputText("id",

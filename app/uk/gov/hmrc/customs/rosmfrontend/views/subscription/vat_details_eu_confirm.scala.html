@@ -64,7 +64,7 @@
                 <h1 class="heading-large" id="titleHeading">@heading</h1>
             </legend>
             @helper.form(VatDetailsEuConfirmController.submit(isInReviewMode, journey),
-                'id -> "subscriptionVatEUDetailsConfirmForm") {
+                'id -> "subscriptionVatEUDetailsConfirmForm", 'novalidate -> "novalidate") {
 
                 @CSRF.formField
 

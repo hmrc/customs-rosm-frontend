@@ -41,7 +41,7 @@
 
     @helpers.errorSummary(utrForm)
 
-    @helper.form(WhatIsYourIdentifierController.submit(isInReviewMode, journey),'id -> "utrForm") {
+    @helper.form(WhatIsYourIdentifierController.submit(isInReviewMode, journey),'id -> "utrForm", 'novalidate -> "novalidate") {
         @CSRF.formField
 
         @inputText("id",

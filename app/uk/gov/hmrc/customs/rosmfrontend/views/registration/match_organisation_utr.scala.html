@@ -79,7 +79,7 @@
 
         @helpers.errorSummary(matchOrgIdForm)
 
-            @helper.form(WhatIsYourUtrNumberController.submit(organisationType, journey, isInReviewMode), 'id -> "matchOrganisationUtrForm") {
+            @helper.form(WhatIsYourUtrNumberController.submit(organisationType, journey, isInReviewMode), 'id -> "matchOrganisationUtrForm", 'novalidate -> "novalidate") {
             @CSRF.formField
             <div class="form-group">
                 @inputText(

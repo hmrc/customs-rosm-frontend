@@ -43,7 +43,7 @@ uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.VatRegisteredUk
 
     @helpers.errorSummary(vatRegisteredUkYesNoAnswerForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
 
-    @helper.form(formAction, 'id -> "yes-no-form") {
+    @helper.form(formAction, 'id -> "yes-no-form", 'novalidate -> "novalidate") {
 
     @CSRF.formField
 

@@ -57,7 +57,7 @@
 
     <h1 class="heading-large">@headerAndTitle</h1>
 
-    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameIDOrgController.submit(isInReviewMode, journey), 'id -> "nameUtrOrganisationForm") {
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameIDOrgController.submit(isInReviewMode, journey), 'id -> "nameUtrOrganisationForm", 'novalidate -> "novalidate") {
         @CSRF.formField
 
         @inputText(

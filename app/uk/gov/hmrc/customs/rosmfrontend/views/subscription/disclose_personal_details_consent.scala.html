@@ -75,7 +75,7 @@ journey: Journey.Value)(implicit request: Request[_], messages: Messages)
         @helpers.errorSummary(disclosePersonalDetailsYesNoAnswerForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
         <h1 class="heading-large">@discloseHeading</h1>
 
-        @helper.form(formAction, 'id -> "disclose-personal-details-createForm") {
+        @helper.form(formAction, 'id -> "disclose-personal-details-createForm", 'novalidate -> "novalidate") {
 
             @CSRF.formField
 

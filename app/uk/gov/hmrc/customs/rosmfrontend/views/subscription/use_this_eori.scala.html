@@ -60,7 +60,7 @@
             </tr>
         </table>
 
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.UseThisEoriController.submit(journey), 'id -> "eoriNumberForm") {
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.UseThisEoriController.submit(journey), 'id -> "eoriNumberForm", 'novalidate -> "novalidate") {
             @CSRF.formField
 
             @inputRadioGroup(

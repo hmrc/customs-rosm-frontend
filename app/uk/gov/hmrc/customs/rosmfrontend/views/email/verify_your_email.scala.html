@@ -29,7 +29,7 @@ journey: Journey.Value)(implicit request: Request[_], messages: Messages)
 
 
 
-    @helper.form(CheckYourEmailController.submit(journey)) {
+    @helper.form(CheckYourEmailController.submit(journey), 'novalidate -> "novalidate") {
 
         @CSRF.formField
 

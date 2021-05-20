@@ -512,7 +512,7 @@ rowHaveUtrEnabled: Boolean
                 <p id="disclaimer-content">@messages("cds.form.disclaimer")</p>
 
                 <div class="form-group">
-                    @helper.form(CheckYourDetailsRegisterController.submitDetails(journey)) {
+                    @helper.form(CheckYourDetailsRegisterController.submitDetails(journey), 'novalidate -> "novalidate") {
                     @CSRF.formField
                     <br/>
                     <p><input class="button" type="submit" value=@messages("cds.form.send")></p>

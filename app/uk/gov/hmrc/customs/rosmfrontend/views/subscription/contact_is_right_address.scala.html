@@ -75,7 +75,7 @@
     <h1 class="heading-xlarge">@messages("cds.subscription.contact-details.is-this-address.title")</h1>
 
 
-    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsIsRightAddressController.submit(isInReviewMode, journey), 'id -> "isThisRightContactAddressForm") {
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsIsRightAddressController.submit(isInReviewMode, journey), 'id -> "isThisRightContactAddressForm", 'novalidate -> "novalidate") {
 
     <div id="address" class="form-group">
              @contactAddress.street<br>

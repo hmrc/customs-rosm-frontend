@@ -54,7 +54,7 @@ journey: Journey.Value)(implicit request: Request[_], messages: Messages)
 
         @helpers.errorSummary(vatRegisteredUkYesNoAnswerForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
 
-        @helper.form(formAction, 'id -> "vat-registered-uk-createForm") {
+        @helper.form(formAction, 'id -> "vat-registered-uk-createForm", 'novalidate -> "novalidate") {
         @CSRF.formField
 
         @inputRadioGroup("yes-no-answer",
