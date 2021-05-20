@@ -43,7 +43,7 @@
 
         @helpers.errorSummary(confirmationForm, focusOverrides = Map("individual-type" -> s"individual-type-${validOptions.head._1}"))
 
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ConfirmIndividualTypeController.submit(journey), 'id -> "confirm-individual-type-form") {
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ConfirmIndividualTypeController.submit(journey), 'id -> "confirm-individual-type-form", 'novalidate -> "novalidate") {
             @CSRF.formField
         
             @inputRadioGroup("individual-type", validOptions)

@@ -56,7 +56,7 @@
         <legend>
             <h1 class="heading-large" id="titleHeading">@heading</h1>
             @helper.form(AreYouSureYouWantToDeleteVatController.submit(vatDetail.index, journey, isInReviewMode),
-            'id -> "vatDetailEuRemoveCreateForm") {
+            'id -> "vatDetailEuRemoveCreateForm", 'novalidate -> "novalidate") {
 
             @CSRF.formField
         </legend>

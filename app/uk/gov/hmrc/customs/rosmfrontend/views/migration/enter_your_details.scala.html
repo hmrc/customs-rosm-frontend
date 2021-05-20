@@ -54,7 +54,7 @@
 
         <h1 class="heading-large">@messages("cds.matching.individual.header")</h1>
 
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.submit(isInReviewMode, journey), 'id -> "subscriptionNameDobForm") {
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.submit(isInReviewMode, journey), 'id -> "subscriptionNameDobForm", 'novalidate -> "novalidate") {
         @CSRF.formField
 
             @if(appConfig.autoCompleteEnabled) {

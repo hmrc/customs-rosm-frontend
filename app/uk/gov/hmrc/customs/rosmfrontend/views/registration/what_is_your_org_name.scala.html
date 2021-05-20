@@ -35,7 +35,7 @@
         @helpers.errorSummary(matchOrgNameForm)
 
         <div class="form-group">
-            @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.WhatIsYourOrgNameController.submit(isInReviewMode, organisationType, journey), 'id -> "matchOrganisationNameForm") {
+            @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.WhatIsYourOrgNameController.submit(isInReviewMode, organisationType, journey), 'id -> "matchOrganisationNameForm", 'novalidate -> "novalidate") {
             @CSRF.formField
 
                 @inputText(

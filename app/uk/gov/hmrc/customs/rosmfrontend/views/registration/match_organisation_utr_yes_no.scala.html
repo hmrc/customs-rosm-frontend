@@ -97,7 +97,7 @@
         @helpers.errorSummary(yesNoForm, focusOverrides = Map("have-utr" -> "have-utr-yes"))
         <h1 class="heading-large">@headerAndTitle</h1>
 
-        @helper.form(DoYouHaveAUtrNumberYesNoController.submit(organisationType, journey), 'id -> "matchOrganisationUtrForm") {
+        @helper.form(DoYouHaveAUtrNumberYesNoController.submit(organisationType, journey), 'id -> "matchOrganisationUtrForm", 'novalidate -> "novalidate") {
             @CSRF.formField
             <div class="form-group">
                 @inputRadioGroup("have-utr",

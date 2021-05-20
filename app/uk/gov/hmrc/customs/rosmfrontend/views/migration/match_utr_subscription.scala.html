@@ -54,7 +54,7 @@
 
         @helpers.errorSummary(matchOrgIdForm)
 
-        @helper.form(WhatIsYourUtrSubscriptionController.submit(journey), 'id -> "subscriptionUtrForm") {
+        @helper.form(WhatIsYourUtrSubscriptionController.submit(journey), 'id -> "subscriptionUtrForm", 'novalidate -> "novalidate") {
             @CSRF.formField
 
             @inputText("utr",

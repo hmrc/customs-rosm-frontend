@@ -41,7 +41,7 @@
 
     @helpers.errorSummary(eoriNumberForm)
 
-    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.WhatIsYourEoriController.submit(isInReviewMode, journey),'id -> "eoriNumberForm") {
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.WhatIsYourEoriController.submit(isInReviewMode, journey),'id -> "eoriNumberForm", 'novalidate -> "novalidate") {
         @CSRF.formField
 
         @inputText("eori-number",

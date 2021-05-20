@@ -73,7 +73,7 @@
 
     @helpers.errorSummary(addressForm)
 
-    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsAddressController.submit(isInReviewMode, journey), 'id -> "contactDetailsAddressForm") {
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.ContactDetailsAddressController.submit(isInReviewMode, journey), 'id -> "contactDetailsAddressForm", 'novalidate -> "novalidate") {
 
         @CSRF.formField
 

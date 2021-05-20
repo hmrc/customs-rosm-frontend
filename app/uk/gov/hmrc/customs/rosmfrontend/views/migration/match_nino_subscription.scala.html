@@ -37,7 +37,7 @@
 
         @helpers.errorSummary(matchNinoIdForm)
 
-        @helper.form(HaveNinoSubscriptionController.submit(journey), 'id -> "subscriptionNinoForm") {
+        @helper.form(HaveNinoSubscriptionController.submit(journey), 'id -> "subscriptionNinoForm", 'novalidate -> "novalidate") {
             @CSRF.formField
 
             @inputText("nino",

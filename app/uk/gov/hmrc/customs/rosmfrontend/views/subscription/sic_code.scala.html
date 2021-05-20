@@ -81,7 +81,7 @@ cdsOrgType.contains(CdsOrganisationType.ThirdCountryOrganisation)
 
 @subscriptionFlowCommon_di(pageKey = pageKeyForOrgType, form = sicCodeForm) {
 
-    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.SicCodeController.submit(isInReviewMode, journey),'id -> "sicCodeform") {
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.SicCodeController.submit(isInReviewMode, journey),'id -> "sicCodeform", 'novalidate -> "novalidate") {
 
         @CSRF.formField
 

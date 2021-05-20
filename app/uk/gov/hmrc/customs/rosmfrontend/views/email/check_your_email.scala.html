@@ -57,7 +57,7 @@
 
     <p>@messages("subscription.check-your-email.confirm.label")</p>
 
-    @helper.form(CheckYourEmailController.submit(journey), 'id -> "confirmEmailYesNoAnswerForm") {
+    @helper.form(CheckYourEmailController.submit(journey), 'id -> "confirmEmailYesNoAnswerForm", 'novalidate -> "novalidate") {
     @CSRF.formField
 
     @inputRadioGroup("yes-no-answer",

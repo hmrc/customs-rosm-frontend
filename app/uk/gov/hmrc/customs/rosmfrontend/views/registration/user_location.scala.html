@@ -64,7 +64,7 @@
 
         @helpers.errorSummary(userLocationForm, focusOverrides = Map("location" -> s"location-${validOptions.head._1}"))
 
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.UserLocationController.submit(journey), 'id -> "user-location-form") {
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.UserLocationController.submit(journey), 'id -> "user-location-form", 'novalidate -> "novalidate") {
             @CSRF.formField
 
             @inputRadioGroup("location", validOptions)

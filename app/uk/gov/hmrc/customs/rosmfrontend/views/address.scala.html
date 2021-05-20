@@ -67,7 +67,7 @@ isRow: Boolean = false)(implicit request: Request[_], messages: Messages)
 
     @helpers.errorSummary(addressForm)
 
-    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController.submit(isInReviewMode, journey), 'id -> "addressDetailsForm") {
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController.submit(isInReviewMode, journey), 'id -> "addressDetailsForm", 'novalidate -> "novalidate") {
 
         @CSRF.formField
         <fieldset>

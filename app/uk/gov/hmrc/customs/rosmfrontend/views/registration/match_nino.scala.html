@@ -35,7 +35,7 @@
 
     <h1>@messages("cds.matching.nino.header")</h1>
 
-    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.NinoController.submit(organisationType, journey), 'id -> "nino-form") {
+    @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.NinoController.submit(organisationType, journey), 'id -> "nino-form", 'novalidate -> "novalidate") {
     @CSRF.formField
     @inputText("first-name", messages("cds.matching.nino.first-name"))
     @inputText("last-name", messages("cds.matching.nino.last-name"))

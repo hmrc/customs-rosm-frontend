@@ -372,7 +372,7 @@
             <p>@messages("cds.form.disclaimer")</p>
 
             <div class="form-group">
-                @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.RegisterWithEoriAndIdController.registerWithEoriAndId(journey)) {
+                @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.RegisterWithEoriAndIdController.registerWithEoriAndId(journey), 'novalidate -> "novalidate") {
                     @CSRF.formField
 
                     <p><input class="button" type="submit" value="@messages("cds.form.send")"></p>

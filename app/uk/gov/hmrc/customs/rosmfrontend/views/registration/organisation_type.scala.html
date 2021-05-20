@@ -85,7 +85,7 @@
 
         @helpers.errorSummary(OrganisationTypeForm, focusOverrides = Map("organisation-type" -> s"organisation-type-${validOptions.head._1}"))
 
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.OrganisationTypeController.submit(journey), 'id -> "OrganisationTypeForm") {
+        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.OrganisationTypeController.submit(journey), 'id -> "OrganisationTypeForm", 'novalidate -> "novalidate") {
             @CSRF.formField
 
             @inputRadioGroup("organisation-type", validOptions, hintTextOptions)

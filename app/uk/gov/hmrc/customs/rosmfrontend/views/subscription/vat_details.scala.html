@@ -39,7 +39,7 @@
         @helpers.errorSummary(vatForm,
             focusOverrides = Map("vat-effective-date" -> "vat-effective-date.day"))
 
-        @helper.form(formAction, 'id -> "vat-details-form") {
+        @helper.form(formAction, 'id -> "vat-details-form", 'novalidate -> "novalidate") {
 
             @CSRF.formField
             <h1 class="heading-large">@messages("cds.subscription.vat-details.heading")</h1>

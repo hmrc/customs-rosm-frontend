@@ -58,7 +58,7 @@ Map(
 
     @helpers.errorSummary(ninoUtrForm, focusOverrides = Map("yes-no-answer" -> "yes-no-answer-true"))
 
-    @helper.form(formAction, 'id -> "ninoUtrForm-createForm") {
+    @helper.form(formAction, 'id -> "ninoUtrForm-createForm", 'novalidate -> "novalidate") {
 
     @CSRF.formField
 

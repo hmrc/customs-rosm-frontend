@@ -135,7 +135,7 @@
         <p>@messages("cds.form.disclaimer")</p>
 
         <div class="form-group">
-            @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.CheckYourDetailsRegisterController.submitDetails(journey)) {
+            @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.CheckYourDetailsRegisterController.submitDetails(journey), 'novalidate -> "novalidate") {
                 @CSRF.formField
 
                 <p><input class="button" type="submit" value="@messages("cds.form.register")"></p>
