@@ -21,6 +21,7 @@ import play.api.Application
 import play.api.data.Form
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes._
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain._
@@ -52,7 +53,8 @@ class AddressController @Inject()(
   mcc: MessagesControllerComponents,
   subscriptionDetailsService: SubscriptionDetailsService,
   confirmContactDetails: confirm_contact_details,
-  addressView: address
+  addressView: address,
+  appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
@@ -166,7 +168,8 @@ class AddressController @Inject()(
               requestSessionData.isIndividualOrSoleTrader,
               requestSessionData.isPartnership,
               requestSessionData.isCompany,
-              isRow
+              isRow,
+              appConfig
             )
           )
         )
