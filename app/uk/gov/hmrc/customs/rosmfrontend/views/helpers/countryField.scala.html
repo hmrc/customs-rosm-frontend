@@ -63,10 +63,6 @@
         url: '@routes.Assets.versioned("javascripts/location-autocomplete-graph.json")'
     })
 
-    var inputElement = document.getElementsByClassName('autocomplete__input')
-    inputElement = inputElement[inputElement.length - 1];
-    inputElement.setAttribute('autocomplete', 'false' + selectElements.length);
-
     if (selectElement.classList.contains("form-control-error")) {
         inputElement.classList.add("form-control-error");
     }

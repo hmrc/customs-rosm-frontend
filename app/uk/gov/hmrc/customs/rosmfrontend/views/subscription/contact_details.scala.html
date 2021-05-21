@@ -56,12 +56,12 @@
                 <div id="email">@email</div>
             </div>
             @inputText("telephone", "cds.subscription.contact-details.telephone.label",
-                if (appConfig.autoCompleteEnabled) Seq('_type -> "phone", '_hintText -> messages("cds.subscription.contact-details.telephone.hint"), 'autocomplete -> "telephone")
-                else Seq('_type -> "phone", '_hintText -> messages("cds.subscription.contact-details.telephone.hint"))
+                if (appConfig.autoCompleteEnabled) Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.telephone.hint"), 'autocomplete -> "telephone")
+                else Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.telephone.hint"))
             )
             @inputText("fax", "cds.subscription.contact-details.fax.label",
-                if (appConfig.autoCompleteEnabled) Seq('_hintText -> messages("cds.subscription.contact-details.fax.hint"), 'autocomplete -> "fax")
-                else Seq('_hintText -> messages("cds.subscription.contact-details.telephone.hint")))
+                if (appConfig.autoCompleteEnabled) Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.fax.hint"), 'autocomplete -> "fax")
+                else Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.telephone.hint")))
 
         </fieldset>
         <input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>

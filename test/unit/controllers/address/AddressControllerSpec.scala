@@ -25,6 +25,7 @@ import org.scalacheck.Gen
 import org.scalatest.BeforeAndAfterEach
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.AddressController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.AddressController.submit
 import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType.IndividualId
@@ -64,6 +65,7 @@ class AddressControllerSpec
   private val mockCountries = mock[Countries]
   private val emulatedFailure = new UnsupportedOperationException("Emulation of service call failure")
   private val mockOrganisationType = mock[CdsOrganisationType]
+  private val mockAppConfig = mock[AppConfig]
 
   private val viewConfirmContectDetails = app.injector.instanceOf[confirm_contact_details]
   private val viewAddress = app.injector.instanceOf[address]
@@ -80,7 +82,8 @@ class AddressControllerSpec
     mcc,
     mockSubscriptionDetailsService,
     viewConfirmContectDetails,
-    viewAddress
+    viewAddress,
+    mockAppConfig
   )
 
   def stringOfLengthXGen(minLength: Int): Gen[String] =
@@ -119,6 +122,7 @@ class AddressControllerSpec
       .thenReturn(Some(mockOrganisationType))
     when(mockCountries.all).thenReturn(aFewCountries)
     when(mockCountries.getCountryParameters(any())).thenReturn(aFewCountries -> AllCountriesExceptIomInCountryPicker)
+    when(mockAppConfig.autoCompleteEnabled).thenReturn(true)
     registerSaveDetailsMockSuccess()
     setupMockSubscriptionFlowManager(AddressDetailsSubscriptionFlowPage)
   }
