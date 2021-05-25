@@ -183,8 +183,8 @@ class VatDetailsControllerSpec
       ) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your effective VAT date, for example '31 3 1980'"
-        page.getElementsText(vatEffectiveDateFieldLevelError) shouldBe "Error: Enter your effective VAT date, for example '31 3 1980'"
+        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your effective VAT date"
+        page.getElementsText(vatEffectiveDateFieldLevelError) shouldBe "Error: Enter your effective VAT date"
         page.getElementsText("title") should startWith("Error: ")
       }
     }

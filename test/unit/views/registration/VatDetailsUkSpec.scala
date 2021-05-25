@@ -76,19 +76,19 @@ class VatDetailsUkSpec extends ViewSpec {
     "have a no VAT error on page level error list" in {
       docWithNoVatErrors.body
         .getElementsByClass("error-summary-list")
-        .text mustBe "Enter a valid postcode of your VAT registration address Enter your effective VAT date, for example '31 3 1980'"
+        .text mustBe "Enter a valid postcode of your VAT registration address Enter your effective VAT date"
     }
 
     "have a page level error list" in {
       docWithErrors.body
         .getElementsByClass("error-summary-list")
-        .text mustBe "Enter a valid postcode of your VAT registration address Enter your VAT registration number Enter your effective VAT date, for example '31 3 1980'"
+        .text mustBe "Enter a valid postcode of your VAT registration address Enter your VAT registration number Enter your effective VAT date"
     }
 
     "have a field level error" in {
       docWithErrors.body
         .getElementsByClass("error-message")
-        .text mustBe "Enter a valid postcode of your VAT registration address Enter your VAT registration number Error: Enter your effective VAT date, for example '31 3 1980'"
+        .text mustBe "Enter a valid postcode of your VAT registration address Enter your VAT registration number Error: Enter your effective VAT date"
     }
   }
 }
