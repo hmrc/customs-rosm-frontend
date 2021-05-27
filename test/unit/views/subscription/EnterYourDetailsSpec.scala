@@ -80,12 +80,15 @@ class EnterYourDetailsSpec extends ViewSpec {
     }
     "have an input of type 'text' for day of birth" in {
       doc.body().getElementById("date-of-birth.day").attr("type") mustBe "text"
+      doc.body().getElementById("date-of-birth.day").attr("autocomplete") mustBe "date-of-birth.day"      
     }
     "have an input of type 'text' for month of birth" in {
       doc.body().getElementById("date-of-birth.month").attr("type") mustBe "text"
+      doc.body().getElementById("date-of-birth.month").attr("autocomplete") mustBe "date-of-birth.month"
     }
     "have an input of type 'text' for year of birth" in {
       doc.body().getElementById("date-of-birth.year").attr("type") mustBe "text"
+      doc.body().getElementById("date-of-birth.year").attr("autocomplete") mustBe "date-of-birth.year"
     }
   }
 
