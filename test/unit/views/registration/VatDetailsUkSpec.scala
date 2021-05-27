@@ -88,7 +88,7 @@ class VatDetailsUkSpec extends ViewSpec {
     "have a field level error" in {
       docWithErrors.body
         .getElementsByClass("error-message")
-        .text mustBe "Enter a valid postcode of your VAT registration address Enter your VAT registration number Error: Enter your effective VAT date"
+        .text mustBe "Error: Enter a valid postcode of your VAT registration address Error: Enter your VAT registration number Error: Enter your effective VAT date"
     }
   }
 }
