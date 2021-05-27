@@ -67,7 +67,7 @@ class WhatIsYourEoriSpec extends ViewSpec {
       docWithInvalidGbEoriError.body
         .getElementById("eori-number-outer")
         .getElementsByClass("error-message")
-        .text mustBe "Enter an EORI number in the right format"
+        .text mustBe "Error: Enter an EORI number in the right format"
     }
 
 
@@ -75,13 +75,13 @@ class WhatIsYourEoriSpec extends ViewSpec {
       docWithTooLongError.body
         .getElementById("eori-number-outer")
         .getElementsByClass("error-message")
-        .text mustBe "Enter an EORI number in the right format"
+        .text mustBe "Error: Enter an EORI number in the right format"
     }
     "display a field level error message when the Eori field is empty" in {
       docWithEmptyFieldError.body
         .getElementById("eori-number-outer")
         .getElementsByClass("error-message")
-        .text mustBe "Enter your EORI number"
+        .text mustBe "Error: Enter your EORI number"
     }
   }
 

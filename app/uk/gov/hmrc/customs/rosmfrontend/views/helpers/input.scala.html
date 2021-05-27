@@ -75,8 +75,11 @@ elements.args.getOrElse('_inputMode, "text").asInstanceOf[String]
                 <span class="form-hint" id="@(field.id)-hint">@elements.args.get('_hintText)</span>
         }
         @if(allErrors.nonEmpty) {
-                @allErrors.map { error => <span class="visually-hidden">@messages("cds.error.visually.hidden")</span>
-                <span class="error-message">@(error)</span> }
+                @allErrors.map { error =>
+                <span class="error-message" id="@(field.id)-error">
+                    <span class="visually-hidden">@messages("cds.error.visually.hidden")</span> @(error)
+                </span>
+                }
         }
         @if(isLabelH1 && allErrors.nonEmpty) {
             </div>
@@ -103,7 +106,8 @@ elements.args.getOrElse('_inputMode, "text").asInstanceOf[String]
             inputmode="@inputMode"
             @if(!patternMode.equals("*")){pattern="@patternMode"}
             @if(elements.args.contains('autocomplete)) { autocomplete="@elements.args.get('autocomplete)" }
-            value="@elements.field.value" />
+            value="@elements.field.value"
+            aria-describedby="@(field.id)-error"/>
     </div>
 
     @if(isLabelH1 && allErrors.nonEmpty) {

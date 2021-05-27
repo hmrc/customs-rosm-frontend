@@ -105,7 +105,7 @@ class VatDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a valid postcode of your VAT registration address"
-        page.getElementsText(vatPostcodeFieldLevelError) shouldBe "Enter a valid postcode of your VAT registration address"
+        page.getElementsText(vatPostcodeFieldLevelError) shouldBe "Error: Enter a valid postcode of your VAT registration address"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -129,7 +129,7 @@ class VatDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your VAT registration number"
-        page.getElementsText(vatNumberFieldLevelError) shouldBe "Enter your VAT registration number"
+        page.getElementsText(vatNumberFieldLevelError) shouldBe "Error: Enter your VAT registration number"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -139,7 +139,7 @@ class VatDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The VAT number must be 9 digits"
-        page.getElementsText(vatNumberFieldLevelError) shouldBe "The VAT number must be 9 digits"
+        page.getElementsText(vatNumberFieldLevelError) shouldBe "Error: The VAT number must be 9 digits"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -149,7 +149,7 @@ class VatDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The VAT number must be 9 digits"
-        page.getElementsText(vatNumberFieldLevelError) shouldBe "The VAT number must be 9 digits"
+        page.getElementsText(vatNumberFieldLevelError) shouldBe "Error: The VAT number must be 9 digits"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -159,7 +159,7 @@ class VatDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The VAT number must be 9 digits"
-        page.getElementsText(vatNumberFieldLevelError) shouldBe "The VAT number must be 9 digits"
+        page.getElementsText(vatNumberFieldLevelError) shouldBe "Error: The VAT number must be 9 digits"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -169,7 +169,7 @@ class VatDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The VAT number must be 9 digits"
-        page.getElementsText(vatNumberFieldLevelError) shouldBe "The VAT number must be 9 digits"
+        page.getElementsText(vatNumberFieldLevelError) shouldBe "Error: The VAT number must be 9 digits"
         page.getElementsText("title") should startWith("Error: ")
       }
     }

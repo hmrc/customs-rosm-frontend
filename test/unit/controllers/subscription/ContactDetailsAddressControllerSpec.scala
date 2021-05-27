@@ -283,7 +283,7 @@ class ContactDetailsAddressControllerSpec
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter the first line of your address"
-          page.getElementsText(streetFieldLevelErrorXPath) shouldBe "Enter the first line of your address"
+          page.getElementsText(streetFieldLevelErrorXPath) shouldBe "Error: Enter the first line of your address"
           page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -294,7 +294,7 @@ class ContactDetailsAddressControllerSpec
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your town or city"
-          page.getElementsText(cityFieldLevelErrorXPath) shouldBe "Enter your town or city"
+          page.getElementsText(cityFieldLevelErrorXPath) shouldBe "Error: Enter your town or city"
           page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -306,7 +306,7 @@ class ContactDetailsAddressControllerSpec
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a valid postcode"
-          page.getElementsText(postcodeFieldLevelErrorXPath) shouldBe "Enter a valid postcode"
+          page.getElementsText(postcodeFieldLevelErrorXPath) shouldBe "Error: Enter a valid postcode"
           page.getElementsText("title") should startWith("Error: ")
       }
     }

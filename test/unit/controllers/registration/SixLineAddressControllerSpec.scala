@@ -244,7 +244,7 @@ class SixLineAddressControllerSpec extends ControllerSpec with BeforeAndAfter wi
       s"country for [$organisationType]" should {
 
         "be mandatory" in {
-          assertInvalidField(organisationType)(formValues - "countryCode")(
+          assertInvalidCountryField(organisationType)(formValues - "countryCode")(
             CountryLabel,
             fieldLevelErrorCountry,
             "Enter a valid country name"
@@ -252,7 +252,7 @@ class SixLineAddressControllerSpec extends ControllerSpec with BeforeAndAfter wi
         }
 
         "be non-empty" in {
-          assertInvalidField(organisationType)(formValues + ("countryCode" -> ""))(
+          assertInvalidCountryField(organisationType)(formValues + ("countryCode" -> ""))(
             CountryLabel,
             fieldLevelErrorCountry,
             "Enter a valid country name"
@@ -260,7 +260,7 @@ class SixLineAddressControllerSpec extends ControllerSpec with BeforeAndAfter wi
         }
 
         "be at least 2 characters long" in {
-          assertInvalidField(organisationType)(formValues + ("countryCode" -> undersizedString(2)))(
+          assertInvalidCountryField(organisationType)(formValues + ("countryCode" -> undersizedString(2)))(
             CountryLabel,
             fieldLevelErrorCountry,
             "Enter a valid country name"
@@ -268,7 +268,7 @@ class SixLineAddressControllerSpec extends ControllerSpec with BeforeAndAfter wi
         }
 
         "be at most 2 characters long" in {
-          assertInvalidField(organisationType)(formValues + ("countryCode" -> oversizedString(2)))(
+          assertInvalidCountryField(organisationType)(formValues + ("countryCode" -> oversizedString(2)))(
             CountryLabel,
             fieldLevelErrorCountry,
             "Enter a valid country name"
@@ -337,7 +337,7 @@ class SixLineAddressControllerSpec extends ControllerSpec with BeforeAndAfter wi
   "country for third-country-organisation" should {
     "reject country code GB" in {
       val formValues = RowFormBuilder.asForm(thirdCountrySixLineAddressForm)
-      assertInvalidField("third-country-organisation")(formValues + ("countryCode" -> "GB"))(
+      assertInvalidCountryField("third-country-organisation")(formValues + ("countryCode" -> "GB"))(
         CountryLabel,
         fieldLevelErrorCountry,
         "The entered country is not acceptable"
@@ -407,7 +407,19 @@ class SixLineAddressControllerSpec extends ControllerSpec with BeforeAndAfter wi
     submitForm(cdsOrgType)(formValues) { result =>
       status(result) shouldBe BAD_REQUEST
       val page = CdsPage(bodyOf(result))
-      page.getElementsText(PageLevelErrorSummaryListXPath) shouldBe errorMessage
+      page.getElementsText(PageLevelErrorSummaryListXPath) shouldBe  errorMessage
+      page.getElementsText(fieldLevelErrorXPath) shouldBe s"Error: $errorMessage"
+      page.getElementsText("title") should startWith("Error: ")
+      result
+    }
+
+  def assertInvalidCountryField(
+                          cdsOrgType: String
+                        )(formValues: Map[String, String])(problemField: String, fieldLevelErrorXPath: String, errorMessage: String): Result =
+    submitForm(cdsOrgType)(formValues) { result =>
+      status(result) shouldBe BAD_REQUEST
+      val page = CdsPage(bodyOf(result))
+      page.getElementsText(PageLevelErrorSummaryListXPath) shouldBe  errorMessage
       page.getElementsText(fieldLevelErrorXPath) shouldBe errorMessage
       page.getElementsText("title") should startWith("Error: ")
       result

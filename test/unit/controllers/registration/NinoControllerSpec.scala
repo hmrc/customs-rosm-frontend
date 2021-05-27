@@ -85,7 +85,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(NinoMatchPage.pageLevelErrorSummaryListXPath) shouldBe FirstName
-        page.getElementsText(NinoMatchPage.fieldLevelErrorFirstName) shouldBe FirstName
+        page.getElementsText(NinoMatchPage.fieldLevelErrorFirstName) shouldBe s"Error: $FirstName"
       }
     }
 
@@ -94,7 +94,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(NinoMatchPage.pageLevelErrorSummaryListXPath) shouldBe "The first name must be 35 characters or less"
-        page.getElementsText(NinoMatchPage.fieldLevelErrorFirstName) shouldBe "The first name must be 35 characters or less"
+        page.getElementsText(NinoMatchPage.fieldLevelErrorFirstName) shouldBe s"Error: The first name must be 35 characters or less"
       }
     }
   }
@@ -106,7 +106,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(NinoMatchPage.pageLevelErrorSummaryListXPath) shouldBe LastName
-        page.getElementsText(NinoMatchPage.fieldLevelErrorLastName) shouldBe LastName
+        page.getElementsText(NinoMatchPage.fieldLevelErrorLastName) shouldBe s"Error: $LastName"
       }
     }
 
@@ -115,7 +115,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(NinoMatchPage.pageLevelErrorSummaryListXPath) shouldBe "The last name must be 35 characters or less"
-        page.getElementsText(NinoMatchPage.fieldLevelErrorLastName) shouldBe "The last name must be 35 characters or less"
+        page.getElementsText(NinoMatchPage.fieldLevelErrorLastName) shouldBe s"Error: The last name must be 35 characters or less"
       }
     }
   }
@@ -165,7 +165,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(NinoMatchPage.pageLevelErrorSummaryListXPath) shouldBe Nino
-        page.getElementsText(NinoMatchPage.fieldLevelErrorNino) shouldBe Nino
+        page.getElementsText(NinoMatchPage.fieldLevelErrorNino) shouldBe s"Error: $Nino"
       }
     }
 
@@ -174,7 +174,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(NinoMatchPage.pageLevelErrorSummaryListXPath) shouldBe InvalidNino
-        page.getElementsText(NinoMatchPage.fieldLevelErrorNino) shouldBe InvalidNino
+        page.getElementsText(NinoMatchPage.fieldLevelErrorNino) shouldBe s"Error: $InvalidNino"
       }
     }
   }

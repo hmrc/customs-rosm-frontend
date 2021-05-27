@@ -238,7 +238,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
       submitFormInCreateMode(createFormAllFieldsNameDobMap + (firstNameFieldId -> "")) { result =>
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your first name"
-        page.getElementsText(firstNameFieldLevelErrorXPath) shouldBe "Enter your first name"
+        page.getElementsText(firstNameFieldLevelErrorXPath) shouldBe "Error: Enter your first name"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -249,7 +249,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
         result =>
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The first name must be 35 characters or less"
-          page.getElementsText(firstNameFieldLevelErrorXPath) shouldBe "The first name must be 35 characters or less"
+          page.getElementsText(firstNameFieldLevelErrorXPath) shouldBe "Error: The first name must be 35 characters or less"
           page.getElementsText("title") should startWith("Error: ")
           verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -260,7 +260,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
         result =>
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a first name without invalid characters"
-          page.getElementsText(firstNameFieldLevelErrorXPath) shouldBe "Enter a first name without invalid characters"
+          page.getElementsText(firstNameFieldLevelErrorXPath) shouldBe "Error: Enter a first name without invalid characters"
           page.getElementsText("title") should startWith("Error: ")
           verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -270,7 +270,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
       submitFormInCreateMode(createFormAllFieldsNameDobMap + (lastNameFieldName -> "")) { result =>
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your last name"
-        page.getElementsText(lastNameFieldLevelErrorXPath) shouldBe "Enter your last name"
+        page.getElementsText(lastNameFieldLevelErrorXPath) shouldBe "Error: Enter your last name"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -281,7 +281,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
         result =>
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The last name must be 35 characters or less"
-          page.getElementsText(lastNameFieldLevelErrorXPath) shouldBe "The last name must be 35 characters or less"
+          page.getElementsText(lastNameFieldLevelErrorXPath) shouldBe "Error: The last name must be 35 characters or less"
           page.getElementsText("title") should startWith("Error: ")
           verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -292,7 +292,7 @@ class NameDobSoleTraderControllerSpec extends SubscriptionFlowSpec with Controll
         result =>
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a last name without invalid characters"
-          page.getElementsText(lastNameFieldLevelErrorXPath) shouldBe "Enter a last name without invalid characters"
+          page.getElementsText(lastNameFieldLevelErrorXPath) shouldBe "Error: Enter a last name without invalid characters"
           page.getElementsText("title") should startWith("Error: ")
           verifyNoInteractions(mockSubscriptionBusinessService)
       }

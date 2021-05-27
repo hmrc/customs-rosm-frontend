@@ -57,7 +57,7 @@ class MatchOrganisationNameSpec extends ViewSpec {
         .body()
         .getElementById("name-outer")
         .getElementsByClass("error-message")
-        .text() mustBe "Enter your registered organisation name"
+        .text() mustBe "Error: Enter your registered organisation name"
     }
     "diplay a page level error message" in {
       docWithErrors
