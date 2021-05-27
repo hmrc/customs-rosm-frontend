@@ -336,7 +336,7 @@ class SicCodeControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldEqual "Enter a SIC code"
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Enter a SIC code"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Error: Enter a SIC code"
       }
     }
 
@@ -345,7 +345,7 @@ class SicCodeControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldEqual "Enter a SIC code"
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Enter a SIC code"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Error: Enter a SIC code"
       }
     }
 
@@ -354,7 +354,7 @@ class SicCodeControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a SIC code in the right format"
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Enter a SIC code in the right format"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Error: Enter a SIC code in the right format"
       }
     }
 
@@ -363,7 +363,7 @@ class SicCodeControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a SIC code in the right format"
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Enter a SIC code in the right format"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Error: Enter a SIC code in the right format"
       }
     }
 
@@ -372,7 +372,7 @@ class SicCodeControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a SIC code in the right format"
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Enter a SIC code in the right format"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.sicFieldLevelErrorXpath) shouldEqual "Error: Enter a SIC code in the right format"
       }
     }
 

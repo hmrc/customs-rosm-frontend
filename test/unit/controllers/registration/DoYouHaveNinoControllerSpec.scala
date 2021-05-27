@@ -147,7 +147,7 @@ class DoYouHaveNinoControllerSpec extends ControllerSpec with BeforeAndAfterEach
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your National Insurance number"
-          page.getElementsText(fieldLevelErrorNino) shouldBe "Enter your National Insurance number"
+          page.getElementsText(fieldLevelErrorNino) shouldBe "Error: Enter your National Insurance number"
         }
       }
 
@@ -156,7 +156,7 @@ class DoYouHaveNinoControllerSpec extends ControllerSpec with BeforeAndAfterEach
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a National Insurance number in the right format"
-          page.getElementText(fieldLevelErrorNino) shouldBe "Enter a National Insurance number in the right format"
+          page.getElementText(fieldLevelErrorNino) shouldBe "Error: Enter a National Insurance number in the right format"
         }
       }
     }

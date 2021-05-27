@@ -211,10 +211,10 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
             val page = CdsPage(bodyOf(result))
             if (organisationType == "partnership" || organisationType == "limited-liability-partnership") {
               page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your registered partnership name"
-              page.getElementsText(fieldLevelErrorName) shouldBe "Enter your registered partnership name"
+              page.getElementsText(fieldLevelErrorName) shouldBe "Error: Enter your registered partnership name"
             } else {
               page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your registered organisation name"
-              page.getElementsText(fieldLevelErrorName) shouldBe "Enter your registered organisation name"
+              page.getElementsText(fieldLevelErrorName) shouldBe "Error: Enter your registered organisation name"
             }
             page.getElementsText("title") should startWith("Error: ")
           }
@@ -225,7 +225,7 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
             status(result) shouldBe BAD_REQUEST
             val page = CdsPage(bodyOf(result))
             page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your Unique Taxpayer Reference"
-            page.getElementsText(fieldLevelErrorUtr) shouldBe "Enter your Unique Taxpayer Reference"
+            page.getElementsText(fieldLevelErrorUtr) shouldBe "Error: Enter your Unique Taxpayer Reference"
             page.getElementsText("title") should startWith("Error: ")
           }
         }
@@ -237,10 +237,10 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
               val page = CdsPage(bodyOf(result))
               if (organisationType == "partnership" || organisationType == "limited-liability-partnership") {
                 page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The partnership name must be 105 characters or less"
-                page.getElementsText(fieldLevelErrorName) shouldBe "The partnership name must be 105 characters or less"
+                page.getElementsText(fieldLevelErrorName) shouldBe "Error: The partnership name must be 105 characters or less"
               } else {
                 page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The organisation name must be 105 characters or less"
-                page.getElementsText(fieldLevelErrorName) shouldBe "The organisation name must be 105 characters or less"
+                page.getElementsText(fieldLevelErrorName) shouldBe "Error: The organisation name must be 105 characters or less"
               }
               page.getElementsText("title") should startWith("Error: ")
           }
@@ -251,7 +251,7 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
             status(result) shouldBe BAD_REQUEST
             val page = CdsPage(bodyOf(result))
             page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe UtrInvalidError
-            page.getElementsText(fieldLevelErrorUtr) shouldBe UtrInvalidError
+            page.getElementsText(fieldLevelErrorUtr) shouldBe s"Error: $UtrInvalidError"
             page.getElementsText("title") should startWith("Error: ")
           }
         }
@@ -262,7 +262,7 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
             status(result) shouldBe BAD_REQUEST
             val page = CdsPage(bodyOf(result))
             page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe UtrInvalidError
-            page.getElementsText(fieldLevelErrorUtr) shouldBe UtrInvalidError
+            page.getElementsText(fieldLevelErrorUtr) shouldBe s"Error: $UtrInvalidError"
             page.getElementsText("title") should startWith("Error: ")
           }
         }
@@ -334,7 +334,7 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe UtrInvalidError
-        page.getElementsText(fieldLevelErrorUtr) shouldBe UtrInvalidError
+        page.getElementsText(fieldLevelErrorUtr) shouldBe s"Error: $UtrInvalidError"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -352,7 +352,7 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe UtrInvalidError
-        page.getElementsText(fieldLevelErrorUtr) shouldBe UtrInvalidError
+        page.getElementsText(fieldLevelErrorUtr) shouldBe s"Error: $UtrInvalidError"
         page.getElementsText("title") should startWith("Error: ")
       }
     }

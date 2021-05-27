@@ -99,7 +99,7 @@ class WhatIsYourUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
 
-          page.getElementsText("//*[@id='utr-outer']//span[@class='error-message']") shouldBe "Enter your Unique Taxpayer Reference"
+          page.getElementsText("//*[@id='utr-outer']//span[@class='error-message']") shouldBe "Error: Enter your Unique Taxpayer Reference"
       }
     }
   }
@@ -117,7 +117,7 @@ class WhatIsYourUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your Unique Taxpayer Reference"
-          page.getElementsText(fieldLevelErrorUtr) shouldBe "Enter your Unique Taxpayer Reference"
+          page.getElementsText(fieldLevelErrorUtr) shouldBe "Error: Enter your Unique Taxpayer Reference"
           page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -129,7 +129,7 @@ class WhatIsYourUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe UtrInvalidError
-          page.getElementsText(fieldLevelErrorUtr) shouldBe UtrInvalidError
+          page.getElementsText(fieldLevelErrorUtr) shouldBe s"Error: $UtrInvalidError"
           page.getElementsText("title") should startWith("Error: ")
       }
     }

@@ -197,7 +197,7 @@ trait ControllerSpec extends UnitSpec with GuiceOneAppPerSuite with MockitoSugar
         withClue(s"Not found in the page: field level error block for '$problemField' with xpath $fieldLevelErrorXPath") {
           page.elementIsPresent(fieldLevelErrorXPath) shouldBe true
         }
-        page.getElementsText(fieldLevelErrorXPath) shouldBe errorPrefix + errorMessage
+        page.getElementsText(fieldLevelErrorXPath) shouldBe s"Error: $errorMessage"
         result
       }
 

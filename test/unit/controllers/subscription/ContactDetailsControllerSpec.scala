@@ -380,7 +380,7 @@ class ContactDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your contact name"
-        page.getElementsText(fullNameFieldLevelErrorXPath) shouldBe "Enter your contact name"
+        page.getElementsText(fullNameFieldLevelErrorXPath) shouldBe "Error: Enter your contact name"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -392,7 +392,7 @@ class ContactDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The full name can be a maximum of 70 characters"
-        page.getElementsText(fullNameFieldLevelErrorXPath) shouldBe "The full name can be a maximum of 70 characters"
+        page.getElementsText(fullNameFieldLevelErrorXPath) shouldBe "Error: The full name can be a maximum of 70 characters"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -403,7 +403,7 @@ class ContactDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your contact telephone number"
-        page.getElementsText(telephoneFieldLevelErrorXPath) shouldBe "Enter your contact telephone number"
+        page.getElementsText(telephoneFieldLevelErrorXPath) shouldBe "Error: Enter your contact telephone number"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -415,7 +415,7 @@ class ContactDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The telephone number must be 24 digits or less"
-        page.getElementsText(telephoneFieldLevelErrorXPath) shouldBe "The telephone number must be 24 digits or less"
+        page.getElementsText(telephoneFieldLevelErrorXPath) shouldBe "Error: The telephone number must be 24 digits or less"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -426,7 +426,7 @@ class ContactDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Please enter a valid telephone number"
-        page.getElementsText(telephoneFieldLevelErrorXPath) shouldBe "Please enter a valid telephone number"
+        page.getElementsText(telephoneFieldLevelErrorXPath) shouldBe "Error: Please enter a valid telephone number"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -445,7 +445,7 @@ class ContactDetailsControllerSpec
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The fax number must be 24 digits or less"
-          page.getElementsText(faxFieldLevelErrorXPath) shouldBe "The fax number must be 24 digits or less"
+          page.getElementsText(faxFieldLevelErrorXPath) shouldBe "Error: The fax number must be 24 digits or less"
           page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -456,7 +456,7 @@ class ContactDetailsControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Please enter a valid fax number"
-        page.getElementsText(faxFieldLevelErrorXPath) shouldBe "Please enter a valid fax number"
+        page.getElementsText(faxFieldLevelErrorXPath) shouldBe "Error: Please enter a valid fax number"
         page.getElementsText("title") should startWith("Error: ")
       }
     }

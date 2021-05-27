@@ -77,6 +77,8 @@ class BusinessShortNameControllerSpec
   private val useShortNameError = "Tell us if your organisation uses a shortened name"
   private val partnershipUseShortNameError = "Tell us if your partnership uses a shortened name"
   private val shortNameError = "Enter your organisation's shortened name"
+  private val shortNameWithError = "Error: Enter your organisation's shortened name"
+
   private val partnershipShortNameError = "Enter your partnership's shortened name"
 
   override def beforeEach: Unit = {
@@ -356,7 +358,7 @@ class BusinessShortNameControllerSpec
           status(result) shouldBe BAD_REQUEST
           val page = CdsPage(bodyOf(result))
           page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe shortNameError
-          page.getElementsText(SubscriptionAmendCompanyDetailsPage.shortNameFieldLevelErrorXpath) shouldBe shortNameError
+          page.getElementsText(SubscriptionAmendCompanyDetailsPage.shortNameFieldLevelErrorXpath) shouldBe shortNameWithError
       }
     }
 
@@ -365,7 +367,7 @@ class BusinessShortNameControllerSpec
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe "The shortened name must be 70 characters or less"
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.shortNameFieldLevelErrorXpath) shouldBe "The shortened name must be 70 characters or less"
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.shortNameFieldLevelErrorXpath) shouldBe "Error: The shortened name must be 70 characters or less"
       }
     }
   }

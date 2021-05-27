@@ -89,7 +89,7 @@ class MatchOrganisationUtrSpec extends ViewSpec {
       docWithNoSelectionError.body
         .getElementById("utr-outer")
         .getElementsByClass("error-message")
-        .text mustBe "This field is required"
+        .text mustBe "Error: This field is required"
     }
     "display a page level error message" in {
       docWithNoSelectionError.body
@@ -108,7 +108,7 @@ class MatchOrganisationUtrSpec extends ViewSpec {
       docWithNoSelectionErrorAsSoleTrader.body
         .getElementById("utr-outer")
         .getElementsByClass("error-message")
-        .text mustBe "This field is required"
+        .text mustBe "Error: This field is required"
     }
     "display a page level error message" in {
       docWithNoSelectionErrorAsSoleTrader.body
@@ -127,7 +127,7 @@ class MatchOrganisationUtrSpec extends ViewSpec {
       docWithNoUtrEnteredError.body
         .getElementById("utr-outer")
         .getElementsByClass("error-message")
-        .text mustBe "Enter your Unique Taxpayer Reference"
+        .text mustBe "Error: Enter your Unique Taxpayer Reference"
     }
     "display a page level error message" in {
       docWithNoUtrEnteredError.body.getElementsByClass("error-summary-list").text mustBe "Enter your Unique Taxpayer Reference"
@@ -139,7 +139,7 @@ class MatchOrganisationUtrSpec extends ViewSpec {
       docWithNoUtrEnteredErrorAsSoleTrader.body
         .getElementById("utr-outer")
         .getElementsByClass("error-message")
-        .text mustBe "Enter your Unique Taxpayer Reference"
+        .text mustBe "Error: Enter your Unique Taxpayer Reference"
     }
     "display a page level error message" in {
       docWithNoUtrEnteredErrorAsSoleTrader.body

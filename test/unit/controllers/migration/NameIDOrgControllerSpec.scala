@@ -227,7 +227,7 @@ class NameIDOrgControllerSpec extends SubscriptionFlowSpec with ControllerSpec w
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your registered organisation name"
-        page.getElementsText(nameFieldLevelErrorXPath) shouldBe "Enter your registered organisation name"
+        page.getElementsText(nameFieldLevelErrorXPath) shouldBe "Error: Enter your registered organisation name"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -238,7 +238,7 @@ class NameIDOrgControllerSpec extends SubscriptionFlowSpec with ControllerSpec w
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The organisation name must be 105 characters or less"
-        page.getElementsText(nameFieldLevelErrorXPath) shouldBe "The organisation name must be 105 characters or less"
+        page.getElementsText(nameFieldLevelErrorXPath) shouldBe "Error: The organisation name must be 105 characters or less"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
@@ -249,7 +249,7 @@ class NameIDOrgControllerSpec extends SubscriptionFlowSpec with ControllerSpec w
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your Unique Taxpayer Reference"
-        page.getElementsText(utrFieldLevelErrorXPath) shouldBe "Enter your Unique Taxpayer Reference"
+        page.getElementsText(utrFieldLevelErrorXPath) shouldBe "Error: Enter your Unique Taxpayer Reference"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }

@@ -89,7 +89,7 @@ class NameDobControllerSpec extends ControllerSpec with BeforeAndAfterEach with 
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your first name"
-        page.getElementsText(fieldLevelErrorFirstName) shouldBe "Enter your first name"
+        page.getElementsText(fieldLevelErrorFirstName) shouldBe "Error: Enter your first name"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -100,7 +100,7 @@ class NameDobControllerSpec extends ControllerSpec with BeforeAndAfterEach with 
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe maxLengthError(firstNameMaxLength, "first")
-        page.getElementsText(fieldLevelErrorFirstName) shouldBe maxLengthError(firstNameMaxLength, "first")
+        page.getElementsText(fieldLevelErrorFirstName) shouldBe s"Error: ${maxLengthError(firstNameMaxLength, "first")}"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -122,7 +122,7 @@ class NameDobControllerSpec extends ControllerSpec with BeforeAndAfterEach with 
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter your last name"
-        page.getElementsText(fieldLevelErrorLastName) shouldBe "Enter your last name"
+        page.getElementsText(fieldLevelErrorLastName) shouldBe "Error: Enter your last name"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
@@ -133,7 +133,7 @@ class NameDobControllerSpec extends ControllerSpec with BeforeAndAfterEach with 
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
         page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe maxLengthError(lastNameMaxLength, "last")
-        page.getElementsText(fieldLevelErrorLastName) shouldBe maxLengthError(lastNameMaxLength, "last")
+        page.getElementsText(fieldLevelErrorLastName) shouldBe s"Error: ${maxLengthError(lastNameMaxLength, "last")}"
         page.getElementsText("title") should startWith("Error: ")
       }
     }
