@@ -30,6 +30,10 @@
     elements.args.getOrElse('_isLegendH1, false).asInstanceOf[Boolean]
 }
 
+@autocomplete = @{
+    elements.args.getOrElse('_autocomplete, false).asInstanceOf[Boolean]
+}
+
 @inputClass = @{
     if(elements.hasErrors) {"form-control form-control-error"}
     else "form-control"
@@ -78,15 +82,15 @@
         }
         <label for="@dayLabel" class="form-group form-group-year">
             <span>@messages("date.fields.day")</span>
-            <input type="text" pattern="[ 0-9]*" autocomplete="@dayLabel" inputmode="numeric" class="@inputClass" name="@dayLabel" id="@dayLabel" value="@formItem(s"$dayLabel").value.getOrElse("")">
+            <input type="text" pattern="[ 0-9]*" @if(autocomplete){autocomplete="@dayLabel"} inputmode="numeric" class="@inputClass" name="@dayLabel" id="@dayLabel" value="@formItem(s"$dayLabel").value.getOrElse("")">
         </label>
         <label for="@monthLabel" class="form-group form-group-year">
             <span>@messages("date.fields.month")</span>
-            <input type="text" pattern="[ 0-9]*" autocomplete="@monthLabel" inputmode="numeric" class="@inputClass" name="@monthLabel" id="@monthLabel" value="@formItem(s"$monthLabel").value.getOrElse("")">
+            <input type="text" pattern="[ 0-9]*" @if(autocomplete){autocomplete="@monthLabel"} inputmode="numeric" class="@inputClass" name="@monthLabel" id="@monthLabel" value="@formItem(s"$monthLabel").value.getOrElse("")">
         </label>
         <label for="@yearLabel" class="form-group form-group-year">
             <span>@messages("date.fields.year")</span>
-            <input type="text" pattern="[ 0-9]*" autocomplete="@yearLabel" inputmode="numeric" class="@inputClass" name="@yearLabel" id="@yearLabel" value="@formItem(s"$yearLabel").value.getOrElse("")">
+            <input type="text" pattern="[ 0-9]*" @if(autocomplete){autocomplete="@yearLabel"} inputmode="numeric" class="@inputClass" name="@yearLabel" id="@yearLabel" value="@formItem(s"$yearLabel").value.getOrElse("")">
         </label>
     </fieldset>
 </div>

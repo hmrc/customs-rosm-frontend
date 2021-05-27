@@ -68,7 +68,8 @@
             @inputDate_di(subscriptionNameDobForm, "date-of-birth",
                 '_label -> messages("cds.matching.individual.what-is-your-date-of-birth"),
                 '_hintText -> messages("cds.date-of-birth.hint"),
-                '_legend -> messages("cds.matching.individual.what-is-your-date-of-birth")
+                '_legend -> messages("cds.matching.individual.what-is-your-date-of-birth"),
+                '_autocomplete -> appConfig.autoCompleteEnabled,
             )
 
             <input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>
