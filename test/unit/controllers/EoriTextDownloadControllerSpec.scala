@@ -72,11 +72,9 @@ class EoriTextDownloadControllerSpec extends ControllerSpec with BeforeAndAfterE
       contentAsString(result).filterNot(_ == '\r') shouldBe
         """HM Revenue & Customs
           |
-          |Test Company is registered for the Customs Declaration Service (CDS)
+          |The EORI number for Test Company is ZZ123456789000
           |
-          |Active from 23 June 2018
-          |
-          |EORI number: ZZ123456789000""".stripMargin
+          |issued by HMRC on 23 June 2018""".stripMargin
     }
 
     "have Windows-friendly line terminators in the eori text file" in {
@@ -88,7 +86,7 @@ class EoriTextDownloadControllerSpec extends ControllerSpec with BeforeAndAfterE
 
       val content = contentAsString(result)
       val lines = content.split('\n').drop(1)
-      lines.length shouldBe 6
+      lines.length shouldBe 4
       lines.forall(_.endsWith('\r'.toString)) shouldBe true
     }
   }

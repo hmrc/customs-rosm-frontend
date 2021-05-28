@@ -17,8 +17,6 @@
 @this()
 @(eori: String, entityName: String, processedDate: String)(implicit messages: Messages)@CR ={@Html("\r")}@Html(messages("cds.subscription.text-download.hmrc"))@CR
 @CR
-@entityName @messages("cds.subscription.text-download.registered")@CR
+@messages("cds.subscription.outcomes.success.heading", entityName) @eori@CR
 @CR
-@messages("cds.subscription.text-download.active") @processedDate@CR
-@CR
-@messages("cds.subscription.text-download.eori") @eori@CR
+@messages("cds.subscription.outcomes.success.issued") @processedDate@CR
