@@ -274,10 +274,4 @@ class DoYouHaveABusinessShortNameControllerSpec
 
     test(controller.createForm(journey).apply(SessionBuilder.buildRequestWithSession(userId)))
   }
-
-  private def verifyShortNameFieldExistAndPopulatedCorrectly(page: CdsPage, testData: BusinessShortName): Unit =
-    Some(page.getElementValueForLabel(SubscriptionAmendCompanyDetailsPage.shortNameLabelXpath)) shouldBe testData.shortName
-
-  private def verifyShortNameFieldExistWithNoData(page: CdsPage): Unit =
-    page.getElementValueForLabel(ShortNamePage.shortNameLabelXpath) shouldBe empty
 }

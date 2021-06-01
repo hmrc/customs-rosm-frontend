@@ -49,7 +49,7 @@ class DoYouHaveABusinessShortNameController @Inject()(
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
-  private def form(implicit request: Request[AnyContent]) = //TODO replace this with MatchingForms.yesNoCustomAnswerForm
+  private def form(implicit request: Request[AnyContent]) =
     if (requestSessionData.isPartnership)
       subscriptionPartnershipShortNameYesNoForm
     else

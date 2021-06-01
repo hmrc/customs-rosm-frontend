@@ -70,8 +70,6 @@ class BusinessShortNameControllerSpec
   )
 
   private val emulatedFailure = new UnsupportedOperationException("Emulation of service call failure")
-  private val useShortNameError = "Tell us if your organisation uses a shortened name"
-  private val partnershipUseShortNameError = "Tell us if your partnership uses a shortened name"
   private val shortNameError = "Enter your organisation's shortened name"
   private val shortNameWithError = "Error: Enter your organisation's shortened name"
 
