@@ -106,8 +106,8 @@ class SubscriptionFlowManagerSpec
         ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori
       ),
       (OrganisationSubscriptionFlow, ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori, 3, 12, ContactDetailsAddressSubscriptionFlowPageGetEori),
-      (OrganisationSubscriptionFlow, ContactDetailsAddressSubscriptionFlowPageGetEori, 4, 12, BusinessShortNameSubscriptionFlowPage),
-      (OrganisationSubscriptionFlow, BusinessShortNameSubscriptionFlowPage, 5, 12, SicCodeSubscriptionFlowPage),
+      (OrganisationSubscriptionFlow, ContactDetailsAddressSubscriptionFlowPageGetEori, 4, 12, BusinessShortNameSubscriptionFlowYesNoPage),
+      (OrganisationSubscriptionFlow, BusinessShortNameSubscriptionFlowYesNoPage, 5, 12, SicCodeSubscriptionFlowPage),
       (OrganisationSubscriptionFlow, SicCodeSubscriptionFlowPage, 6, 12, VatRegisteredUkSubscriptionFlowPage),
       (OrganisationSubscriptionFlow, VatRegisteredUkSubscriptionFlowPage, 7, 12, VatDetailsSubscriptionFlowPage),
       (OrganisationSubscriptionFlow, VatDetailsSubscriptionFlowPage, 8, 12, VatRegisteredEuSubscriptionFlowPage),
@@ -130,8 +130,8 @@ class SubscriptionFlowManagerSpec
         ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori
       ),
       (PartnershipSubscriptionFlow, ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori, 3, 12, ContactDetailsAddressSubscriptionFlowPageGetEori),
-      (PartnershipSubscriptionFlow, ContactDetailsAddressSubscriptionFlowPageGetEori, 4, 12, BusinessShortNameSubscriptionFlowPage),
-      (PartnershipSubscriptionFlow, BusinessShortNameSubscriptionFlowPage, 5, 12, SicCodeSubscriptionFlowPage),
+      (PartnershipSubscriptionFlow, ContactDetailsAddressSubscriptionFlowPageGetEori, 4, 12, BusinessShortNameSubscriptionFlowYesNoPage),
+      (PartnershipSubscriptionFlow, BusinessShortNameSubscriptionFlowYesNoPage, 5, 12, SicCodeSubscriptionFlowPage),
       (PartnershipSubscriptionFlow, SicCodeSubscriptionFlowPage, 6, 12, VatRegisteredUkSubscriptionFlowPage),
       (PartnershipSubscriptionFlow, VatRegisteredUkSubscriptionFlowPage, 7, 12, VatDetailsSubscriptionFlowPage),
       (PartnershipSubscriptionFlow, VatDetailsSubscriptionFlowPage, 8, 12, VatRegisteredEuSubscriptionFlowPage),
@@ -168,8 +168,8 @@ class SubscriptionFlowManagerSpec
         ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori
       ),
       (ThirdCountryOrganisationSubscriptionFlow, ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori, 3, 12, ContactDetailsAddressSubscriptionFlowPageGetEori),
-      (ThirdCountryOrganisationSubscriptionFlow, ContactDetailsAddressSubscriptionFlowPageGetEori, 4, 12, BusinessShortNameSubscriptionFlowPage),
-      (ThirdCountryOrganisationSubscriptionFlow, BusinessShortNameSubscriptionFlowPage, 5, 12, SicCodeSubscriptionFlowPage),
+      (ThirdCountryOrganisationSubscriptionFlow, ContactDetailsAddressSubscriptionFlowPageGetEori, 4, 12, BusinessShortNameSubscriptionFlowYesNoPage),
+      (ThirdCountryOrganisationSubscriptionFlow, BusinessShortNameSubscriptionFlowYesNoPage, 5, 12, SicCodeSubscriptionFlowPage),
       (
         ThirdCountryOrganisationSubscriptionFlow,
         SicCodeSubscriptionFlowPage,

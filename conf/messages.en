@@ -959,8 +959,10 @@ cds.subscription.vat-details-eu-confirm.max-amount-reached=You have added the ma
 cds.subscription.vat-details-eu-confirm.select-one-error.yes-no-answer=Tell us if you need to add VAT details for another EU country
 
 #Subscription Short Name
-cds.subscription.business.short-name.title-and-heading=Does your organisation use a shortened name?
-cds.subscription.partnership.short-name.title-and-heading=Does your partnership use a shortened name?
+cds.subscription.business.short-name.yes-no.title-and-heading=Does your organisation use a shortened name?
+cds.subscription.partnership.short-name.yes-no.title-and-heading=Does your partnership use a shortened name?
+cds.subscription.business.short-name.title-and-heading=What is your organisation''s shortened name?
+cds.subscription.partnership.short-name.title-and-heading=What is your partnership''s shortened name?
 cds.subscription.short-name.hint=For example, Her Majesty''s Revenue and Customs is known as HMRC.
 cds.subscription.short-name.label=Shortened name
 cds.subscription.short-name.error.short-name=Enter your organisation''s shortened name

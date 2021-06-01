@@ -16,18 +16,15 @@
 
 package uk.gov.hmrc.customs.rosmfrontend.controllers.subscription
 
-import javax.inject.{Inject, Singleton}
 import play.api.Application
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.OrgTypeNotFoundException
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
-import uk.gov.hmrc.customs.rosmfrontend.domain.LoggedInUserWithEnrolments
+import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.BusinessShortNameController
+import uk.gov.hmrc.customs.rosmfrontend.domain.{EtmpOrganisationType, LoggedInUserWithEnrolments}
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription._
-import uk.gov.hmrc.customs.rosmfrontend.forms.subscription.SubscriptionForm.{
-  subscriptionCompanyShortNameForm,
-  subscriptionPartnershipShortNameForm
-}
+import uk.gov.hmrc.customs.rosmfrontend.forms.subscription.SubscriptionForm.{subscriptionCompanyShortNameForm, subscriptionCompanyShortNameYesNoForm, subscriptionPartnershipShortNameForm, subscriptionPartnershipShortNameYesNoForm}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.RequestSessionData
 import uk.gov.hmrc.customs.rosmfrontend.services.organisation.OrgTypeLookup
@@ -35,10 +32,11 @@ import uk.gov.hmrc.customs.rosmfrontend.services.subscription.{SubscriptionBusin
 import uk.gov.hmrc.customs.rosmfrontend.views.html.subscription._
 import uk.gov.hmrc.http.HeaderCarrier
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class BusinessShortNameController @Inject()(
+class DoYouHaveABusinessShortNameController @Inject()(
   override val currentApp: Application,
   override val authConnector: AuthConnector,
   subscriptionBusinessService: SubscriptionBusinessService,
@@ -46,39 +44,24 @@ class BusinessShortNameController @Inject()(
   subscriptionFlowManager: SubscriptionFlowManager,
   requestSessionData: RequestSessionData,
   mcc: MessagesControllerComponents,
-  businessShortName: business_short_name,
+  businessShortName: business_short_name_yes_no,
   orgTypeLookup: OrgTypeLookup
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
-  private def form(implicit request: Request[AnyContent]) =
-    if (requestSessionData.isPartnership) subscriptionPartnershipShortNameForm
-    else subscriptionCompanyShortNameForm
+  private def form(implicit request: Request[AnyContent]) = //TODO replace this with MatchingForms.yesNoCustomAnswerForm
+    if (requestSessionData.isPartnership)
+      subscriptionPartnershipShortNameYesNoForm
+    else
+      subscriptionCompanyShortNameYesNoForm
 
-  private def populateView(
-    companyShortName: Option[BusinessShortName],
-    isInReviewMode: Boolean,
-    journey: Journey.Value
-  )(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[Result] = {
-
-    lazy val shortNameForm = companyShortName.map(b => CompanyShortNameViewModel(b.shortName)).fold(form)(form.fill)
-
-    orgTypeLookup.etmpOrgType map {
-      case Some(orgType) => Ok(businessShortName(shortNameForm, isInReviewMode, orgType, journey))
-      case None          => throw new OrgTypeNotFoundException()
-    }
-  }
 
   def createForm(journey: Journey.Value): Action[AnyContent] = ggAuthorisedUserWithEnrolmentsAction {
     implicit request => _: LoggedInUserWithEnrolments =>
-      subscriptionBusinessService.companyShortName.flatMap(populateView(_, isInReviewMode = false, journey))
-  }
-
-  def reviewForm(journey: Journey.Value): Action[AnyContent] = ggAuthorisedUserWithEnrolmentsAction {
-    implicit request => _: LoggedInUserWithEnrolments =>
-      subscriptionBusinessService.getCachedCompanyShortName.flatMap(
-        name => populateView(Some(name), isInReviewMode = true, journey)
-      )
+    orgTypeLookup.etmpOrgType.map {
+      case Some(orgType) => Ok(businessShortName(form, false, orgType, journey))
+      case None          => throw new OrgTypeNotFoundException()
+    }
   }
 
   def submit(isInReviewMode: Boolean = false, journey: Journey.Value): Action[AnyContent] =
@@ -88,32 +71,17 @@ class BusinessShortNameController @Inject()(
           orgTypeLookup.etmpOrgType map {
             case Some(orgType) =>
               BadRequest(
-                businessShortName(shortNameForm = formWithErrors, isInReviewMode = isInReviewMode, orgType, journey)
+                businessShortName(formWithErrors, isInReviewMode = isInReviewMode, orgType, journey)
               )
             case None => throw new OrgTypeNotFoundException()
           }
         },
         formData => {
-          submitNewDetails(formData, isInReviewMode, journey)
+          if (formData.isYes)
+            Future.successful(Redirect(BusinessShortNameController.createForm(journey)))
+          else
+            Future.successful(Redirect(subscriptionFlowManager.stepInformation(BusinessShortNameSubscriptionFlowYesNoPage).nextPage.url))
         }
       )
     }
-
-  private def submitNewDetails(formData: CompanyShortNameViewModel, isInReviewMode: Boolean, journey: Journey.Value)(
-    implicit hc: HeaderCarrier,
-    request: Request[AnyContent]
-  ): Future[Result] = {
-    subscriptionDetailsHolderService
-      .cacheCompanyShortName(BusinessShortName(formData.shortName))
-      .map(
-        _ =>
-          if (isInReviewMode) {
-            Redirect(
-              uk.gov.hmrc.customs.rosmfrontend.controllers.routes.DetermineReviewPageController.determineRoute(journey)
-            )
-          } else {
-            Redirect(uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.SicCodeController.createForm(journey))
-        }
-      )
-  }
 }

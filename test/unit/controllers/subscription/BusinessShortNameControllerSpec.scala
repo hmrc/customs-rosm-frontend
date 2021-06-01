@@ -20,8 +20,6 @@ import common.pages.subscription.{ShortNamePage, SubscriptionAmendCompanyDetails
 import org.mockito.ArgumentMatchers.{eq => meq, _}
 import org.mockito.Mockito._
 import org.scalatest.BeforeAndAfterEach
-import org.scalatest.prop.TableDrivenPropertyChecks._
-import org.scalatest.prop.Tables.Table
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.BusinessShortNameController
@@ -56,8 +54,6 @@ class BusinessShortNameControllerSpec
   private val mockOrgTypeLookup = mock[OrgTypeLookup]
   private val mockRequestSession = mock[RequestSessionData]
   private val businessShortName = app.injector.instanceOf[business_short_name]
-
-  val allFieldsMap = Map("use-short-name" -> withShortName, "short-name" -> ShortName)
 
   val allShortNameFieldsAsShortName = BusinessShortName(allShortNameFields.shortName)
 
@@ -96,45 +92,45 @@ class BusinessShortNameControllerSpec
   "Displaying the form in create mode" should {
     assertNotLoggedInAndCdsEnrolmentChecksForGetAnEori(mockAuthConnector, controller.createForm(Journey.GetYourEORI))
 
-    "display title as 'Does your organisation use a shortened name?' for non partnership org type" in {
+    "display title as 'What is your organisation's shortened name?' for non partnership org type" in {
       showCreateForm(orgType = CorporateBody) { result =>
         val page = CdsPage(bodyOf(result))
-        page.title() should startWith("Does your organisation use a shortened name?")
+        page.title() should startWith("What is your organisation's shortened name?")
       }
     }
 
-    "display heading as 'Does your organisation use a shortened name?' for non partnership org type" in {
+    "display heading as 'What is your organisation's shortened name?' for non partnership org type" in {
       showCreateForm(orgType = CorporateBody) { result =>
         val page = CdsPage(bodyOf(result))
-        page.getElementText(ShortNamePage.headingXpath) shouldBe "Does your organisation use a shortened name?"
+        page.getElementText(ShortNamePage.headingXpath) shouldBe "What is your organisation's shortened name?"
       }
     }
 
-    "display title as 'Does your partnership use a shortened name?' for org type of Partnership" in {
+    "display title as 'What is your partnership's shortened name?' for org type of Partnership" in {
       showCreateForm(orgType = Partnership) { result =>
         val page = CdsPage(bodyOf(result))
-        page.title() should startWith("Does your partnership use a shortened name?")
+        page.title() should startWith("What is your partnership's shortened name?")
       }
     }
 
-    "display heading as 'Does your partnership use a shortened name?' for org type of Partnership" in {
+    "display heading as 'What is your partnership's shortened name?' for org type of Partnership" in {
       showCreateForm(orgType = Partnership) { result =>
         val page = CdsPage(bodyOf(result))
-        page.getElementText(ShortNamePage.headingXpath) shouldBe "Does your partnership use a shortened name?"
+        page.getElementText(ShortNamePage.headingXpath) shouldBe "What is your partnership's shortened name?"
       }
     }
 
-    "display title as 'Does your partnership use a shortened name?' for org type of Limited Liability Partnership" in {
+    "display title as 'What is your partnership's shortened name?' for org type of Limited Liability Partnership" in {
       showCreateForm(orgType = LLP) { result =>
         val page = CdsPage(bodyOf(result))
-        page.title() should startWith("Does your partnership use a shortened name?")
+        page.title() should startWith("What is your partnership's shortened name?")
       }
     }
 
-    "display heading as 'Does your partnership use a shortened name?' for org type of Limited Liability Partnership" in {
+    "display heading as 'What is your partnership's shortened name?' for org type of Limited Liability Partnership" in {
       showCreateForm(orgType = LLP) { result =>
         val page = CdsPage(bodyOf(result))
-        page.getElementText(ShortNamePage.headingXpath) shouldBe "Does your partnership use a shortened name?"
+        page.getElementText(ShortNamePage.headingXpath) shouldBe "What is your partnership's shortened name?"
       }
     }
 
@@ -175,10 +171,10 @@ class BusinessShortNameControllerSpec
 
     assertNotLoggedInAndCdsEnrolmentChecksForGetAnEori(mockAuthConnector, controller.reviewForm(Journey.GetYourEORI))
 
-    "display title as 'Does your organisation use a shortened name?'" in {
+    "display title as 'What is your organisation's shortened name?'" in {
       showReviewForm() { result =>
         val page = CdsPage(bodyOf(result))
-        page.title() should startWith("Does your organisation use a shortened name?")
+        page.title() should startWith("What is your organisation's shortened name?")
       }
     }
 
@@ -221,21 +217,6 @@ class BusinessShortNameControllerSpec
         }
       }
       caught shouldBe emulatedFailure
-    }
-
-    "redirect to next screen" in {
-      submitFormInCreateMode(mandatoryShortNameFieldsMap)(verifyRedirectToNextPageInCreateMode)
-    }
-
-    "not save the short name if the user has entered it but then answered that a short name is not used" in {
-      submitFormInCreateMode(
-        mandatoryShortNameFieldsMap + ("use-short-name" -> withoutShortName, "short-name" -> ShortName)
-      ) { result =>
-        await(result)
-        verify(mockSubscriptionDetailsHolderService).cacheCompanyShortName(meq(mandatoryShortNameFieldsAsShortName))(
-          any[HeaderCarrier]
-        )
-      }
     }
   }
 
@@ -281,7 +262,7 @@ class BusinessShortNameControllerSpec
     "display errors in the same order as the fields appear on the page when 'use short name' is not answered" in {
       submitFormInCreateMode(emptyShortNameFieldsMap) { result =>
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe useShortNameError
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe shortNameError
       }
     }
 
@@ -296,7 +277,7 @@ class BusinessShortNameControllerSpec
       when(mockRequestSession.isPartnership(any())).thenReturn(true)
       submitFormInCreateMode(emptyShortNameFieldsMap) { result =>
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe partnershipUseShortNameError
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe partnershipShortNameError
       }
     }
 
@@ -309,7 +290,7 @@ class BusinessShortNameControllerSpec
     }
   }
 
-  "'does your company use a shortened name' question" should {
+  "'whats is your shortened name' question" should {
 
     "be mandatory" in {
       when(mockRequestSession.isPartnership(any())).thenReturn(false)
@@ -317,50 +298,13 @@ class BusinessShortNameControllerSpec
       submitFormInCreateMode(emptyShortNameFieldsMap) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe useShortNameError
-        page.getElementsText(SubscriptionAmendCompanyDetailsPage.useShortNameFieldLevelErrorXpath) shouldBe useShortNameError
-      }
-    }
-
-    val values = Table(
-      ("value", "state", "response"),
-      ("true", "valid", SEE_OTHER),
-      ("false", "valid", SEE_OTHER),
-      ("anything else", "invalid", BAD_REQUEST)
-    )
-
-    forAll(values) { (value, state, response) =>
-      s"be $state when value is $value" in {
-        submitFormInCreateMode(allFieldsMap + ("use-short-name" -> value)) { result =>
-          status(result) shouldBe response
-        }
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe shortNameError
+        page.getElementsText(SubscriptionAmendCompanyDetailsPage.useShortNameFieldLevelErrorXpath) shouldBe shortNameWithError
       }
     }
   }
 
   "short name" should {
-
-    "can be blank when 'does your company use a shortened name' is answered no" in {
-      submitFormInCreateMode(allShortNameFieldsMap + ("use-short-name" -> withoutShortName, "short-name" -> "")) {
-        result =>
-          status(result) shouldBe SEE_OTHER
-          val page = CdsPage(bodyOf(result))
-          page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldEqual ""
-          page.getElementsText(SubscriptionAmendCompanyDetailsPage.shortNameFieldLevelErrorXpath) shouldEqual ""
-      }
-    }
-
-    "be mandatory when 'does your company use a shortened name' is answered yes" in {
-      when(mockRequestSession.isPartnership(any())).thenReturn(false)
-
-      submitFormInCreateMode(allShortNameFieldsMap + ("use-short-name" -> withShortName, "short-name" -> "")) {
-        result =>
-          status(result) shouldBe BAD_REQUEST
-          val page = CdsPage(bodyOf(result))
-          page.getElementsText(SubscriptionAmendCompanyDetailsPage.pageLevelErrorSummaryListXPath) shouldBe shortNameError
-          page.getElementsText(SubscriptionAmendCompanyDetailsPage.shortNameFieldLevelErrorXpath) shouldBe shortNameWithError
-      }
-    }
 
     "be restricted to 70 characters" in {
       submitFormInCreateMode(allShortNameFieldsMap + ("short-name" -> oversizedString(70))) { result =>

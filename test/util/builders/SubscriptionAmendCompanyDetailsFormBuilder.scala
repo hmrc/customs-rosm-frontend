@@ -32,10 +32,8 @@ object SubscriptionAmendCompanyDetailsFormBuilder {
   val EoriNumber = "GB123456789000"
   val Email = "test@test.com"
 
-  val mandatoryShortNameFieldsMap = Map("use-short-name" -> withoutShortName)
-  val mandatoryShortNameFields: CompanyShortNameViewModel =
-    SubscriptionForm.subscriptionCompanyShortNameForm.bind(mandatoryShortNameFieldsMap).value.get
-  val mandatoryShortNameFieldsAsShortName = BusinessShortName(mandatoryShortNameFields.shortName)
+  val mandatoryShortNameFieldsMap = Map("short-name" -> ShortName)
+  val mandatoryShortNameFieldsAsShortName = BusinessShortName(None)
 
   val allShortNameFieldsMap = mandatoryShortNameFieldsMap + (
     "use-short-name" -> withShortName,

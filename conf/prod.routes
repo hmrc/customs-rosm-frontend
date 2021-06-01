@@ -201,6 +201,9 @@ GET         /customs/:journey/subscribe-existing                                
 GET         /customs/:journey/confirm-individual-type                              @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ConfirmIndividualTypeController.form(journey: Journey.Value)
 POST        /customs/:journey/confirm-individual-type                              @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.ConfirmIndividualTypeController.submit(journey: Journey.Value)
 
+GET         /customs/:journey/company-short-name-yes-no                            @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.DoYouHaveABusinessShortNameController.createForm(journey: Journey.Value)
+POST        /customs/:journey/company-short-name-yes-no                            @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.DoYouHaveABusinessShortNameController.submit(isInReviewMode: Boolean = false, journey: Journey.Value)
+
 GET         /customs/:journey/company-short-name                                   @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.BusinessShortNameController.createForm(journey: Journey.Value)
 POST        /customs/:journey/company-short-name                                   @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.BusinessShortNameController.submit(isInReviewMode: Boolean = false, journey: Journey.Value)
 GET         /customs/:journey/company-short-name/review                            @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.BusinessShortNameController.reviewForm(journey: Journey.Value)
