@@ -55,4 +55,4 @@ object BusinessShortName {
   implicit val jsonFormat = Json.format[BusinessShortName]
 }
 
-case class CompanyShortNameViewModel(useShortName: Option[Boolean], shortName: Option[String])
+case class CompanyShortNameViewModel(shortName: Option[String])

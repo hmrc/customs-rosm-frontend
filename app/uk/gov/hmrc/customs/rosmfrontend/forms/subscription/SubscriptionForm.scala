@@ -121,31 +121,30 @@ object SubscriptionForm {
   )
 
   val subscriptionCompanyShortNameForm: Form[CompanyShortNameViewModel] =
+    Form(mapping("short-name" ->
+      MandatoryOptionalMapping(text.verifying(validShortName)))(CompanyShortNameViewModel.apply)(CompanyShortNameViewModel.unapply))
+
+  val subscriptionCompanyShortNameYesNoForm: Form[YesNo] =
     Form(
       mapping(
         "use-short-name" -> optional(boolean)
-          .verifying("cds.subscription.short-name.error.use-short-name", x => x.fold(false)(oneOf(Set(true, false)))),
-        "short-name" -> ConditionalMapping(
-          condition = isEqual("use-short-name", trueAnswer),
-          wrapped = MandatoryOptionalMapping(text.verifying(validShortName)),
-          elseValue = (key, data) => data.get(key)
-        )
-      )(CompanyShortNameViewModel.apply)(CompanyShortNameViewModel.unapply)
+          .verifying("cds.subscription.short-name.error.use-short-name", x => x.fold(false)(oneOf(Set(true, false)))
+        ).transform[Boolean](str => str.get, bool => Option(bool))
+      )(YesNo.apply)(YesNo.unapply)
     )
 
   val subscriptionPartnershipShortNameForm: Form[CompanyShortNameViewModel] =
+    Form(mapping("short-name" ->
+      MandatoryOptionalMapping(text.verifying(validPartnershipShortName)))(CompanyShortNameViewModel.apply)(CompanyShortNameViewModel.unapply))
+
+  val subscriptionPartnershipShortNameYesNoForm: Form[YesNo] =
     Form(
       mapping(
         "use-short-name" -> optional(boolean).verifying(
           "cds.subscription.partnership.short-name.error.use-short-name",
           x => x.fold(false)(oneOf(Set(true, false)))
-        ),
-        "short-name" -> ConditionalMapping(
-          condition = isEqual("use-short-name", trueAnswer),
-          wrapped = MandatoryOptionalMapping(text.verifying(validPartnershipShortName)),
-          elseValue = (key, data) => data.get(key)
-        )
-      )(CompanyShortNameViewModel.apply)(CompanyShortNameViewModel.unapply)
+        ).transform[Boolean](str => str.get, bool => Option(bool))
+      )(YesNo.apply)(YesNo.unapply)
     )
 
   val sicCodeform = Form(

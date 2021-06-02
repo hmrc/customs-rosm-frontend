@@ -53,7 +53,7 @@ object SubscriptionFlows {
       ContactDetailsSubscriptionFlowPageGetEori,
       ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
       ContactDetailsAddressSubscriptionFlowPageGetEori,
-      BusinessShortNameSubscriptionFlowPage,
+      BusinessShortNameSubscriptionFlowYesNoPage,
       SicCodeSubscriptionFlowPage,
       VatRegisteredUkSubscriptionFlowPage,
       VatDetailsSubscriptionFlowPage,
@@ -70,7 +70,7 @@ object SubscriptionFlows {
       ContactDetailsSubscriptionFlowPageGetEori,
       ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
       ContactDetailsAddressSubscriptionFlowPageGetEori,
-      BusinessShortNameSubscriptionFlowPage,
+      BusinessShortNameSubscriptionFlowYesNoPage,
       SicCodeSubscriptionFlowPage,
       VatRegisteredUkSubscriptionFlowPage,
       VatDetailsSubscriptionFlowPage,
@@ -112,7 +112,7 @@ object SubscriptionFlows {
       ContactDetailsSubscriptionFlowPageGetEori,
       ContactDetailsIsThisRightAddressSubscriptionFlowPageGetEori,
       ContactDetailsAddressSubscriptionFlowPageGetEori,
-      BusinessShortNameSubscriptionFlowPage,
+      BusinessShortNameSubscriptionFlowYesNoPage,
       SicCodeSubscriptionFlowPage,
       VatRegisteredUkSubscriptionFlowPage,
       VatDetailsSubscriptionFlowPage,
@@ -438,6 +438,13 @@ case object BusinessShortNameSubscriptionFlowPage
         .createForm(journey = Journey.GetYourEORI)
         .url
     )
+
+case object BusinessShortNameSubscriptionFlowYesNoPage
+  extends SubscriptionPage(
+    uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes.DoYouHaveABusinessShortNameController
+      .createForm(journey = Journey.GetYourEORI)
+      .url
+  )
 
 case object VatDetailsSubscriptionFlowPage
     extends SubscriptionPage(
