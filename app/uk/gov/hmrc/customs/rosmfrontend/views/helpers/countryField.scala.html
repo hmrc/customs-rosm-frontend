@@ -64,7 +64,7 @@
     })
 
     if (selectElement.classList.contains("form-control-error")) {
-        inputElement.classList.add("form-control-error");
+        document.getElementsByClassName('autocomplete__input')[0].classList.add("form-control-error")
     }
 
     inputElement.addEventListener('blur', function(){
