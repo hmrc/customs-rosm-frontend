@@ -20,9 +20,11 @@
  *@
 
 @import uk.gov.hmrc.customs.rosmfrontend.domain.NameDobMatchModel
-@import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.NinoController
 @import uk.gov.hmrc.customs.rosmfrontend.views.html.helpers.inputDate
 @import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.NameDobController
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+@import play.twirl.api.TwirlFeatureImports.defining
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
 
 
@@ -44,7 +46,7 @@
 
         <h1 class="heading-large">@messages("cds.matching.individual.header")</h1>
 
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.NameDobController.submit(organisationType, journey), 'id -> "matchIndividualForm", 'novalidate -> "novalidate") {
+        @helper.form(NameDobController.submit(organisationType, journey), 'id -> "matchIndividualForm", 'novalidate -> "novalidate") {
         @CSRF.formField
             @inputText("first-name", messages("cds.matching.individual.first-name"))
             @inputText("last-name", messages("cds.matching.individual.last-name"))
