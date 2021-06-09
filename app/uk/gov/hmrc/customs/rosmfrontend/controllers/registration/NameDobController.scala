@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.Application
 import play.api.mvc.{Action, _}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.SubscriptionDetails
@@ -37,7 +38,8 @@ class NameDobController @Inject()(
   override val authConnector: AuthConnector,
   mcc: MessagesControllerComponents,
   matchNameDobView: match_namedob,
-  cdsFrontendDataCache: SessionCache
+  cdsFrontendDataCache: SessionCache,
+  appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
@@ -45,7 +47,7 @@ class NameDobController @Inject()(
     ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUserWithEnrolments =>
       {
         val form = enterNameDobForm
-        Future.successful(Ok(matchNameDobView(form, organisationType, journey)))
+        Future.successful(Ok(matchNameDobView(form, organisationType, journey, appConfig)))
       }
     }
 
@@ -53,7 +55,7 @@ class NameDobController @Inject()(
     ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUserWithEnrolments =>
       {
         enterNameDobForm.bindFromRequest.fold(
-          formWithErrors => Future.successful(BadRequest(matchNameDobView(formWithErrors, organisationType, journey))),
+          formWithErrors => Future.successful(BadRequest(matchNameDobView(formWithErrors, organisationType, journey, appConfig))),
           formData => {
             submitNewDetails(formData, organisationType, journey)
           }

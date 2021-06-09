@@ -75,7 +75,8 @@ class SixLineAddressControllerSpec extends ControllerSpec with BeforeAndAfter wi
     mockCountries,
     mcc,
     sixLineAddressView,
-    mockRegistrationDetailsService
+    mockRegistrationDetailsService,
+    appConfig
   )
 
   private val mockSubscriptionPage = mock[SubscriptionPage]

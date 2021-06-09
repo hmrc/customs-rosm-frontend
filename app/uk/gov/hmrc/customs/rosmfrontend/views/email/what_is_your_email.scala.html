@@ -65,12 +65,8 @@
     @helper.form(WhatIsYourEmailController.submit(journey),'id -> "emailForm", 'novalidate -> "novalidate") {
 
         @CSRF.formField
-
-        @if(appConfig.autoCompleteEnabled) {
-            @inputText("email", messages("subscription.enter-email.heading"), '_hintText -> hintText, '_type -> "email", 'autocomplete -> "email")
-        } else {
-            @inputText("email", messages("subscription.enter-email.heading"), '_hintText -> hintText, '_type -> "email")
-        }
+        @inputText("email", messages("subscription.enter-email.heading"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", '_hintText -> hintText, '_type -> "email", 'autocomplete -> "email")
+            else Seq('spellcheck -> "false", '_hintText -> hintText, '_type -> "email")): _*)
 
         <p><input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(false)'></p>
     }

@@ -60,7 +60,7 @@ class EnterYourDetailsSpec extends ViewSpec {
     "have correct attributes for input for first name" in {
       doc.body().getElementById("first-name").attr("type") mustBe "text"
       doc.body().getElementById("first-name").attr("spellcheck") mustBe "false"
-      doc.body().getElementById("first-name").attr("autocomplete") mustBe "first-name"
+      doc.body().getElementById("first-name").attr("autocomplete") mustBe "given-name"
     }
 
     "have a correct label for Last name for UK" in {
@@ -76,19 +76,19 @@ class EnterYourDetailsSpec extends ViewSpec {
     "have correct attributes for input for last name" in {
       doc.body().getElementById("last-name").attr("type") mustBe "text"
       doc.body().getElementById("last-name").attr("spellcheck") mustBe "false"
-      doc.body().getElementById("last-name").attr("autocomplete") mustBe "last-name"
+      doc.body().getElementById("last-name").attr("autocomplete") mustBe "family-name"
     }
     "have an input of type 'text' for day of birth" in {
       doc.body().getElementById("date-of-birth.day").attr("type") mustBe "text"
-      doc.body().getElementById("date-of-birth.day").attr("autocomplete") mustBe "date-of-birth.day"      
+      doc.body().getElementById("date-of-birth.day").attr("autocomplete") mustBe "bday-day"
     }
     "have an input of type 'text' for month of birth" in {
       doc.body().getElementById("date-of-birth.month").attr("type") mustBe "text"
-      doc.body().getElementById("date-of-birth.month").attr("autocomplete") mustBe "date-of-birth.month"
+      doc.body().getElementById("date-of-birth.month").attr("autocomplete") mustBe "bday-month"
     }
     "have an input of type 'text' for year of birth" in {
       doc.body().getElementById("date-of-birth.year").attr("type") mustBe "text"
-      doc.body().getElementById("date-of-birth.year").attr("autocomplete") mustBe "date-of-birth.year"
+      doc.body().getElementById("date-of-birth.year").attr("autocomplete") mustBe "bday-year"
     }
   }
 

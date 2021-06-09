@@ -19,10 +19,10 @@
 @import views.html.helper._
 @import views._
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
-
+@import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 
 @this(layout_di: layout)
-@(addressForm: Form[AddressViewModel], countries: List[Country], organisationType: Option[EtmpOrganisationType], isInReviewMode: Boolean, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+@(addressForm: Form[AddressViewModel], countries: List[Country], organisationType: Option[EtmpOrganisationType], isInReviewMode: Boolean, journey: Journey.Value, appConfig: AppConfig)(implicit request: Request[_], messages: Messages)
 
 
 @labelForEUCountry(countryCode: String) = @{
@@ -83,9 +83,12 @@
             </legend>
 
             <div id="contact">
-                @inputText("street", "cds.subscription.contact-details.street.label", '_appendClass -> "form-control-3-4")
-                @inputText("city", "cds.subscription.contact-details.city.label")
-                @inputText("postcode", "cds.subscription.contact-details.postcode.label")
+                @inputText("street", "cds.subscription.contact-details.street.label", (if (appConfig.autoCompleteEnabled) Seq('_appendClass -> "form-control-3-4", 'spellcheck -> "false", 'autocomplete -> "address-line1")
+                else Seq('_appendClass -> "form-control-3-4", 'spellcheck -> "false")): _*)
+                @inputText("city", "cds.subscription.contact-details.city.label", (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "address-level1")
+                else Seq('spellcheck -> "false")): _*)
+                @inputText("postcode", "cds.subscription.contact-details.postcode.label", (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "postal-code")
+                else Seq('spellcheck -> "false")): _*)
                 @helpers.countryField(addressForm, "countryCode", "cds.subscription.contact-details.countryCode-auto-complete.label", countries)
             </div>
 

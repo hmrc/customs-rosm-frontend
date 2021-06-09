@@ -47,7 +47,7 @@ class NinoControllerSpec extends ControllerSpec with BeforeAndAfter {
 
   private val matchNinoView = app.injector.instanceOf[match_nino]
 
-  val controller = new NinoController(app, mockAuthConnector, mcc, matchNinoView, mockMatchingService)
+  val controller = new NinoController(app, mockAuthConnector, mcc, matchNinoView, mockMatchingService, appConfig)
 
   before {
     Mockito.reset(mockMatchingService)

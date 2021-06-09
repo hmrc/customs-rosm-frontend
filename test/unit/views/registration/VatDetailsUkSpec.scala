@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{VatDetails, VatDetailsForm}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.views.html.subscription.vat_details
@@ -37,12 +38,14 @@ class VatDetailsUkSpec extends ViewSpec {
     )
 
   private val view = app.injector.instanceOf[vat_details]
+  val appConfig = app.injector.instanceOf[AppConfig]
+
   implicit val request = withFakeCSRF(FakeRequest())
 
-  lazy val doc: Document = Jsoup.parse(contentAsString(view(form, false, Journey.GetYourEORI)))
-  lazy val docWithErrors: Document = Jsoup.parse(contentAsString(view(formWithError, false, Journey.GetYourEORI)))
+  lazy val doc: Document = Jsoup.parse(contentAsString(view(form, false, Journey.GetYourEORI, appConfig)))
+  lazy val docWithErrors: Document = Jsoup.parse(contentAsString(view(formWithError, false, Journey.GetYourEORI, appConfig)))
   lazy val docWithNoVatErrors: Document =
-    Jsoup.parse(contentAsString(view(formWithNoVatError, false, Journey.GetYourEORI)))
+    Jsoup.parse(contentAsString(view(formWithNoVatError, false, Journey.GetYourEORI, appConfig)))
 
   "The 'VAT Details UK?' Page" should {
 

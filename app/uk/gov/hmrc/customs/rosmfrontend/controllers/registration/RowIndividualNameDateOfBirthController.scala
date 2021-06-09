@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.Application
 import play.api.mvc.{Action, _}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes._
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.{DetermineReviewPageController, _}
 import uk.gov.hmrc.customs.rosmfrontend.controllers.{CdsController, FeatureFlags}
@@ -41,7 +42,8 @@ class RowIndividualNameDateOfBirthController @Inject()(
   subscriptionDetailsService: SubscriptionDetailsService,
   mcc: MessagesControllerComponents,
   rowIndividualNameDob: row_individual_name_dob,
-  requestSessionData: RequestSessionData
+  requestSessionData: RequestSessionData,
+  appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) with FeatureFlags {
 
@@ -49,7 +51,7 @@ class RowIndividualNameDateOfBirthController @Inject()(
     ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUser =>
       assertOrganisationTypeIsValid(organisationType)
       Future.successful(
-        Ok(rowIndividualNameDob(thirdCountryIndividualNameDateOfBirthForm, organisationType, journey, false))
+        Ok(rowIndividualNameDob(thirdCountryIndividualNameDateOfBirthForm, organisationType, journey, false, appConfig))
       )
     }
 
@@ -61,7 +63,7 @@ class RowIndividualNameDateOfBirthController @Inject()(
           val form = thirdCountryIndividualNameDateOfBirthForm.fill(
             IndividualNameAndDateOfBirth(firstName, middleName, lastName, dateOfBirth)
           )
-          Future.successful(Ok(rowIndividualNameDob(form, organisationType, journey, true)))
+          Future.successful(Ok(rowIndividualNameDob(form, organisationType, journey, true, appConfig)))
         case _ => Future.successful(Redirect(SecuritySignOutController.signOut(journey)))
       }
     }
@@ -72,7 +74,7 @@ class RowIndividualNameDateOfBirthController @Inject()(
       thirdCountryIndividualNameDateOfBirthForm.bindFromRequest.fold(
         formWithErrors =>
           Future.successful(
-            BadRequest(rowIndividualNameDob(formWithErrors, organisationType, journey, isInReviewMode))
+            BadRequest(rowIndividualNameDob(formWithErrors, organisationType, journey, isInReviewMode, appConfig))
         ),
         form => submitDetails(isInReviewMode, form, organisationType, journey)
       )

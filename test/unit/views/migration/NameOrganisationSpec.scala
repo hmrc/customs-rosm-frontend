@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms._
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
@@ -36,6 +37,7 @@ class NameOrganisationSpec extends ViewSpec {
   implicit val request = withFakeCSRF(FakeRequest())
 
   private val view = app.injector.instanceOf[nameOrg]
+  private val appConfig = app.injector.instanceOf[AppConfig]
 
   "Match Organisation Name page" should {
     "display correct title" in {
@@ -66,13 +68,13 @@ class NameOrganisationSpec extends ViewSpec {
 
   lazy val doc: Document = getDoc(form)
   private def getDoc(form: Form[NameOrganisationMatchModel]) = {
-    val result = view(form, RegistrationDetailsOrganisation(), false, Journey.Migrate)
+    val result = view(form, RegistrationDetailsOrganisation(), false, Journey.Migrate, appConfig)
     val doc = Jsoup.parse(contentAsString(result))
     doc
   }
 
   lazy val docWithErrors: Document = {
-    val result = view(formWithError, RegistrationDetailsOrganisation(), false, Journey.Migrate)
+    val result = view(formWithError, RegistrationDetailsOrganisation(), false, Journey.Migrate, appConfig)
     Jsoup.parse(contentAsString(result))
   }
 }

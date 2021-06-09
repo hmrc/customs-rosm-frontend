@@ -48,7 +48,7 @@
             </legend>
 
             @inputText("full-name", "cds.subscription.contact-details.full-name.label",
-                if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "full-name")
+                if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "name")
                 else Seq('spellcheck -> "false")
             )
             <div id="email-outer" class="form-group ">
@@ -56,11 +56,11 @@
                 <div id="email">@email</div>
             </div>
             @inputText("telephone", "cds.subscription.contact-details.telephone.label",
-                if (appConfig.autoCompleteEnabled) Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.telephone.hint"), 'autocomplete -> "telephone")
+                if (appConfig.autoCompleteEnabled) Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.telephone.hint"), 'autocomplete -> "tel")
                 else Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.telephone.hint"))
             )
             @inputText("fax", "cds.subscription.contact-details.fax.label",
-                if (appConfig.autoCompleteEnabled) Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.fax.hint"), 'autocomplete -> "fax")
+                if (appConfig.autoCompleteEnabled) Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.fax.hint"), 'autocomplete -> "fax tel")
                 else Seq('_type -> "tel", '_hintText -> messages("cds.subscription.contact-details.telephone.hint")))
 
         </fieldset>

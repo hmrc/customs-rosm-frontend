@@ -74,7 +74,8 @@ class NameIDOrgControllerSpec extends SubscriptionFlowSpec with ControllerSpec w
     mockSubscriptionFlowManager,
     mcc,
     nameIdView,
-    mockSubscriptionDetailsHolderService
+    mockSubscriptionDetailsHolderService,
+    appConfig
   )
 
   private val emulatedFailure = new UnsupportedOperationException("Emulation of service call failure")

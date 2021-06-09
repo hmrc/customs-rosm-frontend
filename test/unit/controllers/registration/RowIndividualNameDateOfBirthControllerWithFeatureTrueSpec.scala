@@ -16,11 +16,7 @@
 
 package unit.controllers.registration
 
-import common.pages.matching.{
-  IndividualNameAndDateOfBirthPage,
-  ThirdCountryIndividualNameAndDateOfBirthPage,
-  ThirdCountrySoleTraderNameAndDateOfBirthPage
-}
+import common.pages.matching.{IndividualNameAndDateOfBirthPage, ThirdCountryIndividualNameAndDateOfBirthPage, ThirdCountrySoleTraderNameAndDateOfBirthPage}
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
@@ -32,6 +28,7 @@ import play.api.data.Form
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc._
 import play.api.test.Helpers._
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.RowIndividualNameDateOfBirthController
 import uk.gov.hmrc.customs.rosmfrontend.domain.{IndividualNameAndDateOfBirth, NameDobMatchModel}
 import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms
@@ -59,9 +56,9 @@ class RowIndividualNameDateOfBirthControllerWithFeatureTrueSpec
     val mockSessionCache: SessionCache = mock[SessionCache]
     val mockRequestSessionData: RequestSessionData = mock[RequestSessionData]
     val mockSubscriptionDetailsService = mock[SubscriptionDetailsService]
+    val mockAppConfig = mock[AppConfig]
 
     private val rowIndividualNameDob = app.injector.instanceOf[row_individual_name_dob]
-
     override val controller = new RowIndividualNameDateOfBirthController(
       app,
       mockAuthConnector,
@@ -69,8 +66,13 @@ class RowIndividualNameDateOfBirthControllerWithFeatureTrueSpec
       mockSubscriptionDetailsService,
       mcc,
       rowIndividualNameDob,
-      mockRequestSessionData
+      mockRequestSessionData,
+      mockAppConfig
     )
+
+    def beforeEach = {
+      when(appConfig.autoCompleteEnabled).thenReturn(true)
+    }
 
     def saveRegistrationDetailsMockSuccess() {
       when(mockSubscriptionDetailsService.cacheNameDobDetails(any[NameDobMatchModel])(any[HeaderCarrier]))

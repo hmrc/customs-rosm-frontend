@@ -21,6 +21,7 @@ import play.api.Application
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.Individual
 import uk.gov.hmrc.customs.rosmfrontend.domain.{InternalId, LoggedInUserWithEnrolments}
@@ -37,14 +38,15 @@ class NinoController @Inject()(
   override val authConnector: AuthConnector,
   mcc: MessagesControllerComponents,
   matchNinoView: match_nino,
-  matchingService: MatchingService
+  matchingService: MatchingService,
+  appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
   def form(organisationType: String, journey: Journey.Value): Action[AnyContent] =
     ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUserWithEnrolments =>
       {
-        Future.successful(Ok(matchNinoView(ninoForm, organisationType, journey)))
+        Future.successful(Ok(matchNinoView(ninoForm, organisationType, journey, appConfig)))
       }
     }
 
@@ -53,7 +55,7 @@ class NinoController @Inject()(
       {
         ninoForm.bindFromRequest.fold(
           invalidForm => {
-            Future.successful(BadRequest(matchNinoView(invalidForm, organisationType, journey)))
+            Future.successful(BadRequest(matchNinoView(invalidForm, organisationType, journey, appConfig)))
           },
           form => {
             val normalisedForm =  form.normalize()
@@ -72,7 +74,7 @@ class NinoController @Inject()(
                 val errorForm = ninoForm
                   .withGlobalError(Messages("cds.matching-error.individual-not-found"))
                   .fill(form)
-                BadRequest(matchNinoView(errorForm, organisationType, journey))
+                BadRequest(matchNinoView(errorForm, organisationType, journey, appConfig))
             }
           }
         )

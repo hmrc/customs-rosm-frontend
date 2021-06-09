@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.Application
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.DetermineReviewPageController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
@@ -43,7 +44,8 @@ class NameOrgController @Inject()(
   subscriptionFlowManager: SubscriptionFlowManager,
   mcc: MessagesControllerComponents,
   nameOrgView: nameOrg,
-  subscriptionDetailsService: SubscriptionDetailsService
+  subscriptionDetailsService: SubscriptionDetailsService,
+  appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
@@ -67,7 +69,7 @@ class NameOrgController @Inject()(
     ggAuthorisedUserWithEnrolmentsAction { implicit request => _: LoggedInUserWithEnrolments =>
       nameOrganisationForm.bindFromRequest.fold(formWithErrors => {
         sessionCache.registrationDetails map { registrationDetails =>
-          BadRequest(nameOrgView(formWithErrors, registrationDetails, isInReviewMode, journey))
+          BadRequest(nameOrgView(formWithErrors, registrationDetails, isInReviewMode, journey, appConfig))
         }
       }, formData => storeNameDetails(formData, isInReviewMode, journey))
     }
@@ -81,7 +83,7 @@ class NameOrgController @Inject()(
       maybeNameViewModel.fold(nameOrganisationForm)(nameOrganisationForm.fill)
 
     sessionCache.registrationDetails map { registrationDetails =>
-      Ok(nameOrgView(form, registrationDetails, isInReviewMode, journey))
+      Ok(nameOrgView(form, registrationDetails, isInReviewMode, journey, appConfig))
     }
   }
 

@@ -19,6 +19,7 @@ package uk.gov.hmrc.customs.rosmfrontend.controllers.subscription
 import play.api.Application
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes._
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.{ContactDetailsAddressSubscriptionFlowPageGetEori, ContactDetailsAddressSubscriptionFlowPageMigrate}
@@ -47,8 +48,7 @@ class ContactDetailsAddressController @Inject()(
                                                  countries: Countries,
                                                  mcc: MessagesControllerComponents,
                                                  contactDetailsAddressView: contact_address,
-                                               )(implicit ec: ExecutionContext)
-  extends CdsController(mcc) {
+                                                 appConfig: AppConfig)(implicit ec: ExecutionContext)  extends CdsController(mcc) {
 
 
   private def populateForm(journey: Journey.Value)(isInReviewMode: Boolean)(implicit request: Request[AnyContent]) = {
@@ -63,7 +63,7 @@ class ContactDetailsAddressController @Inject()(
                     addressDetailsCreateForm()
                   }
       val orgType = requestSessionData.userSelectedOrganisationType.map(EtmpOrganisationType(_))
-      Ok(contactDetailsAddressView(form, countries.all, orgType, isInReviewMode, journey))
+      Ok(contactDetailsAddressView(form, countries.all, orgType, isInReviewMode, journey, appConfig))
     }
   }
 
@@ -93,7 +93,7 @@ class ContactDetailsAddressController @Inject()(
             formWithErrors => {
               val orgType = requestSessionData.userSelectedOrganisationType.map(EtmpOrganisationType(_))
                Future.successful( BadRequest(
-                  contactDetailsAddressView(formWithErrors, countries.all,orgType, isInReviewMode, journey)
+                  contactDetailsAddressView(formWithErrors, countries.all,orgType, isInReviewMode, journey, appConfig)
                 ))
             },
             formData => {

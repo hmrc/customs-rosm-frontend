@@ -16,11 +16,7 @@
 
 package unit.controllers.registration
 
-import common.pages.matching.{
-  IndividualNameAndDateOfBirthPage,
-  ThirdCountryIndividualNameAndDateOfBirthPage,
-  ThirdCountrySoleTraderNameAndDateOfBirthPage
-}
+import common.pages.matching.{IndividualNameAndDateOfBirthPage, ThirdCountryIndividualNameAndDateOfBirthPage, ThirdCountrySoleTraderNameAndDateOfBirthPage}
 import org.joda.time.LocalDate
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
@@ -70,7 +66,8 @@ class RowIndividualNameDateOfBirthControllerWithFeatureTrueReviewModeSpec
       mockSubscriptionDetailsService,
       mcc,
       rowIndividualNameDob,
-      mockRequestSessionData
+      mockRequestSessionData,
+      appConfig
     )
 
     protected def show(с: RowIndividualNameDateOfBirthController): Action[AnyContent] =

@@ -26,10 +26,10 @@
 @import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 @import play.twirl.api.TwirlFeatureImports.defining
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
-
+@import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 
 @this(inputDate_di: inputDate, layout_di: layout)
-@(businessDetailsForm: Form[NameDobMatchModel], organisationType: String, journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+@(businessDetailsForm: Form[NameDobMatchModel], organisationType: String, journey: Journey.Value, appConfig: AppConfig)(implicit request: Request[_], messages: Messages)
 
 @inputText(field: String, label: String, args: (Symbol, Any)*) = {
     @defining(Seq('_label -> Html(messages(label))) ++ args) { args =>
@@ -48,13 +48,17 @@
 
         @helper.form(NameDobController.submit(organisationType, journey), 'id -> "matchIndividualForm", 'novalidate -> "novalidate") {
         @CSRF.formField
-            @inputText("first-name", messages("cds.matching.individual.first-name"))
-            @inputText("last-name", messages("cds.matching.individual.last-name"))
+            @inputText("first-name", messages("cds.matching.individual.first-name"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "given-name")
+            else Seq('spellcheck -> "false")): _*)
+            @inputText("last-name", messages("cds.matching.individual.last-name"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "family-name")
+            else Seq('spellcheck -> "false")): _*)
             <div class="form-group">
             @inputDate_di(businessDetailsForm, "date-of-birth",
                 '_label -> messages("cds.matching.individual.date-of-birth"),
                 '_hintText -> messages("cds.date-of-birth.hint"),
-                '_legend -> messages("cds.matching.individual.date-of-birth")
+                '_legend -> messages("cds.matching.individual.date-of-birth"),
+                '_autocomplete -> appConfig.autoCompleteEnabled,
+                '_dob -> true
             )
             </div>
 
