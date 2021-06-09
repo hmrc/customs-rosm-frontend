@@ -21,6 +21,7 @@ import org.jsoup.nodes.Document
 import play.api.data.Form
 import play.api.test.FakeRequest
 import play.api.test.Helpers.contentAsString
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.domain.SixLineAddressMatchModel
 import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms._
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
@@ -41,6 +42,7 @@ class SixLineAddressSpec extends ViewSpec {
     Country("Japan", "country:JP")
   )
   private val view = app.injector.instanceOf[six_line_address]
+  private val appConfig = app.injector.instanceOf[AppConfig]
 
   "Rest of World (ROW) Enter your organisation address Page" should {
     "display correct title" in {
@@ -113,7 +115,8 @@ class SixLineAddressSpec extends ViewSpec {
       aFewCountries,
       ThirdCountriesInCountryPicker,
       ThirdCountryOrganisationId,
-      Journey.Migrate
+      Journey.Migrate,
+      appConfig
     )
     Jsoup.parse(contentAsString(result))
   }
@@ -125,7 +128,8 @@ class SixLineAddressSpec extends ViewSpec {
       aFewCountries,
       ThirdCountriesInCountryPicker,
       ThirdCountryOrganisationId,
-      Journey.Migrate
+      Journey.Migrate,
+      appConfig
     )
     Jsoup.parse(contentAsString(result))
   }

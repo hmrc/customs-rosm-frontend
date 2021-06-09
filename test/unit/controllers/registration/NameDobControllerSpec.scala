@@ -45,9 +45,8 @@ class NameDobControllerSpec extends ControllerSpec with BeforeAndAfterEach with 
   val mockCdsFrontendDataCache: SessionCache = mock[SessionCache]
 
   private val matchNameDobView = app.injector.instanceOf[match_namedob]
-
   private def nameDobController =
-    new NameDobController(app, mockAuthConnector, mcc, matchNameDobView, mockCdsFrontendDataCache)
+    new NameDobController(app, mockAuthConnector, mcc, matchNameDobView, mockCdsFrontendDataCache, appConfig)
 
   private val emulatedFailure = new UnsupportedOperationException("Emulation of service call failure")
 

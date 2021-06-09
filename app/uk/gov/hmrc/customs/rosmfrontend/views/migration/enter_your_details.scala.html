@@ -57,19 +57,18 @@
         @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameDobSoleTraderController.submit(isInReviewMode, journey), 'id -> "subscriptionNameDobForm", 'novalidate -> "novalidate") {
         @CSRF.formField
 
-            @if(appConfig.autoCompleteEnabled) {
-                @inputText("first-name", firstNameLabel, 'autocomplete -> "first-name", 'spellcheck -> "false")
-                @inputText("last-name", lastNameLabel, 'spellcheck -> "false", 'autocomplete -> "last-name")
-            } else {
-                @inputText("first-name", firstNameLabel, 'spellcheck -> "false")
-                @inputText("last-name", lastNameLabel, 'spellcheck -> "false")
-            }
+            @inputText("first-name", firstNameLabel, (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "given-name")
+            else Seq('spellcheck -> "false")): _*)
+            @inputText("last-name", lastNameLabel, (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "family-name")
+            else Seq('spellcheck -> "false")): _*)
+
 
             @inputDate_di(subscriptionNameDobForm, "date-of-birth",
                 '_label -> messages("cds.matching.individual.what-is-your-date-of-birth"),
                 '_hintText -> messages("cds.date-of-birth.hint"),
                 '_legend -> messages("cds.matching.individual.what-is-your-date-of-birth"),
                 '_autocomplete -> appConfig.autoCompleteEnabled,
+                '_dob -> true
             )
 
             <input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>

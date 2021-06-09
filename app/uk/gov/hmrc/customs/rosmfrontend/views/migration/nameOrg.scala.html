@@ -17,13 +17,17 @@
 @import uk.gov.hmrc.customs.rosmfrontend.domain.RegistrationDetails
 @import uk.gov.hmrc.customs.rosmfrontend.domain.NameOrganisationMatch
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
-
+@import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameOrgController
+@import uk.gov.hmrc.customs.rosmfrontend.domain.NameOrganisationMatchModel
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+@import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 
 @this(layout_di: layout)
 @(nameOrganisationForm: Form[NameOrganisationMatchModel],
     registrationDetails: RegistrationDetails,       
     isInReviewMode: Boolean,
-    journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+    journey: Journey.Value,
+    appConfig: AppConfig)(implicit request: Request[_], messages: Messages)
 
 @import views.html.helper._
 
@@ -38,11 +42,12 @@
     @helpers.errorSummary(nameOrganisationForm)
 
     <div class="form-group">
-        @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.migration.routes.NameOrgController.submit(isInReviewMode, journey), 'id -> "nameUtrOrganisationForm", 'novalidate -> "novalidate") {
+        @helper.form(NameOrgController.submit(isInReviewMode, journey), 'id -> "nameUtrOrganisationForm", 'novalidate -> "novalidate") {
 
         @CSRF.formField
 
-        @inputText("name", messages("cds.matching.organisation.name.heading"), '_isLabelH1 -> true)
+        @inputText("name", messages("cds.matching.organisation.name.heading"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", '_isLabelH1 -> true, 'autocomplete -> "organization")
+        else Seq('spellcheck -> "false", '_isLabelH1 -> true)): _*)
 
         <input class='button' type='submit' value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'>
 

@@ -17,14 +17,15 @@
 @import uk.gov.hmrc.customs.rosmfrontend.domain.RegistrationDetails
 @import uk.gov.hmrc.customs.rosmfrontend.domain.NameIdOrganisationMatch
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
-
+@import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 
 @this(layout_di: layout)
 @(nameUtrForm: Form[NameIdOrganisationMatchModel],
     registrationDetails: RegistrationDetails,       
     isInReviewMode: Boolean,
     displayMode: String,
-    journey: Journey.Value)(implicit request: Request[_], messages: Messages)
+    journey: Journey.Value,
+    appConfig: AppConfig)(implicit request: Request[_], messages: Messages)
 
 @import views.html.helper._
 
@@ -62,8 +63,8 @@
 
         @inputText(
             "name",
-            messages(s"cds.matching.name-id-organisation.$displayMode.name"),
-            '_hintText -> nameHintText
+            messages(s"cds.matching.name-id-organisation.$displayMode.name"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", '_hintText -> nameHintText, 'autocomplete -> "organization")
+            else Seq('spellcheck -> "false", '_hintText -> nameHintText)): _*
         )
 
         @inputText(

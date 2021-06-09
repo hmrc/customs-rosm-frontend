@@ -21,16 +21,13 @@ import play.api.Application
 import play.api.data.Form
 import play.api.mvc._
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.migration.NameIdOrganisationDisplayMode._
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.NameUtrDetailsSubscriptionFlowPage
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.{
-  nameUtrCompanyForm,
-  nameUtrOrganisationForm,
-  nameUtrPartnershipForm
-}
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.{nameUtrCompanyForm, nameUtrOrganisationForm, nameUtrPartnershipForm}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.{RequestSessionData, SessionCache}
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.{SubscriptionBusinessService, SubscriptionDetailsService}
@@ -49,7 +46,8 @@ class NameIDOrgController @Inject()(
   subscriptionFlowManager: SubscriptionFlowManager,
   mcc: MessagesControllerComponents,
   nameIdView: nameId,
-  subscriptionDetailsHolderService: SubscriptionDetailsService
+  subscriptionDetailsHolderService: SubscriptionDetailsService,
+  appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
@@ -104,7 +102,8 @@ class NameIDOrgController @Inject()(
                   registrationDetails,
                   isInReviewMode,
                   OrganisationTypeConfigurations(selectedOrganisationType.getOrElse("")).displayMode,
-                  journey
+                  journey,
+                  appConfig
                 )
               )
             }
@@ -128,7 +127,7 @@ class NameIDOrgController @Inject()(
     require(OrganisationTypeConfigurations.contains(organisationType), invalidOrganisationType(organisationType))
 
     cdsFrontendDataCache.registrationDetails map { registrationDetails =>
-      Ok(nameIdView(nameUtrForm, registrationDetails, isInReviewMode, conf.displayMode, journey))
+      Ok(nameIdView(nameUtrForm, registrationDetails, isInReviewMode, conf.displayMode, journey, appConfig))
     }
   }
 

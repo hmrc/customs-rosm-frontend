@@ -26,21 +26,12 @@ import org.scalatest.prop.Tables.Table
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.Helpers._
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.routes._
-import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.{
-  ContactDetailsAddressController,
-  SubscriptionFlowManager
-}
+import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.{ContactDetailsAddressController, SubscriptionFlowManager}
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription._
-import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{
-  AddressViewModel,
-  ContactDetailsModel
-}
+import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.{AddressViewModel, ContactDetailsModel}
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
-import uk.gov.hmrc.customs.rosmfrontend.services.cache.{
-  RequestSessionData,
-  SessionCache
-}
+import uk.gov.hmrc.customs.rosmfrontend.services.cache.{RequestSessionData, SessionCache}
 import uk.gov.hmrc.customs.rosmfrontend.services.countries.{Countries, Country}
 import uk.gov.hmrc.customs.rosmfrontend.services.organisation.OrgTypeLookup
 import uk.gov.hmrc.customs.rosmfrontend.services.registration.RegistrationDetailsService
@@ -94,7 +85,8 @@ class ContactDetailsAddressControllerSpec
     mockSubscriptionDetailsHolderService,
     mockCountries,
     mcc,
-    contactDetailsView
+    contactDetailsView,
+    appConfig
   )
 
   private val aFewCountries =

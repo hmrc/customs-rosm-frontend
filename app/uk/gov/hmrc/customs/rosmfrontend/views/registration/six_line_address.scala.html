@@ -19,10 +19,12 @@
 @import uk.gov.hmrc.customs.rosmfrontend.services.countries._
 @import uk.gov.hmrc.customs.rosmfrontend.domain._
 @import views.html.helper._
+@import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
 
 @this(layout_di: layout)
-@(isInReviewMode: Boolean, addressForm: Form[SixLineAddressMatchModel], countries: List[Country], countriesInCountryPicker: CountriesInCountryPicker, cdsOrgType: String, journey: Journey.Value)(implicit request: Request[AnyContent], messages: Messages)
+
+@(isInReviewMode: Boolean, addressForm: Form[SixLineAddressMatchModel], countries: List[Country], countriesInCountryPicker: CountriesInCountryPicker, cdsOrgType: String, journey: Journey.Value, appConfig: AppConfig)(implicit request: Request[AnyContent], messages: Messages)
 
 @postCodeLabel = @{
     countriesInCountryPicker match {
@@ -49,11 +51,16 @@
         @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.SixLineAddressController.submit(isInReviewMode, cdsOrgType, journey), 'id -> s"$cdsOrgType-form", 'novalidate -> "novalidate") {
         @CSRF.formField
 
-            @inputTextBoundToForm("line-1", messages("cds.matching.organisation-address.line-1"))
-            @inputTextBoundToForm("line-2", messages("cds.matching.organisation-address.line-2"))
-            @inputTextBoundToForm("line-3", messages("cds.matching.organisation-address.line-3"))
-            @inputTextBoundToForm("line-4", messages("cds.matching.organisation-address.line-4"))
-            @inputTextBoundToForm("postcode", messages(postCodeLabel))
+            @inputTextBoundToForm("line-1", messages("cds.matching.organisation-address.line-1"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "address-line1")
+            else Seq('spellcheck -> "false")): _*) //TOOD - autocomplete here
+            @inputTextBoundToForm("line-2", messages("cds.matching.organisation-address.line-2"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "address-line2")
+            else Seq('spellcheck -> "false")): _*)
+            @inputTextBoundToForm("line-3", messages("cds.matching.organisation-address.line-3"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "address-level2")
+            else Seq('spellcheck -> "false")): _*)
+            @inputTextBoundToForm("line-4", messages("cds.matching.organisation-address.line-4"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "address-level1")
+            else Seq('spellcheck -> "false")): _*)
+            @inputTextBoundToForm("postcode", messages(postCodeLabel), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "postal-code")
+            else Seq('spellcheck -> "false")): _*)
             @helpers.countryField(addressForm, "countryCode", "cds.subscription.address-details.country.label", countries)
 
             <p><input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'></p>

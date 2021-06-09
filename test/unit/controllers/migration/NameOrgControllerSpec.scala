@@ -71,7 +71,8 @@ class NameOrgControllerSpec extends ControllerSpec with BeforeAndAfterEach {
     mockSubscriptionFlowManager,
     mcc,
     nameOrgView,
-    mockSubscriptionDetailsService
+    mockSubscriptionDetailsService,
+    appConfig
   )
 
   override def beforeEach(): Unit = {

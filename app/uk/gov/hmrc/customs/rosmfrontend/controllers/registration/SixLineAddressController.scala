@@ -20,6 +20,7 @@ import javax.inject.{Inject, Singleton}
 import play.api.Application
 import play.api.mvc.{Action, _}
 import uk.gov.hmrc.auth.core.AuthConnector
+import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionFlowManager
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.Address
@@ -46,7 +47,8 @@ class SixLineAddressController @Inject()(
   countries: Countries,
   mcc: MessagesControllerComponents,
   sixLineAddressView: six_line_address,
-  registrationDetailsService: RegistrationDetailsService
+  registrationDetailsService: RegistrationDetailsService,
+  appConfig: AppConfig
 )(implicit ec: ExecutionContext)
     extends CdsController(mcc) {
 
@@ -68,7 +70,8 @@ class SixLineAddressController @Inject()(
           countriesToInclude,
           countriesInCountryPicker,
           organisationType,
-          journey
+          journey,
+          appConfig
         )
       )
     )
@@ -97,7 +100,8 @@ class SixLineAddressController @Inject()(
                 countriesToInclude,
                 countriesInCountryPicker,
                 organisationType,
-                journey
+                journey,
+                appConfig
               )
             )
         ),

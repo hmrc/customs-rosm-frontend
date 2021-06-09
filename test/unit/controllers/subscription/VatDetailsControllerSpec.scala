@@ -23,12 +23,7 @@ import org.mockito.Mockito._
 import org.scalatest.BeforeAndAfterEach
 import play.api.mvc.Result
 import play.api.test.Helpers._
-import uk.gov.hmrc.customs.rosmfrontend.connector.{
-  InvalidResponse,
-  NotFoundResponse,
-  ServiceUnavailableResponse,
-  VatControlListConnector
-}
+import uk.gov.hmrc.customs.rosmfrontend.connector.{InvalidResponse, NotFoundResponse, ServiceUnavailableResponse, VatControlListConnector}
 import uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.VatDetailsController
 import uk.gov.hmrc.customs.rosmfrontend.domain.subscription.VatDetailsSubscriptionFlowPage
 import uk.gov.hmrc.customs.rosmfrontend.domain.{VatControlListRequest, VatControlListResponse}
@@ -73,7 +68,8 @@ class VatDetailsControllerSpec
     vatDetailsView,
     errorTemplate,
     weCannotConfirmYourIdentity,
-    mockSubscriptionDetailsHolderService
+    mockSubscriptionDetailsHolderService,
+    appConfig
   )
 
   private val validRequest = Map(

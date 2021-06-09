@@ -18,10 +18,11 @@
 @import uk.gov.hmrc.customs.rosmfrontend.views.html.helpers.inputDate
 @import uk.gov.hmrc.customs.rosmfrontend.views.html._
 @import views.html.helper._
-
+@import uk.gov.hmrc.customs.rosmfrontend.models.Journey
+@import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 
 @this(layout_di: layout, inputDate_di: inputDate)
-@(individualNameAndDateOfBirthForm: Form[IndividualNameAndDateOfBirth], organisationType: String, journey: Journey.Value, isInReviewMode: Boolean)(implicit request: Request[_], messages: Messages)
+@(individualNameAndDateOfBirthForm: Form[IndividualNameAndDateOfBirth], organisationType: String, journey: Journey.Value, isInReviewMode: Boolean, appConfig: AppConfig)(implicit request: Request[_], messages: Messages)
 
 @inputText(field: String, label: String, args: (Symbol, Any)*) = {
     @helpers.inputText(individualNameAndDateOfBirthForm)(field, label, args:_*)
@@ -37,14 +38,19 @@
 
         @helper.form(uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes.RowIndividualNameDateOfBirthController.submit(isInReviewMode, organisationType, journey), 'id -> s"$organisationType-form", 'novalidate -> "novalidate") {
         @CSRF.formField
-            @inputText("given-name", messages("cds.matching.individual.given-name"))
-            @inputText("middle-name", messages("cds.matching.individual.middle-name.optional"))
-            @inputText("family-name", messages("cds.matching.individual.family-name"))
+            @inputText("given-name", messages("cds.matching.individual.given-name"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "given-name")
+            else Seq('spellcheck -> "false")): _*)
+            @inputText("middle-name", messages("cds.matching.individual.middle-name.optional"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "additional-name")
+            else Seq('spellcheck -> "false")): _*)
+            @inputText("family-name", messages("cds.matching.individual.family-name"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "family-name")
+            else Seq('spellcheck -> "false")): _*)
             @inputDate_di(individualNameAndDateOfBirthForm, "date-of-birth",
                 '_label -> messages("cds.matching.individual.what-is-your-date-of-birth"),
                 '_hintText -> messages("cds.date-of-birth.hint"),
-                '_legend -> messages("cds.matching.individual.what-is-your-date-of-birth")
-                )
+                '_legend -> messages("cds.matching.individual.what-is-your-date-of-birth"),
+                '_autocomplete -> appConfig.autoCompleteEnabled,
+                '_dob -> true
+            )
             <p><input class="button" type="submit" value='@uk.gov.hmrc.customs.rosmfrontend.views.helpers.subscription.ViewHelper.continueButtonText(isInReviewMode)'></p>
         }        
 
