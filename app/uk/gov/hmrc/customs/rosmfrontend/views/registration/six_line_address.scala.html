@@ -52,7 +52,7 @@
         @CSRF.formField
 
             @inputTextBoundToForm("line-1", messages("cds.matching.organisation-address.line-1"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "address-line1")
-            else Seq('spellcheck -> "false")): _*) //TOOD - autocomplete here
+            else Seq('spellcheck -> "false")): _*)
             @inputTextBoundToForm("line-2", messages("cds.matching.organisation-address.line-2"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "address-line2")
             else Seq('spellcheck -> "false")): _*)
             @inputTextBoundToForm("line-3", messages("cds.matching.organisation-address.line-3"), (if (appConfig.autoCompleteEnabled) Seq('spellcheck -> "false", 'autocomplete -> "address-level2")
