@@ -383,7 +383,7 @@ cds.subscription.enter-eori-number.eori-number.label=EORI number
 subscription.subscription-results.subscription-complete=Subscription complete
 subscription.subscription-results.active-from=on
 cds.subscription.enter-email.page-error.email=Enter your email address
-cds.subscription.contact-details.form-error.email.wrong-format=Enter a valid email address
+cds.subscription.contact-details.form-error.email.wrong-format=Enter an email address in the correct format, like name@example.com
 cds.subscription.check-your-email.page-error.yes-no-answer=Tell us if this is the correct email address
 cds.email-confirmed.title-and-heading=Email address confirmed
 cds.email-confirmed.para.get-eori=You can continue with your application to get an EORI number.
@@ -454,7 +454,7 @@ cds.subscription.enter-eori-number.page.title=What is your EORI number?
 cds.subscription.enter-eori-number.heading=What is your EORI number?
 cds.subscription.enter-eori-number.label=What is your EORI number?
 cds.subscription.enter-eori-number.hint=The number starts with GB and is then followed by 12 digits, For example, GB345834921000.
-cds.matching-error.eori=Enter an EORI number in the right format
+cds.matching-error.eori=Enter an EORI number in the correct format
 cds.matching-error.eori.isEmpty=Enter your EORI number
 cds.matching-error.eori.not-gb=Enter an EORI number that starts with GB
 cds.what-is-your-eori.page-error.eori-number=Enter your EORI number
@@ -657,7 +657,7 @@ cds.matching.name-id-organisation.error.registered-company.utr=Enter the Corpora
 cds.matching.name-id-organisation.error.partnership.utr=Enter the Corporation Tax UTR number
 cds.matching.name-id-organisation.error.organisation.utr=Enter the Corporation Tax UTR number
 cds.matching-error.business-details.business-name.isEmpty=Enter your registered organisation name
-cds.matching-error.business-details.business-name.too-long=The organisation name must be 105 characters or less
+cds.matching-error.business-details.business-name.too-long=Registered company name must be 105 characters or fewer
 cds.matching-error.business-details.utr.isEmpty=Enter your Unique Taxpayer Reference
 cds.matching-error.business-details.partnership-name.isEmpty=Enter your registered partnership name
 cds.matching-error.business-details.partnership-name.too-long=The partnership name must be 105 characters or less
@@ -797,7 +797,7 @@ cds.matching.confirm.confirm=Continue
 #Error Messages
 
 cds.matching.enter-utr-number.page.title=What is your Self Assessment Unique Taxpayer Reference?
-cds.matching-error.utr.invalid=Enter a valid Unique Taxpayer Reference
+cds.matching-error.utr.invalid=Enter a Unique Taxpayer Reference in the correct format
 cds.matching-error.utr.length=The Unique Taxpayer Reference must be 10 numbers
 cds.matching-error.not-found=Your business details have not been found. Check that your details are correct and try again.
 cds.matching-error-organisation.not-found=Your business details have not been found. Check that your details are correct and try again.
@@ -993,8 +993,8 @@ cds.subscription.llp.date-established.charity-label=Enter the date shown on the 
 cds.subscription.llp.date-established.label=Enter the date shown on the partnership''s certificate of incorporation. You can find the date your business was established on the <a href="https://beta.companieshouse.gov.uk/" target="_blank" rel="noopener noreferrer">Companies House register (opens in a new window or tab)</a>
 cds.subscription.row.date-established.label=Enter the date your organisation was established
 cds.subscription.date-of-establishment.error.required.date-of-establishment=Enter your date of establishment
-cds.subscription.date-of-establishment.error.invalid.date-of-establishment=Please enter a valid date of establishment
-cds.subscription.date-of-establishment.error.in-future.date-of-establishment=You cannot enter a date of establishment in the future
+cds.subscription.date-of-establishment.error.invalid.date-of-establishment=Date of establishment must be a real date
+cds.subscription.date-of-establishment.error.in-future.date-of-establishment=Date of establishment must be in the past
 cds.subscription.date-of-establishment.cannot-find=Can''t find the certificate?
 cds.subscription.date-of-establishment.find-it=You can find the incorporated date on the <a href="https://beta.companieshouse.gov.uk/" target="_blank"> Companies House register</a>
 
@@ -1262,7 +1262,7 @@ cds.subscription.contact-details.address-text=Is this the right contact address?
 cds.subscription.contact-details.change-address.label=Enter your contact address
 cds.subscription.contact-details.form-error.full-name=Enter your contact name
 cds.subscription.contact-details.form-error.email=Enter your email address
-cds.subscription.contact-details.form-error.email.too-long=The email address must be 50 characters or less
+cds.subscription.contact-details.form-error.email.too-long=Email address must be 50 characters or fewer
 cds.subscription.contact-details.form-error.telephone=Enter your contact telephone number
 cds.subscription.contact-details.form-error.country=Enter a valid country name
 cds.subscription.eu-vat-details.form-error.country=Enter a country in the EU other than the UK
@@ -1291,7 +1291,7 @@ cds.contact-details.page-error.telephone.isEmpty=Enter your contact telephone nu
 cds.contact-details.page-error.telephone.wrong-length.too-long=The telephone number must be 24 digits or less
 cds.contact-details.page-error.telephone.wrong-format=Please enter a valid telephone number
 cds.contact-details.page-error.fax.wrong-length.too-long=The fax number must be 24 digits or less
-cds.contact-details.page-error.fax.wrong-format=Please enter a valid fax number
+cds.contact-details.page-error.fax.wrong-format=Enter a fax number in the correct format
 
 #Review page specific properties
 cds.review-page.fax-prefix=fax:

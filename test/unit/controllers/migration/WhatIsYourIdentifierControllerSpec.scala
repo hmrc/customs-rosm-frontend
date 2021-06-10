@@ -208,7 +208,7 @@ class WhatIsYourIdentifierControllerSpec extends ControllerSpec with BeforeAndAf
         await(result)
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a valid Unique Taxpayer Reference"
+        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a Unique Taxpayer Reference in the correct format"
       }
     }
 
@@ -251,7 +251,7 @@ class WhatIsYourIdentifierControllerSpec extends ControllerSpec with BeforeAndAf
         await(result)
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a valid Unique Taxpayer Reference"
+        page.getElementsText(RegisterHowCanWeIdentifyYouPage.pageLevelErrorSummaryListXPath) shouldBe "Enter a Unique Taxpayer Reference in the correct format"
       }
     }
 

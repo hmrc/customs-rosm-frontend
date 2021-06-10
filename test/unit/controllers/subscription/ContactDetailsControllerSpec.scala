@@ -455,8 +455,8 @@ class ContactDetailsControllerSpec
         createFormMandatoryFieldsMap + (faxFieldName -> "$£")) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Please enter a valid fax number"
-        page.getElementsText(faxFieldLevelErrorXPath) shouldBe "Error: Please enter a valid fax number"
+        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Enter a fax number in the correct format"
+        page.getElementsText(faxFieldLevelErrorXPath) shouldBe "Error: Enter a fax number in the correct format"
         page.getElementsText("title") should startWith("Error: ")
       }
     }

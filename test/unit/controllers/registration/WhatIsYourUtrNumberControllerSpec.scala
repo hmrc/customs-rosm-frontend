@@ -67,7 +67,7 @@ class WhatIsYourUtrNumberControllerSpec extends ControllerSpec with MockitoSugar
     mockSubscriptionDetailsService
   )
 
-  private val UtrInvalidError = "Enter a valid Unique Taxpayer Reference"
+  private val UtrInvalidError = "Enter a Unique Taxpayer Reference in the correct format"
   private val BusinessNotMatchedError =
     "Your business details have not been found. Check that your details are correct and try again."
   private val IndividualNotMatchedError =

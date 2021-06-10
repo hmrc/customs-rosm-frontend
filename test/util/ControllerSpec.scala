@@ -211,7 +211,7 @@ trait ControllerSpec extends UnitSpec with GuiceOneAppPerSuite with MockitoSugar
   var NoSelection = "Please select one of the options"
   val InvalidDate = "Please enter a valid date, for example '31 3 1980'"
   val FutureDate = "You must specify a date that is not in the future"
-  val enterAValidEori = "Enter an EORI number in the right format"
+  val enterAValidEori = "Enter an EORI number in the correct format"
   val enterAGbEori = "Enter an EORI number that starts with GB"
   val defaultUserId: String = s"user-${UUID.randomUUID}"
 

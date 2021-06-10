@@ -79,7 +79,7 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
     )
   private val NameMaxLength = 105
 
-  private val UtrInvalidError = "Enter a valid Unique Taxpayer Reference"
+  private val UtrInvalidError = "Enter a Unique Taxpayer Reference in the correct format"
   private val UtrWrongLengthError = "The Unique Taxpayer Reference must be 10 numbers"
   private val BusinessNotMatchedError =
     "Your business details have not been found. Check that your details are correct and try again."
@@ -239,8 +239,8 @@ class NameUtrOrganisationControllerSpec extends ControllerSpec with MockitoSugar
                 page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The partnership name must be 105 characters or less"
                 page.getElementsText(fieldLevelErrorName) shouldBe "Error: The partnership name must be 105 characters or less"
               } else {
-                page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The organisation name must be 105 characters or less"
-                page.getElementsText(fieldLevelErrorName) shouldBe "Error: The organisation name must be 105 characters or less"
+                page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Registered company name must be 105 characters or fewer"
+                page.getElementsText(fieldLevelErrorName) shouldBe "Error: Registered company name must be 105 characters or fewer"
               }
               page.getElementsText("title") should startWith("Error: ")
           }

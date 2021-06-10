@@ -238,8 +238,8 @@ class NameIDOrgControllerSpec extends SubscriptionFlowSpec with ControllerSpec w
       submitFormInCreateMode(createFormAllFieldsUtrMap + (nameFieldName -> List.fill(106)("D").mkString)) { result =>
         status(result) shouldBe BAD_REQUEST
         val page = CdsPage(bodyOf(result))
-        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The organisation name must be 105 characters or less"
-        page.getElementsText(nameFieldLevelErrorXPath) shouldBe "Error: The organisation name must be 105 characters or less"
+        page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Registered company name must be 105 characters or fewer"
+        page.getElementsText(nameFieldLevelErrorXPath) shouldBe "Error: Registered company name must be 105 characters or fewer"
         page.getElementsText("title") should startWith("Error: ")
         verifyNoInteractions(mockSubscriptionBusinessService)
       }
