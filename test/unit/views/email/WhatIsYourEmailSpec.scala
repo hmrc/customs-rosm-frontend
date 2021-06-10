@@ -62,7 +62,7 @@ class WhatIsYourEmailSpec extends ViewSpec {
         .body()
         .getElementById("email-outer")
         .getElementsByClass("error-message")
-        .text() mustBe "Error: Enter a valid email address"
+        .text() mustBe "Error: Enter an email address in the correct format, like name@example.com"
     }
   }
 

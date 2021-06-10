@@ -85,8 +85,8 @@ class DateOfEstablishmentControllerSpec
 
   private val DateOfEstablishmentMissingPageLevelError = "Enter your date of establishment"
   private val DateOfEstablishmentMissingError = "Error: Enter your date of establishment"
-  private val DateOfEstablishmentInvalidError = "Please enter a valid date of establishment"
-  private val DateOfEstablishmentInFutureError = "You cannot enter a date of establishment in the future"
+  private val DateOfEstablishmentInvalidError = "Date of establishment must be a real date"
+  private val DateOfEstablishmentInFutureError = "Date of establishment must be in the past"
 
   override protected def beforeEach(): Unit = {
     reset(mockSubscriptionFlowManager, mockSubscriptionBusinessService, mockSubscriptionDetailsHolderService)

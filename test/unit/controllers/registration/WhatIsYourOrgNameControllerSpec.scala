@@ -178,8 +178,8 @@ class WhatIsYourOrgNameControllerSpec extends ControllerSpec with BeforeAndAfter
             submitForm(reviewMode, form = Map("name" -> oversizedString(NameMaxLength)), organisationType) { result =>
               status(result) shouldBe BAD_REQUEST
               val page = CdsPage(bodyOf(result))
-              page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "The organisation name must be 105 characters or less"
-              page.getElementsText(fieldLevelErrorName) shouldBe "Error: The organisation name must be 105 characters or less"
+              page.getElementsText(pageLevelErrorSummaryListXPath) shouldBe "Registered company name must be 105 characters or fewer"
+              page.getElementsText(fieldLevelErrorName) shouldBe "Error: Registered company name must be 105 characters or fewer"
               page.getElementsText("title") should startWith("Error: ")
             }
           }
