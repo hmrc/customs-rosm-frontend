@@ -107,7 +107,7 @@ elements.args.getOrElse('_inputMode, "text").asInstanceOf[String]
             @if(!patternMode.equals("*")){pattern="@patternMode"}
             @if(elements.args.contains('autocomplete)) { autocomplete="@elements.args.get('autocomplete)" }
             value="@elements.field.value"
-            aria-describedby="@(field.id)-error"/>
+           @if(allErrors.nonEmpty){ aria-describedby="@(field.id)-error" } />
     </div>
 
     @if(isLabelH1 && allErrors.nonEmpty) {
