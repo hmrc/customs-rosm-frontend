@@ -19,7 +19,7 @@ name := "customs-rosm-frontend"
 
 targetJvm := "jvm-1.8"
 
-scalaVersion := "2.12.10"
+scalaVersion := "2.12.12"
 
 majorVersion := 2
 
@@ -99,12 +99,11 @@ lazy val scoverageSettings = {
     // Semicolon-separated list of regexs matching classes to exclude
     ScoverageKeys.coverageExcludedPackages := List(
       "<empty>",
-      "Reverse.*",
       "uk\\.gov\\.hmrc\\.customs\\.rosmfrontend\\.models\\.data\\..*",
       "uk\\.gov\\.hmrc\\.customs\\.rosmfrontend\\.view.*",
       "uk\\.gov\\.hmrc\\.customs\\.rosmfrontend\\.models.*",
       "uk\\.gov\\.hmrc\\.customs\\.rosmfrontend\\.config.*",
-      ".*(AuthService|BuildInfo|Routes|TestOnly).*"
+      ".*(Reverse|AuthService|BuildInfo|Routes|TestOnly).*"
     ).mkString(";"),
     ScoverageKeys.coverageMinimum := 88,
     ScoverageKeys.coverageFailOnMinimum := true,
@@ -116,15 +115,15 @@ lazy val scoverageSettings = {
 scalastyleConfig := baseDirectory.value / "project" / "scalastyle-config.xml"
 
 val compileDependencies = Seq(
-  "uk.gov.hmrc" %% "bootstrap-frontend-play-27" % "3.3.0",
-  "uk.gov.hmrc" %% "http-caching-client" % "9.2.0-play-27",
-  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.5.0-play-27",
-  "uk.gov.hmrc" %% "domain" % "5.10.0-play-27",
-  "uk.gov.hmrc" %% "mongo-caching" % "6.16.0-play-27",
+  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.3.0",
+  "uk.gov.hmrc" %% "http-caching-client" % "9.5.0-play-28",
+  "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.9.0-play-28",
+  "uk.gov.hmrc" %% "domain" % "6.0.0-play-28",
+  "uk.gov.hmrc" %% "mongo-caching" % "7.0.0-play-28",
   "uk.gov.hmrc" %% "emailaddress" % "3.5.0",
-  "uk.gov.hmrc" %% "logback-json-logger" % "5.0.0",
-  "com.typesafe.play" %% "play-json-joda" % "2.7.4",
-  "uk.gov.hmrc" %% "play-ui" % "9.2.0-play-27"
+  "uk.gov.hmrc" %% "logback-json-logger" % "5.1.0",
+  "com.typesafe.play" %% "play-json-joda" % "2.8.1",
+  "uk.gov.hmrc" %% "play-ui" % "9.6.0-play-28"
 )
 
 val testDependencies = Seq(
@@ -138,9 +137,10 @@ val testDependencies = Seq(
   "org.jsoup" % "jsoup" % "1.11.3" % "test,it",
   "us.codecraft" % "xsoup" % "0.3.1" % "test,it",
   "org.mockito" % "mockito-core" % "3.7.7" % "test,it",
-  "uk.gov.hmrc" %% "webdriver-factory" % "0.16.0",
-  "uk.gov.hmrc" %% "play-language" % "4.10.0-play-27",
-  "uk.gov.hmrc" %% "reactivemongo-test" % "4.22.0-play-27" % "test, it"
+  "uk.gov.hmrc" %% "webdriver-factory" % "0.22.0",
+  "uk.gov.hmrc" %% "play-language" % "5.1.0-play-28",
+  "uk.gov.hmrc" %% "reactivemongo-test" % "5.0.0-play-28" % "test, it",
+  "org.pegdown" % "pegdown" % "1.6.0" % "test,it"
 )
 
 libraryDependencies ++= compileDependencies ++ testDependencies

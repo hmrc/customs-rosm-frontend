@@ -17,13 +17,12 @@
 package unit.filters
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
 import org.mockito.ArgumentMatchers._
 import org.mockito.Mockito._
 import org.scalatest.BeforeAndAfterEach
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.mvc.{RequestHeader, Result, Results}
+import play.api.mvc.{CookieHeaderEncoding, RequestHeader, Result, Results, Session, SessionCookieBaker}
 import play.api.test.FakeRequest
 import play.mvc.Http.HeaderNames
 import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
@@ -35,11 +34,12 @@ import scala.concurrent.Future
 class AllowlistFilterSpec extends UnitSpec with MockitoSugar with BeforeAndAfterEach with GuiceOneAppPerSuite {
 
   private implicit val system: ActorSystem = ActorSystem()
-  private implicit val mat: Materializer = ActorMaterializer()
   private val config = mock[AppConfig]
   private val next = mock[RequestHeader => Future[Result]]
+  val mockSessionCookieBaker = mock[SessionCookieBaker]
+  val mockCookieHeaderEncoding = mock[CookieHeaderEncoding]
 
-  private def filter: AllowlistFilter = new AllowlistFilter(config)
+  private def filter: AllowlistFilter = new AllowlistFilter(config, mockCookieHeaderEncoding, mockSessionCookieBaker)
 
   override protected def afterEach(): Unit = {
     reset(next, config)
