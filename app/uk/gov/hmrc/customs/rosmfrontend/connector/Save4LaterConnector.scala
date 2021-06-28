@@ -21,6 +21,7 @@ import play.mvc.Http.Status._
 import uk.gov.hmrc.customs.rosmfrontend.audit.Auditable
 import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.logging.CdsLogger
+import uk.gov.hmrc.http.HeaderNames.explicitlyIncludedHeaders
 import uk.gov.hmrc.http.{BadRequestException, HttpClient, _}
 
 import javax.inject.{Inject, Singleton}
@@ -40,7 +41,7 @@ class Save4LaterConnector @Inject()(http: HttpClient, appConfig: AppConfig, audi
     val url = s"${appConfig.handleSubscriptionBaseUrl}/save4later/$id/$key"
     CdsLogger.info(s"[$LoggerComponentId][call] GET: $url")
     http.GET[HttpResponse](url) map { response =>
-      CdsLogger.info(s"[$LoggerComponentId][call] complete for call to $url and headers ${hc.headers}")
+      CdsLogger.info(s"[$LoggerComponentId][call] complete for call to $url and headers ${hc.headers(explicitlyIncludedHeaders) ++ hc.extraHeaders}")
 
       response.status match {
         case OK => {
@@ -56,7 +57,7 @@ class Save4LaterConnector @Inject()(http: HttpClient, appConfig: AppConfig, audi
     } recoverWith {
       case NonFatal(e) =>
         CdsLogger.error(
-          s"[$LoggerComponentId][call] request failed for call to $url and headers ${hc.headers}: ${e.getMessage}",
+          s"[$LoggerComponentId][call] request failed for call to $url and headers ${hc.headers(explicitlyIncludedHeaders) ++ hc.extraHeaders}: ${e.getMessage}",
           e
         )
         Future.failed(e)
@@ -71,8 +72,9 @@ class Save4LaterConnector @Inject()(http: HttpClient, appConfig: AppConfig, audi
     val url = s"${appConfig.handleSubscriptionBaseUrl}/save4later/$id/$key"
     CdsLogger.info(s"[$LoggerComponentId][call] PUT: $url")
     auditCallRequest(url, payload)
+    val headersForLogging = hc.headers(explicitlyIncludedHeaders) ++ hc.extraHeaders
     http.PUT[JsValue, HttpResponse](url, payload) map { response =>
-      CdsLogger.info(s"[$LoggerComponentId][call] complete for call to $url and headers ${hc.headers}")
+      CdsLogger.info(s"[$LoggerComponentId][call] complete for call to $url and headers $headersForLogging")
       auditCallResponse(url, response.status)
       response.status match {
         case NO_CONTENT | CREATED | OK => ()
@@ -81,7 +83,7 @@ class Save4LaterConnector @Inject()(http: HttpClient, appConfig: AppConfig, audi
     } recoverWith {
       case NonFatal(e) =>
         CdsLogger.error(
-          s"[$LoggerComponentId][call] request failed for call to $url and headers ${hc.headers}: ${e.getMessage}",
+          s"[$LoggerComponentId][call] request failed for call to $url and headers $headersForLogging: ${e.getMessage}",
           e
         )
         Future.failed(e)
@@ -92,8 +94,9 @@ class Save4LaterConnector @Inject()(http: HttpClient, appConfig: AppConfig, audi
     val url = s"${appConfig.handleSubscriptionBaseUrl}/save4later/$id"
     CdsLogger.info(s"[$LoggerComponentId][call] DELETE: $url")
     auditCallRequest(url, JsNull)
+    val headersForLogging = hc.headers(explicitlyIncludedHeaders) ++ hc.extraHeaders
     http.DELETE[HttpResponse](url) map { response =>
-      CdsLogger.info(s"[$LoggerComponentId][call] complete for call to $url and headers ${hc.headers}")
+      CdsLogger.info(s"[$LoggerComponentId][call] complete for call to $url and headers $headersForLogging")
       auditCallResponse(url, response.status)
       response.status match {
         case NO_CONTENT => ()
@@ -102,7 +105,7 @@ class Save4LaterConnector @Inject()(http: HttpClient, appConfig: AppConfig, audi
     } recoverWith {
       case NonFatal(e) =>
         CdsLogger.error(
-          s"[$LoggerComponentId][call] request failed for call to $url and headers ${hc.headers}: ${e.getMessage}",
+          s"[$LoggerComponentId][call] request failed for call to $url and headers $headersForLogging: ${e.getMessage}",
           e
         )
         Future.failed(e)

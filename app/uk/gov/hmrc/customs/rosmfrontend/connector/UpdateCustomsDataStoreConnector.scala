@@ -23,6 +23,7 @@ import uk.gov.hmrc.customs.rosmfrontend.audit.Auditable
 import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.subscription.CustomsDataStoreRequest
 import uk.gov.hmrc.customs.rosmfrontend.logging.CdsLogger
+import uk.gov.hmrc.http.HeaderNames.explicitlyIncludedHeaders
 import uk.gov.hmrc.http.{HttpClient, _}
 
 import javax.inject.{Inject, Singleton}
@@ -39,13 +40,14 @@ class UpdateCustomsDataStoreConnector @Inject()(http: HttpClient, appConfig: App
     val url = s"${appConfig.handleSubscriptionBaseUrl}/customs/update/datastore"
     CdsLogger.info(s"[$LoggerComponentId][call] postUrl: $url")
     val headers = Seq(ACCEPT -> "application/vnd.hmrc.1.0+json", CONTENT_TYPE -> MimeTypes.JSON)
+    val headersForLogging = hc.headers(explicitlyIncludedHeaders) ++ hc.extraHeaders ++ headers
     auditCallRequest(url, request)
     http.POST[CustomsDataStoreRequest, HttpResponse](url, request, headers) map { response =>
       auditCallResponse(url, response)
       response.status match {
         case OK | NO_CONTENT => {
           CdsLogger.info(
-            s"[$LoggerComponentId][call] complete for call to $url and headers ${hc.headers}. Status:${response.status}"
+            s"[$LoggerComponentId][call] complete for call to $url and headers $headersForLogging. Status:${response.status}"
           )
           ()
         }
@@ -54,13 +56,13 @@ class UpdateCustomsDataStoreConnector @Inject()(http: HttpClient, appConfig: App
     } recoverWith {
       case e: BadRequestException =>
         CdsLogger.error(
-          s"[$LoggerComponentId][call] request failed with BAD_REQUEST status for call to $url and headers ${hc.headers}: ${e.getMessage}",
+          s"[$LoggerComponentId][call] request failed with BAD_REQUEST status for call to $url and headers $headersForLogging: ${e.getMessage}",
           e
         )
         Future.failed(e)
       case NonFatal(e) =>
         CdsLogger.error(
-          s"[$LoggerComponentId][call] request failed for call to $url and headers ${hc.headers}: ${e.getMessage}",
+          s"[$LoggerComponentId][call] request failed for call to $url and headers $headersForLogging: ${e.getMessage}",
           e
         )
         Future.failed(e)

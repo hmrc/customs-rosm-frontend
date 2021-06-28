@@ -17,6 +17,7 @@
 package uk.gov.hmrc.customs.rosmfrontend.filters
 
 import akka.stream.Materializer
+
 import javax.inject.Inject
 import play.api.mvc._
 import play.mvc.Http.HeaderNames
@@ -25,7 +26,10 @@ import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class AllowlistFilter @Inject()(appConfig: AppConfig)(implicit val mat: Materializer) extends Filter {
+class AllowlistFilter @Inject()(appConfig: AppConfig,
+                                cookieHeaderEncoding: CookieHeaderEncoding,
+                                sessionCookieBaker: SessionCookieBaker)
+                               (implicit val mat: Materializer) extends Filter {
 
   override def apply(next: RequestHeader => Future[Result])(rh: RequestHeader): Future[Result] = {
     val permittedReferer = rh.headers
@@ -35,8 +39,8 @@ class AllowlistFilter @Inject()(appConfig: AppConfig)(implicit val mat: Material
 
     if (journey.contains("subscribe-for-cds") && permittedReferer) {
       val allowlistedSession: Session = rh.session + ("allowlisted" -> "true")
-      val cookies: Seq[Cookie] = (rh.cookies ++ Seq(Session.encodeAsCookie(allowlistedSession))).toSeq
-      val headers = rh.headers.add(HeaderNames.COOKIE -> Cookies.encodeCookieHeader(cookies))
+      val cookies: Seq[Cookie] = (rh.cookies ++ Seq(sessionCookieBaker.encodeAsCookie(allowlistedSession))).toSeq
+      val headers = rh.headers.add(HeaderNames.COOKIE -> cookieHeaderEncoding.encodeCookieHeader(cookies))
       next(rh.withHeaders(headers)) // Ensures the allowlisted param is added to the remainder of THIS request
         .map(_.addingToSession("allowlisted" -> "true")(rh)) // Ensures the allowlisted param is added to FUTURE requests (via the Set-Cookie header)
     } else {
