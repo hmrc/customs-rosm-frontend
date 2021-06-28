@@ -22,7 +22,6 @@ import uk.gov.hmrc.customs.rosmfrontend.audit.Auditable
 import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.logging.CdsLogger
-import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.http.{HttpClient, _}
 
 import javax.inject.{Inject, Singleton}
@@ -67,7 +66,7 @@ class TaxEnrolmentsConnector @Inject()(http: HttpClient, appConfig: AppConfig, a
     val url = s"$baseUrl/$serviceContext/subscriptions/$formBundleId/issuer"
 
     CdsLogger.info(s"$loggerId putUrl: $url")
-    http.doPut[TaxEnrolmentsRequest](url, request) map { response: HttpResponse =>
+    http.PUT[TaxEnrolmentsRequest, HttpResponse](url, request) map { response: HttpResponse =>
       auditCall(url, request, response)
       response.status match {
         case s @ BAD_REQUEST =>
