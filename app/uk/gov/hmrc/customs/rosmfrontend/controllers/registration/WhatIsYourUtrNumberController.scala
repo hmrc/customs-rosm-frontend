@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.customs.rosmfrontend.controllers.registration
 
-import javax.inject.{Inject, Singleton}
 import org.joda.time.LocalDate
 import play.api.Application
 import play.api.data.Form
@@ -26,7 +25,6 @@ import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.auth.core.AuthConnector
 import uk.gov.hmrc.customs.rosmfrontend.controllers.CdsController
 import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes._
-import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.DetermineReviewPageController
 import uk.gov.hmrc.customs.rosmfrontend.domain._
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.Individual
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.matching.Organisation
@@ -37,6 +35,7 @@ import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetail
 import uk.gov.hmrc.customs.rosmfrontend.views.html.registration.match_organisation_utr
 import uk.gov.hmrc.http.HeaderCarrier
 
+import javax.inject.{Inject, Singleton}
 import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton

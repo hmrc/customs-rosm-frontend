@@ -27,7 +27,7 @@ import uk.gov.hmrc.customs.rosmfrontend.controllers.registration.routes._
 import uk.gov.hmrc.customs.rosmfrontend.controllers.routes.DetermineReviewPageController
 import uk.gov.hmrc.customs.rosmfrontend.domain.CdsOrganisationType.forId
 import uk.gov.hmrc.customs.rosmfrontend.domain._
-import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.{yesNoAnswerForm, yesNoCustomAnswerForm}
+import uk.gov.hmrc.customs.rosmfrontend.forms.MatchingForms.yesNoCustomAnswerForm
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.registration.MatchingService
 import uk.gov.hmrc.customs.rosmfrontend.services.subscription.SubscriptionDetailsService

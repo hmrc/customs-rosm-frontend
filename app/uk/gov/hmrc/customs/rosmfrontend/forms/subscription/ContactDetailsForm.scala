@@ -23,9 +23,6 @@ import play.api.i18n.Messages
 import uk.gov.hmrc.customs.rosmfrontend.forms.models.subscription.ContactPersonViewModel
 import uk.gov.hmrc.customs.rosmfrontend.forms.subscription.SubscriptionForm._
 object ContactDetailsForm {
-  private val Length2 = 2
-  private val yesAnswered = "true"
-  private val noAnswered = "false"
 
   def contactPersonDetailForm()(implicit messages: Messages): Form[ContactPersonViewModel] =
     Form(

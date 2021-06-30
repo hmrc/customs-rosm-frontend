@@ -199,23 +199,6 @@ class ContactDetailsController @Inject()(
 
   }
 
-  private def storeContactDetailsMigrate(
-      formData: ContactPersonViewModel,
-      email: String,
-      isInReviewMode: Boolean,
-      journey: Journey.Value
-  )(implicit hc: HeaderCarrier, request: Request[AnyContent]): Future[Result] = {
-    for {
-      cachedAddressDetails <- subscriptionDetailsService.cachedAddressDetails
-      _ <- registrationDetailsService.cacheAddress(
-        regDetailsCreator
-          .registrationAddressFromAddressViewModel(cachedAddressDetails.get)
-      )
-    } yield {
-      storeContactDetails(formData, email, isInReviewMode, journey)
-    }
-  }.flatMap(identity)
-
   private def storeContactDetails(
       formData: ContactPersonViewModel,
       email: String,

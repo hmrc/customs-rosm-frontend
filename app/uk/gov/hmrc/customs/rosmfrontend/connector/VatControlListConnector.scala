@@ -23,11 +23,10 @@ import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.http.{HttpClient, _}
 
 import javax.inject.{Inject, Singleton}
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 @Singleton
-class VatControlListConnector @Inject()(http: HttpClient, appConfig: AppConfig) {
+class VatControlListConnector @Inject()(http: HttpClient, appConfig: AppConfig)(implicit ec: ExecutionContext) {
 
   private val url = appConfig.getServiceUrl("vat-known-facts-control-list")
   private val loggerComponentId = "VatControlListConnector"

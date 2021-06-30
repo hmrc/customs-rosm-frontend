@@ -19,7 +19,7 @@ name := "customs-rosm-frontend"
 
 targetJvm := "jvm-1.8"
 
-scalaVersion := "2.12.12"
+scalaVersion := "2.12.14"
 
 majorVersion := 2
 
@@ -105,7 +105,7 @@ lazy val scoverageSettings = {
       "uk\\.gov\\.hmrc\\.customs\\.rosmfrontend\\.config.*",
       ".*(Reverse|AuthService|BuildInfo|Routes|TestOnly).*"
     ).mkString(";"),
-    ScoverageKeys.coverageMinimum := 88,
+    ScoverageKeys.coverageMinimumStmtTotal := 88,
     ScoverageKeys.coverageFailOnMinimum := true,
     ScoverageKeys.coverageHighlighting := true,
     parallelExecution in Test := false
@@ -115,7 +115,7 @@ lazy val scoverageSettings = {
 scalastyleConfig := baseDirectory.value / "project" / "scalastyle-config.xml"
 
 val compileDependencies = Seq(
-  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.3.0",
+  "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % "5.6.0",
   "uk.gov.hmrc" %% "http-caching-client" % "9.5.0-play-28",
   "uk.gov.hmrc" %% "play-conditional-form-mapping" % "1.9.0-play-28",
   "uk.gov.hmrc" %% "domain" % "6.0.0-play-28",
@@ -127,16 +127,15 @@ val compileDependencies = Seq(
 )
 
 val testDependencies = Seq(
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test,it",
   "com.typesafe.play" %% "play-test" % PlayVersion.current % "test,it",
-  "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % "test,it",
-  "com.github.tomakehurst" % "wiremock-standalone" % "2.23.2" % "test, it"
+  "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3" % "test,it",
+  "com.github.tomakehurst" % "wiremock-standalone" % "2.27.2" % "test, it"
     exclude ("org.apache.httpcomponents", "httpclient") exclude ("org.apache.httpcomponents", "httpcore"),
   "org.seleniumhq.selenium" % "selenium-htmlunit-driver" % "2.52.0" % "test,it",
   "org.scalacheck" %% "scalacheck" % "1.14.0" % "test,it",
   "org.jsoup" % "jsoup" % "1.11.3" % "test,it",
   "us.codecraft" % "xsoup" % "0.3.1" % "test,it",
-  "org.mockito" % "mockito-core" % "3.7.7" % "test,it",
+  "org.mockito" % "mockito-core" % "3.11.1" % "test,it",
   "uk.gov.hmrc" %% "webdriver-factory" % "0.22.0",
   "uk.gov.hmrc" %% "play-language" % "5.1.0-play-28",
   "uk.gov.hmrc" %% "reactivemongo-test" % "5.0.0-play-28" % "test, it",
