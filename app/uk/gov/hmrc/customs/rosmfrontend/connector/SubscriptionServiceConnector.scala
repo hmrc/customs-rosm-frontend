@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.customs.rosmfrontend.connector
 
-import play.libs.Json
 import uk.gov.hmrc.customs.rosmfrontend.audit.Auditable
 import uk.gov.hmrc.customs.rosmfrontend.config.AppConfig
 import uk.gov.hmrc.customs.rosmfrontend.domain.messaging.subscription.{SubscriptionRequest, SubscriptionResponse}

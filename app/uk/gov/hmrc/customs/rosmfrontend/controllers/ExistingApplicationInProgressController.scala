@@ -24,7 +24,7 @@ import uk.gov.hmrc.customs.rosmfrontend.domain.LoggedInUserWithEnrolments
 import uk.gov.hmrc.customs.rosmfrontend.forms.FormUtils.dateTimeFormat
 import uk.gov.hmrc.customs.rosmfrontend.models.Journey
 import uk.gov.hmrc.customs.rosmfrontend.services.cache.SessionCache
-import uk.gov.hmrc.customs.rosmfrontend.views.html.subscription.{existing_eori_application_processing, subscription_status_outcome_processing}
+import uk.gov.hmrc.customs.rosmfrontend.views.html.subscription.existing_eori_application_processing
 
 import javax.inject.Inject
 import scala.concurrent.ExecutionContext.Implicits.global
