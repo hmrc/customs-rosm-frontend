@@ -113,7 +113,7 @@ class BusinessDetailsRecoveryControllerSpec extends ControllerSpec with BeforeAn
       }
     }
 
-    val locations = Seq(UserLocation.Eu, UserLocation.ThirdCountry, UserLocation.Iom, UserLocation.Islands)
+    val locations = Seq(UserLocation.ThirdCountry, UserLocation.Iom, UserLocation.Islands)
 
     locations foreach { location =>
       assertAndTestBasedOnTheLocationForIndividual(location)
@@ -124,7 +124,6 @@ class BusinessDetailsRecoveryControllerSpec extends ControllerSpec with BeforeAn
   private def assertAndTestBasedOnTheLocationForIndividual(selectedLocation: String): Unit =
     s"redirect to contactDetailsPage when orgType is found in cache for Individual and location is selected to $selectedLocation" in {
       val location = selectedLocation match {
-        case UserLocation.Eu           => "eu"
         case UserLocation.ThirdCountry => "third-country"
         case UserLocation.Iom          => "iom"
         case UserLocation.Islands      => "islands"
@@ -154,7 +153,6 @@ class BusinessDetailsRecoveryControllerSpec extends ControllerSpec with BeforeAn
   private def assertAndTestBasedOnTheLocationForOrganisation(selectedLocation: String): Unit =
     s"redirect to dateOfEstablishment when orgType is found in cache for Organisation and location is selected to $selectedLocation" in {
       val location = selectedLocation match {
-        case UserLocation.Eu           => "eu"
         case UserLocation.ThirdCountry => "third-country"
         case UserLocation.Iom          => "iom"
         case UserLocation.Islands      => "islands"

@@ -119,7 +119,6 @@ class BusinessDetailsRecoveryController @Inject()(
       case Journey.GetYourEORI =>
         location match {
           case Some(UserLocation.ThirdCountry) => "third-country"
-          case Some(UserLocation.Eu)           => "eu"
           case Some(UserLocation.Iom)          => "iom"
           case Some(UserLocation.Islands)      => "islands"
           case _                               => throw new IllegalStateException("User Location not set")

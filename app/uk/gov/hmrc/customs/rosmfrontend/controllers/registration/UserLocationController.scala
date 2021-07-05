@@ -115,7 +115,6 @@ class UserLocationController @Inject()(
       case Journey.GetYourEORI =>
         location match {
           case Some(UserLocation.ThirdCountry) => "third-country"
-          case Some(UserLocation.Eu)           => "eu"
           case Some(UserLocation.Iom)          => "iom"
           case Some(UserLocation.Islands)      => "islands"
           case Some(UserLocation.Uk)           => "uk"

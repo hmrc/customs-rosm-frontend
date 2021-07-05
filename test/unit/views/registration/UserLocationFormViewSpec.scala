@@ -128,8 +128,6 @@ class UserLocationFormViewSpec extends ControllerSpec with BeforeAndAfterEach {
         page.getElementValue(UserLocationPageOrganisation.locationIomField) should be("iom")
         page.elementIsPresent(UserLocationPageOrganisation.locationIslandsField) should be(true)
         page.getElementValue(UserLocationPageOrganisation.locationIslandsField) should be("islands")
-        page.elementIsPresent(UserLocationPageOrganisation.locationEuField) should be(true)
-        page.getElementValue(UserLocationPageOrganisation.locationEuField) should be("eu")
         page.elementIsPresent(UserLocationPageOrganisation.locationThirdCountryField) should be(true)
         page.getElementValue(UserLocationPageOrganisation.locationThirdCountryField) should be("third-country")
       })
@@ -142,20 +140,8 @@ class UserLocationFormViewSpec extends ControllerSpec with BeforeAndAfterEach {
         page.getElementValue(UserLocationPageOrganisation.locationUkField) should be("uk")
         page.elementIsPresent(UserLocationPageOrganisation.locationIslandsField) should be(true)
         page.getElementValue(UserLocationPageOrganisation.locationIslandsField) should be("islands")
-        page.elementIsPresent(UserLocationPageOrganisation.locationEuField) should be(true)
-        page.getElementValue(UserLocationPageOrganisation.locationEuField) should be("eu")
         page.elementIsPresent(UserLocationPageOrganisation.locationThirdCountryField) should be(true)
         page.getElementValue(UserLocationPageOrganisation.locationThirdCountryField) should be("third-country")
-      })
-    }
-
-    "display a progressive disclosure element for countries in the EU" in {
-      showForm()({ result =>
-        val page = CdsPage(bodyOf(result))
-        page.getElementsText(UserLocationPageOrganisation.countriesInTheEuTitleElement) should be("Countries in the EU")
-        page.getElementsText(UserLocationPageOrganisation.countriesInTheEuContentsElement) should be(
-          "Austria, Belgium, Bulgaria, Croatia, Republic of Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Greece, Hungary, Ireland, Italy, Latvia, Lithuania, Luxembourg, Malta, Netherlands, Poland, Portugal, Romania, Slovakia, Slovenia, Spain, Sweden and the UK."
-        )
       })
     }
   }

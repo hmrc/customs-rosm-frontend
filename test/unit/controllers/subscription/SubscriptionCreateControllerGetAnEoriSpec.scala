@@ -407,7 +407,7 @@ class SubscriptionCreateControllerGetAnEoriSpec extends ControllerSpec with Befo
     }
 
     "render page with name for ROW location when customsId exists" in {
-      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some("eu"))
+      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some("third-country"))
       when(mockSubscriptionDetailsService.cachedCustomsId(any[HeaderCarrier]))
         .thenReturn(Future.successful(Some(Utr("someUtr"))))
       mockNameAndSubscriptionCreateOutcomeRetrieval
@@ -420,7 +420,7 @@ class SubscriptionCreateControllerGetAnEoriSpec extends ControllerSpec with Befo
     }
 
     "render page with name for ROW location when no customsId exists" in {
-      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some("eu"))
+      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some("third-country"))
       when(mockSubscriptionDetailsService.cachedCustomsId(any[HeaderCarrier])).thenReturn(Future.successful(None))
       when(mockSessionCache.subscriptionCreateOutcome(any[HeaderCarrier])).thenReturn(Future.successful(subscriptionCreateOutcome))
       when(mockSessionCache.remove(any[HeaderCarrier])).thenReturn(Future.successful(true))

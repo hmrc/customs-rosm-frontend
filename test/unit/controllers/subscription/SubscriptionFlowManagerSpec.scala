@@ -419,7 +419,7 @@ class SubscriptionFlowManagerNinoUtrEnabledSpec
     "start Corporate Subscription Flow when selected organisation type is Sole Trader" in {
       when(mockRequestSessionData.userSelectedOrganisationType(mockRequest))
         .thenReturn(Some(CdsOrganisationType.SoleTrader))
-      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.Eu))
+      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.ThirdCountry))
       when(mockCdsFrontendDataCache.registrationDetails(mockHC))
         .thenReturn(Future.successful(RegistrationDetailsIndividual()))
 
@@ -435,7 +435,7 @@ class SubscriptionFlowManagerNinoUtrEnabledSpec
     "start Corporate Subscription Flow when selected organisation type is Individual" in {
       when(mockRequestSessionData.userSelectedOrganisationType(mockRequest))
         .thenReturn(Some(CdsOrganisationType.Individual))
-      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.Eu))
+      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.ThirdCountry))
       when(mockCdsFrontendDataCache.registrationDetails(mockHC))
         .thenReturn(Future.successful(RegistrationDetailsIndividual()))
 
@@ -450,7 +450,7 @@ class SubscriptionFlowManagerNinoUtrEnabledSpec
 
     "start Corporate Subscription Flow when cached registration details are for an Organisation" in {
       when(mockRequestSessionData.userSelectedOrganisationType(mockRequest)).thenReturn(None)
-      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.Eu))
+      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.ThirdCountry))
       when(mockCdsFrontendDataCache.registrationDetails(mockHC))
         .thenReturn(Future.successful(RegistrationDetailsOrganisation()))
 

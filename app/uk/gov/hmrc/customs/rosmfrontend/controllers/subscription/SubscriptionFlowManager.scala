@@ -123,14 +123,14 @@ class SubscriptionFlowManager @Inject()(
 
     val subscribePrefix = (userLocation, journey, registrationDetails.customsId, rowHaveUtrEnabled) match {
       case (
-          Some(UserLocation.Eu) | Some(UserLocation.Islands) | Some(UserLocation.ThirdCountry),
+          Some(UserLocation.Islands) | Some(UserLocation.ThirdCountry),
           Journey.Migrate,
           None,
           true
           ) =>
         "migration-eori-row-utrNino-enabled-"
       case (
-          Some(UserLocation.Eu) | Some(UserLocation.Islands) | Some(UserLocation.ThirdCountry),
+          Some(UserLocation.Islands) | Some(UserLocation.ThirdCountry),
           Journey.Migrate,
           _,
           _
