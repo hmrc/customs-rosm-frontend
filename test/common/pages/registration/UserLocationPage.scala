@@ -30,7 +30,6 @@ trait UserLocationPage extends WebPage {
   val locationUkField = "//*[@id='location-uk']"
   val locationIomField = "//*[@id='location-iom']"
   val locationIslandsField = "//*[@id='location-islands']"
-  val locationEuField = "//*[@id='location-eu']"
   val locationThirdCountryField = "//*[@id='location-third-country']"
 
   val countriesInTheEuTitleElement = "//*[@id='user-location-form']/div/details/summary"

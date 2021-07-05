@@ -392,7 +392,7 @@ class RegisterWithEoriAndIdControllerSpec extends ControllerSpec with BeforeAndA
         .thenReturn(Future.successful(organisationRegistrationDetails))
       when(mockCache.registerWithEoriAndIdResponse(any[HeaderCarrier]))
         .thenReturn(Future.successful(stubRegisterWithEoriAndIdResponse()))
-      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.Eu))
+      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.ThirdCountry))
       when(
         mockSubscriptionDetailsService
           .saveKeyIdentifiers(any[GroupId], any[InternalId])(any())
@@ -580,7 +580,7 @@ class RegisterWithEoriAndIdControllerSpec extends ControllerSpec with BeforeAndA
       ).thenReturn(Future.successful(false))
       when(mockCache.registrationDetails(any[HeaderCarrier]))
         .thenReturn(Future.successful(organisationRegistrationDetails))
-      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.Eu))
+      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.ThirdCountry))
       when(mockSubscriptionDetailsService.cachedCustomsId(any[HeaderCarrier]))
         .thenReturn(Future.successful(None))
 
@@ -968,7 +968,7 @@ class RegisterWithEoriAndIdControllerSpec extends ControllerSpec with BeforeAndA
     }
 
     "Call the processing function for ROW" in {
-      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.Eu))
+      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.ThirdCountry))
       when(mockCache.registrationDetails(any[HeaderCarrier]))
         .thenReturn(Future.successful(individualRegistrationDetails))
       when(mockCache.subscriptionStatusOutcome(any[HeaderCarrier]))
@@ -1003,7 +1003,7 @@ class RegisterWithEoriAndIdControllerSpec extends ControllerSpec with BeforeAndA
     }
 
     "Call the rejected function" in {
-      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.Eu))
+      when(mockRequestSessionData.selectedUserLocation(any[Request[AnyContent]])).thenReturn(Some(UserLocation.ThirdCountry))
       when(mockCache.registrationDetails(any[HeaderCarrier]))
         .thenReturn(Future.successful(individualRegistrationDetails))
       when(mockCache.subscriptionStatusOutcome(any[HeaderCarrier]))

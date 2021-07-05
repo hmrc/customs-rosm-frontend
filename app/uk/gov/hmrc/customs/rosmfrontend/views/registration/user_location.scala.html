@@ -35,14 +35,12 @@
             (UserLocation.Uk, messages("cds.registration.user-location.location.uk.label"), None),
             (UserLocation.Iom, messages("cds.registration.user-location.location.isle-of-man.label"), None),
             (UserLocation.Islands, messages("cds.registration.user-location.location.islands.label"), None),
-            (UserLocation.Eu, messages("cds.registration.user-location.location.eu.label"), None),
             (UserLocation.ThirdCountry, messages("cds.registration.user-location.location.third-country.label"), None)
         )
     } else {
         Seq(
             (UserLocation.Uk, messages("cds.registration.user-location.location.uk.label"), None),
             (UserLocation.Islands, messages("cds.registration.user-location.location.islands-or-iom.label"), None),
-            (UserLocation.Eu, messages("cds.registration.user-location.location.eu.label"), None),
             (UserLocation.ThirdCountry, messages("cds.registration.user-location.location.third-country.label"), None)
         )
     }
@@ -69,7 +67,6 @@
 
             @inputRadioGroup("location", validOptions)
 
-            @helpers.locationHint()
             <input class="button" type="submit" value='@messages("cds.navigation.continue")'>
         }
         @helpers.helpAndSupport()
