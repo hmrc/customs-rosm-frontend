@@ -49,7 +49,7 @@
 
 <div class="form-group @if(!isLegendH1 && elements.hasErrors){form-group-error}">
     <fieldset class="date-form-group form-date" id="@fieldName-fieldset" aria-describedby="@fieldName-hint@if(elements.hasErrors){ @fieldName-error}">
-        <legend id="@elements.field.name-field" class="form-label-bold visually-hidden">
+        <legend id="@elements.field.name-field" class="form-label-bold">
 
             @if(isLegendH1){
                 @if(elements.args.get('_hintLabel).isDefined) {
@@ -75,7 +75,6 @@
             </div>
             }
         </legend>
-        <span id="@fieldName-label-text" class="form-label-bold">@elements.label</span>
         @if(elements.args.get('_hintText).isDefined) {
             <span id="@fieldName-hint" class="form-hint">@elements.args.get('_hintText)</span>
         }

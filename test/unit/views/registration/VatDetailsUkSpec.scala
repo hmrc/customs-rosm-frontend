@@ -69,11 +69,6 @@ class VatDetailsUkSpec extends ViewSpec {
         .getElementById("vat-number-outer")
         .getElementsByClass("form-label-bold")
         .text() mustBe "VAT registration number This is 9 numbers, sometimes with ‘GB’ at the start, for example 123456789 or GB123456789."
-
-      doc
-        .body()
-        .getElementById("vat-effective-date-label-text")
-        .text() mustBe "Effective VAT date"
     }
 
     "have a no VAT error on page level error list" in {
