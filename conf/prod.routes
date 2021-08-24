@@ -121,7 +121,6 @@ GET         /customs/register-for-cds/subscription-in-progress                  
 GET         /customs/register-for-cds/request-not-processed                        @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionCreateController.requestNotProcessed
 GET         /customs/register-for-cds/review                                       @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionCreateController.pending
 GET         /customs/register-for-cds/complete                                     @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionCreateController.end
-GET         /customs/register-for-cds/xi-eori-guidance                             @uk.gov.hmrc.customs.rosmfrontend.controllers.subscription.SubscriptionCreateController.xiEoriGuidance
 
 GET         /customs/:journey/business-details-recovery                            @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.BusinessDetailsRecoveryController.form(journey: Journey.Value)
 GET         /customs/:journey/business-details-recovery/continue                   @uk.gov.hmrc.customs.rosmfrontend.controllers.registration.BusinessDetailsRecoveryController.continue(journey: Journey.Value)

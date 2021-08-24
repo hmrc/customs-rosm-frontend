@@ -1286,15 +1286,19 @@ cds.existing.reg.eori.h2=Mynediad at y Gwasanaeth Datgan Tollau
 cds.existing.reg.eori.get.access.cds=Bydd angen i chi gael mynediad at y <a href="https://www.gov.uk/guidance/get-access-to-the-customs-declaration-service" target="_blank" rel="noopener noreferrer">Gwasanaeth Datgan Tollau</a> os ydych yn dymuno rhoi cyfrif am <a href="https://www.gov.uk/guidance/check-when-you-can-account-for-import-vat-on-your-vat-return" target="_blank" rel="noopener noreferrer">TAW mewnforio ar eich Ffurflen TAW</a>.
 cds.existing.reg.eori.get.access.cds.info=Efallai y bydd angen mynediad arnoch hefyd os <a href="https://www.gov.uk/guidance/get-access-to-the-customs-declaration-service" target="_blank" rel="noopener noreferrer">ydych yn symud nwyddau rhwng Prydain Fawr a Gogledd Iwerddon</a>.
 
-
 # XI Eori
 cds.subscription.outcomes.success.xi=Os ydych yn symud nwyddau i Ogledd Iwerddon neu oddi yno
-cds.subscription.outcomes.success.xi.date.info=O 1 Ionawr 2021 ymlaen, bydd angen rhif EORI sy’n dechrau gyda XI arnoch os ydych yn:
-cds.subscription.outcomes.success.xi.info.bullet1=symud nwyddau rhwng Gogledd Iwerddon a gwledydd nad ydynt yn rhan o’r UE
-cds.subscription.outcomes.success.xi.info.bullet2=gwneud datganiad yng Ngogledd Iwerddon
-cds.subscription.outcomes.success.xi.info.bullet3=cael penderfyniad tollau yng Ngogledd Iwerddon
-cds.subscription.outcomes.success.xi.info.href=<a href="/customs/register-for-cds/xi-eori-guidance" target="_blank" rel="noopener noreferrer">Gwnewch gais am rif EORI sy’n dechrau gyda XI (yn agor tab newydd).</a>
-cds.subscription.outcomes.success.xi.info2=Os oes gennych rif EORI a gyhoeddwyd gan wlad yn yr UE, nid oes angen i chi gael EORI sy’n dechrau gyda XI.
+cds.subscription.outcomes.success.xi.date.info=Mae’n rhaid i chi fod â rhif Cofrestru ac Adnabod Gweithredwyr Economaidd (EORI) sy’n dechrau gydag XI os ydych yn:
+cds.subscription.outcomes.success.xi.info.bullet1=symud nwyddau i mewn i Ogledd Iwerddon o Brydain Fawr (Cymru, Lloegr a’r Alban)
+cds.subscription.outcomes.success.xi.info.bullet2=symud nwyddau o Ogledd Iwerddon i wlad arall nad yw’n rhan o’r UE
+cds.subscription.outcomes.success.xi.info.bullet3=gwneud datganiad yng Ngogledd Iwerddon
+cds.subscription.outcomes.success.xi.info.bullet4=gwneud cais am benderfyniad tollau yng Ngogledd Iwerddon
+cds.subscription.outcomes.success.xi.info.para1=Dim ond rhai nwyddau a symudwch o Ogledd Iwerddon i Brydain Fawr y mae angen i chi eu datgan. <a href="https://www.gov.uk/check-customs-declaration" target="_blank" rel="noopener noreferrer">Gwiriwch a oes angen i chi wneud datganiad allforio</a> ac a fydd angen arnoch rif EORI sy’n dechrau gydag XI.
+cds.subscription.outcomes.success.xi.info.para2=Dim ond pobl neu sefydliadau sydd wedi’u lleoli yng Ngogledd Iwerddon neu’r UE sy’n gallu cael eu henwi fel y ‘datganwr’ ar ddatganiadau mewnforio ac allforio a wneir yng Ngogledd Iwerddon.
+cds.subscription.outcomes.success.xi.info.para3=Nid oes angen rhif EORI arnoch os ydych yn symud nwyddau ar ynys Iwerddon neu rhwng gwlad yn yr UE a Gogledd Iwerddon yn unig.
+cds.subscription.outcomes.success.xi.info.para4=Os oes gennych rif EORI yn yr UE eisoes, nid oes angen i chi wneud cais am rif EORI XI.
+cds.subscription.outcomes.success.xi.info.href=Ewch ati i gael gwybod sut i <a href="/submissions/new-form/get-an-xi-eori" target="_blank" rel="noopener noreferrer">wneud cais am rif EORI XI.</a>
+
 # XI Eori
 
 cds.subscription.outcomes.guidance.title=Cael rhif EORI

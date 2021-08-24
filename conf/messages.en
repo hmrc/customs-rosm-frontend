@@ -1409,14 +1409,18 @@ cds.existing.reg.eori.get.access.cds.info=You may also need access if you <a hre
 
 # XI Eori
 cds.subscription.outcomes.success.xi=If you move goods to or from Northern Ireland
-cds.subscription.outcomes.success.xi.date.info=From 1 January 2021, you will need an EORI number starting with XI if you:
-cds.subscription.outcomes.success.xi.info.bullet1=move goods between Northern Ireland and non-EU countries
-cds.subscription.outcomes.success.xi.info.bullet2=make a declaration in Northern Ireland
-cds.subscription.outcomes.success.xi.info.bullet3=get a customs decision in Northern Ireland
-cds.subscription.outcomes.success.xi.info.href=<a href="/customs/register-for-cds/xi-eori-guidance" target="_blank" rel="noopener noreferrer">Apply for an EORI number that starts with XI (opens in a new tab).</a>
-cds.subscription.outcomes.success.xi.info2=If you have an EORI number issued by an EU country, you do not need to obtain an EORI starting with XI.
-# XI Eori
+cds.subscription.outcomes.success.xi.date.info=You must have an Economic Operators Registration and Identification number (EORI number) that starts with XI if you:
+cds.subscription.outcomes.success.xi.info.bullet1=move goods into Northern Ireland from Great Britain (England, Scotland and Wales)
+cds.subscription.outcomes.success.xi.info.bullet2=move goods from Northern Ireland to another non-EU country
+cds.subscription.outcomes.success.xi.info.bullet3=make a declaration in Northern Ireland
+cds.subscription.outcomes.success.xi.info.bullet4=apply for a customs decision in Northern Ireland
+cds.subscription.outcomes.success.xi.info.para1=You only need to declare certain goods you move from Northern Ireland to Great Britain. <a href="https://www.gov.uk/check-customs-declaration" target="_blank" rel="noopener noreferrer">Check if you need to make an export declaration</a> and will need an EORI number that starts with XI.
+cds.subscription.outcomes.success.xi.info.para2=Only people or organisations based in Northern Ireland or the EU can be named as the ‘declarant’ on import and export declarations made in Northern Ireland.
+cds.subscription.outcomes.success.xi.info.para3=You do not need an EORI number if you only move goods on the island of Ireland or between an EU country and Northern Ireland.
+cds.subscription.outcomes.success.xi.info.para4=If you already have an EU EORI number you do not need to apply for an XI EORI number.
+cds.subscription.outcomes.success.xi.info.href=Find out how to <a href="/submissions/new-form/get-an-xi-eori" target="_blank" rel="noopener noreferrer">apply for an XI EORI number</a>
 
+# XI Eori
 cds.subscription.outcomes.guidance.title=Get an EORI number
 cds.subscription.outcomes.guidance.heading=How to get an EORI number
 cds.subscription.outcomes.guidance.gb.eori.heading=If you only need a EORI starting with GB
